@@ -6,7 +6,7 @@ from django.http import HttpResponseBadRequest, HttpResponseServerError, JsonRes
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from poi.models import Construction, ConstructionSpot, Recommendation
+from poi.models import Construction
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -16,24 +16,6 @@ class PostConstructionResource(View):
             json_data = json.loads(request.body)
         except json.JSONDecodeError:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
-
-        # Get query parameter "type"
-        type = request.GET.get("type", "discomfort")
-
-        if type == "recommendation":
-            try:
-                Recommendation.objects.create(
-                    coordinate=f"POINT({json_data['lon']} {json_data['lat']})",
-                    category=json_data["category"],
-                )
-            except KeyError:
-                return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
-            except Exception:
-                return HttpResponseServerError(
-                    json.dumps({"error": "Internal server error."})
-                )
-
-            return JsonResponse({"success": True})
 
         try:
             Construction.objects.create(
@@ -71,17 +53,8 @@ class MatchConstructionResource(View):
         except ValueError:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid route points"}))
 
-        try:
-            construction_spots = ConstructionSpot.objects.filter(
-                border__intersects=route_linestring
-            ).filter(value__gte=0)
-        except KeyError:
-            return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
-        except Exception:
-            return HttpResponseServerError("Internal server error.")
-
         construction_response = []
-        for construction_spot in construction_spots:
+        for construction_spot in construction_spots:  # FIXME: remove construction_spots
             intersections = construction_spot.border.intersection(route_linestring)
             if intersections.geom_type == "MultiLineString":
                 for linestring in intersections:
