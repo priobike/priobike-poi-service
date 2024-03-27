@@ -2,34 +2,11 @@ import json
 
 from django.conf import settings
 from django.contrib.gis.geos import LineString
-from django.http import HttpResponseBadRequest, HttpResponseServerError, JsonResponse
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from poi.models import Construction
-
-
-@method_decorator(csrf_exempt, name="dispatch")
-class PostConstructionResource(View):
-    def post(self, request):
-        try:
-            json_data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
-
-        try:
-            Construction.objects.create(
-                coordinate=f"POINT({json_data['lon']} {json_data['lat']})",
-                category=json_data["category"],
-            )
-        except KeyError:
-            return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
-        except Exception:
-            return HttpResponseServerError(
-                json.dumps({"error": "Internal server error."})
-            )
-
-        return JsonResponse({"success": True})
 
 
 @method_decorator(csrf_exempt, name="dispatch")
