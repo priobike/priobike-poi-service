@@ -44,6 +44,17 @@ class Command(BaseCommand):
     },
     """
 
+    def get_name(self, feature):
+        return feature["id"]  # example: DE.HH.UP_TNS_STECKBRIEF_VISUALISIERUNG_18083
+
+    def get_point(self, feature):
+        point = Point(
+            feature["geometry"]["coordinates"][0],
+            feature["geometry"]["coordinates"][1],
+            srid=4326,
+        )
+        return point
+
     def handle(self, *args, **options):
         """
         Fetch construction data from priobike-map-data.
@@ -59,6 +70,11 @@ class Command(BaseCommand):
             data = json.load(f)
 
         print(f"Found {len(data['features'])} construction sites.")
+
+        try:
+            Construction.objects.all().delete()
+        except Exception as e:
+            print("Failed to delete existing construction sites: " + str(e))
 
         new_construction_sites = []
 
@@ -82,14 +98,3 @@ class Command(BaseCommand):
         print(
             f"Successfully created {len(new_construction_sites)} new construction sites."
         )
-
-    def get_name(self, feature):
-        return feature["id"]  # example: DE.HH.UP_TNS_STECKBRIEF_VISUALISIERUNG_18083
-
-    def get_point(self, feature):
-        point = Point(
-            feature["geometry"]["coordinates"][0],
-            feature["geometry"]["coordinates"][1],
-            srid=25832,
-        ).transform(settings.LONLAT, clone=True)
-        return point
