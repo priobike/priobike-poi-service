@@ -54,7 +54,8 @@ class MatchConstructionResource(View):
             return HttpResponseBadRequest(json.dumps({"error": "Invalid route points"}))
 
         construction_response = []
-        for construction_spot in construction_spots:  # FIXME: remove construction_spots
+        # Find all constructions that intersect with the route.
+        for construction_spot in Construction.objects.all():
             intersections = construction_spot.border.intersection(route_linestring)
             if intersections.geom_type == "MultiLineString":
                 for linestring in intersections:
