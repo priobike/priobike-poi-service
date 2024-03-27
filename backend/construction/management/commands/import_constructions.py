@@ -1,10 +1,9 @@
 import json
 
+from construction.models import Construction
 from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
-
-from backend.poi.models import Construction
 
 
 class Command(BaseCommand):
@@ -45,7 +44,7 @@ class Command(BaseCommand):
     },
     """
 
-    def fetch(self, *args, **options):
+    def handle(self, *args, **options):
         """
         Fetch construction data from priobike-map-data.
         """
@@ -54,7 +53,8 @@ class Command(BaseCommand):
 
         # Import GeoJSON file from data folder.
         with open(
-            str(settings.BASE_DIR) + "/data/BikeITRight_Project_aktualisiert.geojson"
+            str(settings.BASE_DIR)
+            + "/sample-construction-sites-v2.geojson"  # TODO: use real data
         ) as f:
             data = json.load(f)
 
@@ -65,8 +65,8 @@ class Command(BaseCommand):
         for feature in data["features"]:
             try:
                 construction_site = Construction(
-                    construction_id=self.getId(feature),
-                    coordinate=self.getPoint(feature),
+                    name=self.get_name(feature),
+                    coordinate=self.get_point(feature),
                 )
                 new_construction_sites.append(construction_site)
             except Exception as e:
@@ -83,63 +83,13 @@ class Command(BaseCommand):
             f"Successfully created {len(new_construction_sites)} new construction sites."
         )
 
-    def getId(self, feature):
-        return f"{feature["id"]}"  # DE.HH.UP_TNS_STECKBRIEF_VISUALISIERUNG_18083
+    def get_name(self, feature):
+        return feature["id"]  # example: DE.HH.UP_TNS_STECKBRIEF_VISUALISIERUNG_18083
 
-    def getPoint(self, feature):
+    def get_point(self, feature):
         point = Point(
             feature["geometry"]["coordinates"][0],
             feature["geometry"]["coordinates"][1],
             srid=25832,
         ).transform(settings.LONLAT, clone=True)
         return point
-
-    def getTitle(self, feature):
-        return f"{feature["properties"]["titel"]}"  # Ipanema-Neubau
-
-    def getOrganisation(self, feature):
-        return f"{feature["properties"]["organisation"]}"  # Hochbau
-
-    def getReason(self, feature):
-        return f"{feature["properties"]["anlass"]}"  # Hochbau
-
-    def getScope(self, feature):
-        return f"{feature["properties"]["umfang"]}"  # Die Sydneystraße ist in Richtung Überseering auf einen Fahrstreifen eingeschränkt.
-
-    def getStartDate(self, feature):
-        return f"{feature["properties"]["baubeginn"]}"  # 01.09.2020
-
-    def getEndDate(self, feature):
-        return f"{feature["properties"]["bauende"]}"  # 31.07.2024
-
-    def getLastUpdate(self, feature):
-        return f"{feature["properties"]["letzteaktualisierung"]}"  # 2021-07-12T14:14:25
-
-    def getIsAccessRestricted(self, feature):
-        return f"{feature["properties"]["istzugangeingeschraenkt"]}"  # false
-
-    def getIsDisturbance(self, feature):
-        return f"{feature["properties"]["iststoerung"]}"  # true
-
-    def getIsHotspot(self, feature):
-        return f"{feature["properties"]["isthotspot"]}"  # false
-
-    def getIsReleased(self, feature):
-        return f"{feature["properties"]["istfreigegeben"]}"  # true
-
-    def getAddedValue(self, feature):
-        return (
-            f"{feature["properties"]["mehrwert"]}"  # Neubau von Wohn- und Bürogebäuden
-        )
-
-    def getIsOEPNVERestricted(self, feature):
-        return f"{feature["properties"]["istoepnveingeschraenkt"]}"  # false
-
-    def getHasInternetLink(self, feature):
-        return f"{feature["properties"]["hatinternetlink"]}"  # false
-
-    def getHasDetourDescription(self, feature):
-        return f"{feature["properties"]["hatumleitungsbeschreibung"]}"  # false
-
-    def getIsParkingSpaceRestricted(self, feature):
-        return f"{feature["properties"]["istparkraumeingeschraenkt"]}"  # false

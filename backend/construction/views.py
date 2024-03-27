@@ -1,12 +1,12 @@
 import json
 
+from construction.models import Construction
 from django.conf import settings
 from django.contrib.gis.geos import LineString
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from poi.models import Construction
 
 
 @method_decorator(csrf_exempt, name="dispatch")

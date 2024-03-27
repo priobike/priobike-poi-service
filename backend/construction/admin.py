@@ -1,4 +1,4 @@
+from construction.models import Construction
 from django.contrib import admin
-from poi.models import Construction
 
 admin.site.register(Construction)

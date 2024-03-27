@@ -41,7 +41,7 @@ services:
         poetry run python backend/manage.py migrate
         poetry run python backend/manage.py collectstatic --no-input
         poetry run python backend/manage.py createsuperuser --noinput
-        poetry run python backend/manage.py import_bike_it_right
+        poetry run python backend/manage.py import_constructions
         poetry run python backend/manage.py runserver 0.0.0.0:8000
     restart: unless-stopped
 
