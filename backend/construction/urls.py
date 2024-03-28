@@ -5,7 +5,5 @@ from . import views
 app_name = "construction"
 
 urlpatterns = [
-    path(
-        "match/", views.MatchConstructionResource.as_view(), name="match-construction"
-    ),
+    path("match", views.MatchConstructionResource.as_view(), name="match-construction"),
 ]

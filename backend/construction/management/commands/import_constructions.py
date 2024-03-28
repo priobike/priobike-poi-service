@@ -81,7 +81,7 @@ class Command(BaseCommand):
 
         print(f"Loaded {len(data['features'])} construction sites.")
 
-        new_construction_sites = []
+        construction_sites = []
 
         for feature in data["features"]:
             try:
@@ -89,17 +89,15 @@ class Command(BaseCommand):
                     name=self.get_name(feature),
                     coordinate=self.get_point(feature),
                 )
-                new_construction_sites.append(construction_site)
+                construction_sites.append(construction_site)
             except Exception as e:
                 print("Failed to create construction site: " + str(e))
 
-        print(f"{len(new_construction_sites)} construction sites successfully created.")
+        print(f"{len(construction_sites)} construction sites successfully created.")
 
         try:
-            Construction.objects.bulk_create(new_construction_sites)
+            Construction.objects.bulk_create(construction_sites)
         except Exception as e:
             print("Failed to bulk create construction sites: " + str(e))
 
-        print(
-            f"Successfully created {len(new_construction_sites)} new construction sites."
-        )
+        print(f"Successfully created {len(construction_sites)} new construction sites.")
