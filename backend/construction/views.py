@@ -13,6 +13,10 @@ from django.views.generic import View
 @method_decorator(csrf_exempt, name="dispatch")
 class MatchConstructionResource(View):
     def post(self, request):
+        """
+        Determine which construction sites are on a given route.
+        """
+
         print("Received post request: " + str(request.body))
 
         try:

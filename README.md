@@ -9,51 +9,18 @@ docker-compose up
 ```
 
 ## REST Endpoints
-
-<br>
-<br>
-<br>
-<br>
-<br>
-**TODO: Die ganzen Beispiel-Nachrichten auf POIs anpassen**
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-
-#### POST /poi/post/
+#### POST /construction/match/
 
 ```bash
-curl --data "@example-poi.json" -X POST -H "Content-Type: application/json" http://localhost/production/poi-service/poi/post/
-```
-Result:
-```json
-{
-    "success": true
-}
-```
-
-#### POST /poi/match/
-
-```bash
-curl --data "@example-route.json" -X POST -H "Content-Type: application/json" http://localhost/production/poi-service/poi/match/
+curl --data "@example-route.json" -X POST -H "Content-Type: application/json" http://localhost/production/poi-service/construction/match
 ```
 Result:
 ```json
 {
     "success": true,
-    "poi": [
-        {
-            "pk": 1,
-            "category": "obstacle",
-            "lon": 13.38886,
-            "lat": 52.517037,
-            "votes": 0,
-            "date": "2023-01-18T13:24:07.545Z"
-        }
+    "constructions": [
+        [10.025769050998635, 53.55364501850376],
+        [9.91464352044119, 53.627661081124124]
     ]
 }
 ```
