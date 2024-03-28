@@ -58,7 +58,15 @@ class Command(BaseCommand):
         Fetch construction data from priobike-map-data.
         """
 
-        print("Importing construction data from priobike-map-data...")
+        print("Clearing database")
+
+        try:
+            Construction.objects.all().delete()
+        except Exception as e:
+            print("Failed to delete existing construction sites: " + str(e))
+            return
+
+        print("Importing construction data from priobike-map-data")
 
         BASE_URL = "priobike.vkw.tu-dresden.de/production"
         API = "https://" + BASE_URL + "/map-data/construction_sites_v2.geojson"
@@ -72,11 +80,6 @@ class Command(BaseCommand):
             return
 
         print(f"Loaded {len(data['features'])} construction sites.")
-
-        try:
-            Construction.objects.all().delete()
-        except Exception as e:
-            print("Failed to delete existing construction sites: " + str(e))
 
         new_construction_sites = []
 
