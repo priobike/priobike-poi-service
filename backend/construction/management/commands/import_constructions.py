@@ -1,7 +1,5 @@
-import json
-
+import requests
 from construction.models import Construction
-from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 
@@ -62,14 +60,18 @@ class Command(BaseCommand):
 
         print("Importing construction data from priobike-map-data...")
 
-        # Import GeoJSON file from data folder.
-        with open(
-            str(settings.BASE_DIR)
-            + "/sample-construction-sites-v2.geojson"  # TODO: use real data
-        ) as f:
-            data = json.load(f)
+        BASE_URL = "priobike.vkw.tu-dresden.de/production"
+        API = "https://" + BASE_URL + "/map-data/construction_sites_v2.geojson"
 
-        print(f"Found {len(data['features'])} construction sites.")
+        try:
+            response = requests.get(API)
+            response.raise_for_status()
+            data = response.json()
+        except Exception as e:
+            print("Failed to fetch construction data: " + str(e))
+            return
+
+        print(f"Loaded {len(data['features'])} construction sites.")
 
         try:
             Construction.objects.all().delete()

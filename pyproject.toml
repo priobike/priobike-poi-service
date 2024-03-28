@@ -12,6 +12,7 @@ gunicorn = "^21.2.0"
 scipy = "^1.12.0"
 numpy = "^1.26.4"
 shapely = "^2.0.3"
+requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]
 
