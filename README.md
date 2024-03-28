@@ -10,8 +10,18 @@ docker-compose up
 
 ## REST Endpoints
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
 **TODO: Die ganzen Beispiel-Nachrichten auf POIs anpassen**
+<br>
+<br>
+<br>
+<br>
+<br>
+
 
 
 #### POST /poi/post/
