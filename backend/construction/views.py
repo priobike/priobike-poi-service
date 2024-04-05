@@ -132,6 +132,7 @@ class MatchConstructionResource(View):
                 # Start a new segment
                 running_segment = []
                 running_segment.append(route_lstr_mercator.interpolate(segments[0][0]))
+                running_segment.append(to_coord)
 
             # Inside a segment
             # Segment: x-------y
@@ -146,6 +147,7 @@ class MatchConstructionResource(View):
             # Segment:   --y
             # Route:     a---b
             if y >= a and y <= b:
+                running_segment.append(from_coord)
                 running_segment.append(route_lstr_mercator.interpolate(segments[0][1]))
                 
                 # Reset running segment
