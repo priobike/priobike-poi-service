@@ -1,0 +1,28 @@
+name: Run unit tests
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: 'The branch to test'
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: docker:latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Run unit tests
+        # Note: We can add a test step after the wait-for-postgres.sh script
+        run: |
+          docker-compose -f docker-compose.test.yml up --build -d --force-recreate
+          docker exec -w /code poi-service-backend ls -la
+          docker exec -w /code poi-service-backend ./wait-for-postgres.sh
+          docker-compose -f docker-compose.test.yml down -v -t 0

@@ -2,16 +2,13 @@
 name = "priobike-poi-service"
 version = "1.0.0"
 description = "A microservice to obtain Points of Interest (POI)."
-authors = ["Charles Krüger <charles.krueger@mailbox.tu-dresden.de>"]
+authors = ["Charles Krüger <charles.krueger@mailbox.tu-dresden.de>", "Philipp Matthes <philipp.matthes@tu-dresden.de>"]
 
 [tool.poetry.dependencies]
-python = "3.11.8"
-Django = "^5.0.3"
-psycopg2 = "^2.9.9"
-gunicorn = "^21.2.0"
-scipy = "^1.12.0"
-numpy = "^1.26.4"
-shapely = "^2.0.3"
+python = "^3.8"
+Django = ">=4.0,<5.0"
+psycopg2 = ">=2.8,<3.0"
+gunicorn = "20.1.0"
 requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]

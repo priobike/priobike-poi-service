@@ -1,0 +1,10 @@
+# Containers that are needed to execute tests
+services:
+  backend:
+    container_name: poi-service-backend
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    tty: true
+    restart: unless-stopped

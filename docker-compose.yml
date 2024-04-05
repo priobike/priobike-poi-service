@@ -1,88 +1,22 @@
-networks:
-  production-network:
-    name: production-network
-
 services:
-  db:
-    image: postgis/postgis:16-3.4
-    container_name: postgres-poi-service
-    hostname: db
-    networks:
-      - production-network
-    env_file:
-      - dev.env
-    volumes:
-      - pg_conf:/etc/postgresql
-      - pg_log:/var/log/postgresql
-      - pg_data:/var/lib/postgresql/data
-    # Log all statements
-    # See: https://postgresqlco.nf/doc/en/param/log_statement/
-    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
-    restart: unless-stopped
-
   backend:
-    container_name: backend-poi-service
+    container_name: poi-service-backend
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+      args:
+        - LOCATION=Hamburg # Fetch POIs for Hamburg
     volumes:
-      - poi_service_staticfiles:/code/backend/static/
-      - ./:/code # Note: Only for development
+      - .:/code
+    environment:
+      - DJANGO_DEBUG_MODE=True
     networks:
-      - production-network
-    build: .
-    env_file:
-      - dev.env
-    depends_on:
-      - db
-    command:
-      - /bin/bash
-      - -c
-      - |
-        ./wait-for-postgres.sh
-        poetry run python backend/manage.py makemigrations
-        poetry run python backend/manage.py migrate
-        poetry run python backend/manage.py collectstatic --no-input
-        poetry run python backend/manage.py createsuperuser --noinput
-        poetry run python backend/manage.py import_constructions
-        poetry run python backend/manage.py runserver 0.0.0.0:8000
-    restart: unless-stopped
-
-  nginx_inner:
-    image: nginx:1.25.4
-    container_name: nginx_inner-poi-service
-    hostname: nginx_inner
-    volumes:
-      - ./nginx_inner/conf.d:/etc/nginx/conf.d
-      - ./nginx_inner/proxy_params:/etc/nginx/proxy_params
-      # The static files for the poi service
-      - poi_service_staticfiles:/poi-service/backend/static/
-    networks:
-      - production-network
-    depends_on:
-      - db
-      - backend
-    restart: unless-stopped
-
-  nginx_outer:
-    image: nginx:1.25.4
-    container_name: nginx_outer-poi-service
-    hostname: nginx_outer
-    volumes:
-      - ./nginx_outer/conf.d:/etc/nginx/conf.d
-      - ./nginx_outer/proxy_params:/etc/nginx/proxy_params
-    # The NGINX proxy service is the only service that listens to the outside world
+      - network
     ports:
-      # This is important for the root NGINX proxy of the server.
-      - "80:80" # HTTP
-    networks:
-      - production-network
-    depends_on:
-      - db
-      - backend
-      - nginx_inner
+      - "8000:8000" # web server
+    command: ./run-dev.sh
     restart: unless-stopped
 
-volumes:
-  pg_data:
-  pg_conf:
-  pg_log:
-
-  poi_service_staticfiles:
+networks:
+  network:
