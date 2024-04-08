@@ -21,8 +21,7 @@ from django.urls import include, path
 from backend.views import HealthcheckView, StatusView
 
 urlpatterns = [
-    # path("pois/", include("pois.urls")),
-    path("construction/", include("construction.urls")),
+    path("pois/", include("pois.urls")),
     path(settings.ADMIN_URL, admin.site.urls),
     path('status', StatusView.as_view(), name='status'),
     path('healthcheck', HealthcheckView.as_view(), name='healthcheck'),

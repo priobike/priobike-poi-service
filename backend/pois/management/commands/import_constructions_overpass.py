@@ -1,7 +1,7 @@
 import requests
-from construction.models import Construction
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
+from pois.models import Poi
 
 
 def query(area):
@@ -43,7 +43,7 @@ class Command(BaseCommand):
         print("Clearing database")
 
         try:
-            Construction.objects.all().delete()
+            Poi.objects.filter(category="construction").delete()
         except Exception as e:
             print("Failed to delete existing construction sites: " + str(e))
             return
@@ -52,6 +52,7 @@ class Command(BaseCommand):
 
         BASE_URL = "overpass-api.de"
         API = "https://" + BASE_URL + "/api/interpreter"
+        print(f"Fetching construction sites from {API}")
         DATA = query(area)
 
         try:
@@ -67,13 +68,13 @@ class Command(BaseCommand):
         construction_sites = []
         for element in data["elements"]:
             if element["type"] == "node":
-                c = Construction(coordinate=Point(element["lon"], element["lat"], srid=4326))
+                c = Poi(coordinate=Point(element["lon"], element["lat"], srid=4326), category="construction")
                 construction_sites.append(c)
             elif element["type"] == "way":
                 for node in element["nodes"]:
                     node_data = elements_by_id[node]
-                    c = Construction(coordinate=Point(node_data["lon"], node_data["lat"], srid=4326))
+                    c = Poi(coordinate=Point(node_data["lon"], node_data["lat"], srid=4326), category="construction")
                     construction_sites.append(c)
 
-        Construction.objects.bulk_create(construction_sites)
+        Poi.objects.bulk_create(construction_sites)
         print(f"Imported {len(construction_sites)} construction sites")

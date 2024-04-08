@@ -27,13 +27,21 @@ if [ $ret -ne 0 ]; then
     exit $ret
 fi
 
-# Load the construction sites
 poetry run python backend/manage.py import_constructions_overpass ${LOCATION}
 
 # Check if previous command failed. If it did, exit
 ret=$?
 if [ $ret -ne 0 ]; then
-    echo "Failed to load crossings data."
+    echo "Failed to load constructions data."
+    exit $ret
+fi
+
+poetry run python backend/manage.py import_accident_hotspots ${LOCATION}
+
+# Check if previous command failed. If it did, exit
+ret=$?
+if [ $ret -ne 0 ]; then
+    echo "Failed to load accident hotspot data."
     exit $ret
 fi
 
