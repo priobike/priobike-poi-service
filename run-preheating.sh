@@ -45,4 +45,22 @@ if [ $ret -ne 0 ]; then
     exit $ret
 fi
 
+poetry run python backend/manage.py import_green_waves ${LOCATION}
+
+# Check if previous command failed. If it did, exit
+ret=$?
+if [ $ret -ne 0 ]; then
+    echo "Failed to load green wave data."
+    exit $ret
+fi
+
+poetry run python backend/manage.py import_velo_routes ${LOCATION}
+
+# Check if previous command failed. If it did, exit
+ret=$?
+if [ $ret -ne 0 ]; then
+    echo "Failed to load velo routes data."
+    exit $ret
+fi
+
 echo "Preheating complete!"

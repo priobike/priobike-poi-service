@@ -186,4 +186,12 @@ class MatchPoisResource(View):
                 Poi.objects.filter(category="accidenthotspot", coordinate__dwithin=(route_linestring, D(m=threshold))),
                 route_linestring, elongation,
             ),
+            "greenwaves": map_to_segments(
+                Poi.objects.filter(category="greenwave", coordinate__dwithin=(route_linestring, D(m=threshold))),
+                route_linestring, elongation,
+            ),
+            "veloroutes": map_to_segments(
+                Poi.objects.filter(category="veloroute", coordinate__dwithin=(route_linestring, D(m=threshold))),
+                route_linestring, elongation,
+            ),
         })
