@@ -1,5 +1,5 @@
 import requests
-from django.contrib.gis.geos import LineString
+from django.contrib.gis.geos import LineString, Point
 from django.core.management.base import BaseCommand
 from pois.models import Poi, PoiLine
 
@@ -25,11 +25,11 @@ def import_from_mapdata_service(base_url):
     for feature in data["features"]:
         assert feature["geometry"]["type"] == "LineString"
         try:
+            line = LineString(feature["geometry"]["coordinates"], srid=4326)
+            start = Point(feature["geometry"]["coordinates"][0], srid=4326)
+            end = Point(feature["geometry"]["coordinates"][-1], srid=4326)
             velo_route = PoiLine(
-                line=LineString(
-                    feature["geometry"]["coordinates"],
-                    srid=4326,
-                ),
+                line=line, start=start, end=end,
                 category="veloroute",
             )
             velo_routes.append(velo_route)

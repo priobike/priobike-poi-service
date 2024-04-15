@@ -28,6 +28,12 @@ class PoiLine(models.Model):
     # The line of points of interest.
     line = models.LineStringField(srid=settings.LONLAT, geography=True)
 
+    # The start point of the line
+    start = models.PointField(srid=settings.LONLAT, geography=True)
+
+    # The end point of the line
+    end = models.PointField(srid=settings.LONLAT, geography=True)
+
     def __str__(self) -> str:
         return f"{self.category} along {self.line}"
 

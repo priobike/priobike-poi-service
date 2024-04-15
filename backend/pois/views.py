@@ -43,17 +43,38 @@ def get_segments(type_of_poi, route_linestring, elongation, threshold):
     Make segments around found pois on the route.
     Overlaps between segments are merged into one segment.
     Elongation defines how much points are elongated to a line along the route.
-    """ 
+    """
 
-    nearby_point_pois = Poi.objects.filter(category=type_of_poi, coordinate__dwithin=(route_linestring, D(m=threshold)))
-    nearby_line_pois = PoiLine.objects.filter(category=type_of_poi, line__dwithin=(route_linestring, D(m=threshold)))
+    route_lstr_mercator = route_linestring.transform(settings.METRICAL, clone=True)
+    route_length_mercator = route_lstr_mercator.length
 
-    if not nearby_point_pois and not nearby_line_pois:
+    nearby_point_pois = Poi.objects \
+        .filter(category=type_of_poi) \
+        .filter(coordinate__distance_lt=(route_linestring, D(m=threshold)))
+    nearby_line_pois_intersecting = PoiLine.objects \
+        .filter(category=type_of_poi) \
+        .filter(line__distance_lt=(route_linestring, D(m=threshold)))
+    
+    # Only use the line segments inside the buffered region
+    route_lstr_buffered = route_lstr_mercator.buffer(threshold)
+    nearby_line_pois_on_route = []
+    for poi in nearby_line_pois_intersecting:
+        line_on_route = poi.line \
+            .transform(settings.METRICAL, clone=True) \
+            .intersection(route_lstr_buffered)
+        if len(line_on_route.coords) == 0:
+            continue
+        # Check if line is multiline
+        if line_on_route.geom_type == "MultiLineString":
+            for partial_line in line_on_route:
+                nearby_line_pois_on_route.append(partial_line)
+        else:
+            nearby_line_pois_on_route.append(line_on_route)
+
+    if not nearby_point_pois and not nearby_line_pois_on_route:
         return []
 
     # Match each coordinate onto the route in the mercator projection
-    route_lstr_mercator = route_linestring.transform(settings.METRICAL, clone=True)
-    route_length_mercator = route_lstr_mercator.length
     segments = []
     for poi in nearby_point_pois:
         poi_coordinate_mercator = poi.coordinate.transform(settings.METRICAL, clone=True)
@@ -61,14 +82,11 @@ def get_segments(type_of_poi, route_linestring, elongation, threshold):
         dist_start = max(0, dist_on_route - elongation)
         dist_end = min(route_length_mercator, dist_on_route + elongation)
         segments.append([dist_start, dist_end])
-    for poi in nearby_line_pois:
-        poi_line_mercator = poi.line.transform(settings.METRICAL, clone=True)
-        if len(poi_line_mercator.coords) < 2:
-            continue
-        start_point = Point(poi_line_mercator.coords[0], srid=settings.METRICAL)
-        end_point = Point(poi_line_mercator.coords[-1], srid=settings.METRICAL)
-        dist_start = route_lstr_mercator.project(start_point)
-        dist_end = route_lstr_mercator.project(end_point)
+    for line in nearby_line_pois_on_route:
+        dist_start = route_lstr_mercator.project(Point(line.coords[0], srid=settings.METRICAL))
+        dist_end = route_lstr_mercator.project(Point(line.coords[-1], srid=settings.METRICAL))
+        if dist_start > dist_end:
+            dist_start, dist_end = dist_end, dist_start
         segments.append([dist_start, dist_end])
     
     segments = merge_segments(segments)
@@ -128,6 +146,8 @@ def get_segments(type_of_poi, route_linestring, elongation, threshold):
         # Segment:   --y
         # Route:     a---b
         if y >= a and y <= b:
+            if running_segment is None:
+                running_segment = []
             running_segment.append(from_coord)
             running_segment.append(route_lstr_mercator.interpolate(segments[0][1]))
             

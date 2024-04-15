@@ -78,7 +78,9 @@ class Command(BaseCommand):
                     Point(elements_by_id[node]["lon"], elements_by_id[node]["lat"], srid=4326) 
                     for node in element["nodes"]
                 ])
-                c = PoiLine(line=line, category="construction")
+                start = Point(elements_by_id[element["nodes"][0]]["lon"], elements_by_id[element["nodes"][0]]["lat"], srid=4326)
+                end = Point(elements_by_id[element["nodes"][-1]]["lon"], elements_by_id[element["nodes"][-1]]["lat"], srid=4326)
+                c = PoiLine(line=line, start=start, end=end, category="construction")
                 construction_sites_lines.append(c)
 
         Poi.objects.bulk_create(construction_sites_points)
