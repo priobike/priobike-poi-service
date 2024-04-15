@@ -1,7 +1,7 @@
 import requests
-from django.contrib.gis.geos import Point
+from django.contrib.gis.geos import LineString
 from django.core.management.base import BaseCommand
-from pois.models import Poi
+from pois.models import Poi, PoiLine
 
 
 def import_from_mapdata_service(base_url):
@@ -23,11 +23,11 @@ def import_from_mapdata_service(base_url):
     velo_routes = []
 
     for feature in data["features"]:
+        assert feature["geometry"]["type"] == "LineString"
         try:
-            velo_route = Poi(
-                coordinate=Point(
-                    feature["geometry"]["coordinates"][0],
-                    feature["geometry"]["coordinates"][1],
+            velo_route = PoiLine(
+                line=LineString(
+                    feature["geometry"]["coordinates"],
                     srid=4326,
                 ),
                 category="veloroute",
@@ -38,7 +38,7 @@ def import_from_mapdata_service(base_url):
 
     print(f"{len(velo_routes)} velo routes successfully created.")
 
-    Poi.objects.bulk_create(velo_routes)
+    PoiLine.objects.bulk_create(velo_routes)
     print(f"Imported {len(velo_routes)} velo routes")
 
 
@@ -62,6 +62,8 @@ class Command(BaseCommand):
         print("Clearing database")
 
         try:
+            PoiLine.objects.filter(category="veloroute").delete()
+            # Not used right now, but to make sure for future editations of the code
             Poi.objects.filter(category="veloroute").delete()
         except Exception as e:
             print("Failed to delete existing velo routes: " + str(e))

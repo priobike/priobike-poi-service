@@ -1,7 +1,7 @@
 import requests
-from django.contrib.gis.geos import Point
+from django.contrib.gis.geos import LineString, Point
 from django.core.management.base import BaseCommand
-from pois.models import Poi
+from pois.models import Poi, PoiLine
 
 
 def query(area):
@@ -44,6 +44,7 @@ class Command(BaseCommand):
 
         try:
             Poi.objects.filter(category="construction").delete()
+            PoiLine.objects.filter(category="construction").delete()
         except Exception as e:
             print("Failed to delete existing construction sites: " + str(e))
             return
@@ -63,18 +64,23 @@ class Command(BaseCommand):
             print("Failed to fetch construction data: " + str(e))
             return
         
-        types = set()
         elements_by_id = {element["id"]: element for element in data["elements"]}
-        construction_sites = []
+        construction_sites_points = []
+        construction_sites_lines = []
         for element in data["elements"]:
             if element["type"] == "node":
+                # Make a point
                 c = Poi(coordinate=Point(element["lon"], element["lat"], srid=4326), category="construction")
-                construction_sites.append(c)
+                construction_sites_points.append(c)
             elif element["type"] == "way":
-                for node in element["nodes"]:
-                    node_data = elements_by_id[node]
-                    c = Poi(coordinate=Point(node_data["lon"], node_data["lat"], srid=4326), category="construction")
-                    construction_sites.append(c)
+                # Make a linestring
+                line = LineString([
+                    Point(elements_by_id[node]["lon"], elements_by_id[node]["lat"], srid=4326) 
+                    for node in element["nodes"]
+                ])
+                c = PoiLine(line=line, category="construction")
+                construction_sites_lines.append(c)
 
-        Poi.objects.bulk_create(construction_sites)
-        print(f"Imported {len(construction_sites)} construction sites")
+        Poi.objects.bulk_create(construction_sites_points)
+        PoiLine.objects.bulk_create(construction_sites_lines)
+        print(f"Imported {len(construction_sites_points) + len(construction_sites_lines)} construction sites")

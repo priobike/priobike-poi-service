@@ -1,4 +1,5 @@
 import json
+from typing import List
 
 from django.conf import settings
 from django.contrib.gis.geos import LineString, Point
@@ -7,7 +8,112 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from pois.models import Poi
+from pois.models import Poi, PoiLine
+
+
+def points_in_route_dir(linestring: LineString, route: LineString, system=settings.LONLAT) -> List[Point]:
+    """
+    Returns the points in the linestring in the order
+    which is given by the direction of the route.
+
+    The points are returned in the projection system of the linestring.
+
+    Source: https://github.com/priobike/priobike-sg-selector
+
+    MIT License
+
+    Copyright (c) 2023 PrioBike-HH
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+    """
+
+    system_linestring = linestring.transform(system, clone=True)
+    system_route = route.transform(system, clone=True)
+
+    points = []
+    fractions = []
+    for coord in system_linestring.coords:
+        point_geometry = Point(*coord, srid=system)
+        points.append(point_geometry.transform(linestring.srid, clone=True))
+        fraction = system_route.project_normalized(point_geometry)
+        fractions.append(fraction)
+
+    return [p for p, _ in sorted(zip(points, fractions), key=lambda x: x[1])]
+
+
+def project_onto_route(
+    linestring: LineString,
+    route: LineString,
+    use_route_direction=True,
+    system=settings.METRICAL,
+) -> LineString:
+    """
+    Projects a linestring onto a route linestring.
+
+    Use the given projection system to perform the projection.
+    If `use_route_direction` is True, the direction of the route is used.
+
+    Source: https://github.com/priobike/priobike-sg-selector
+
+    MIT License
+
+    Copyright (c) 2023 PrioBike-HH
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+    """
+
+    system_linestring = linestring.transform(system, clone=True)
+    system_route = route.transform(system, clone=True)
+
+    if use_route_direction:
+        points = points_in_route_dir(system_linestring, system_route, system)
+    else:
+        points = [Point(*coord, srid=system)
+                  for coord in system_linestring.coords]
+
+    projected_points = []
+    for point_geometry in points:
+        # Get the fraction of the route that the point is closest to
+        fraction = system_route.project_normalized(point_geometry)
+        # Interpolate the point along the route
+        projected_points.append(system_route.interpolate_normalized(fraction))
+
+    # Project back to the original coordinate system
+    projected_linestring = LineString(projected_points, srid=system)
+    projected_linestring.transform(linestring.srid)
+    return projected_linestring
 
 
 def merge_segments(segments):
@@ -37,25 +143,37 @@ def merge_segments(segments):
     # Now arr[0..index] stores the merged Intervals
     return segments[:index + 1]
 
-def map_to_segments(nearby_pois, route_linestring, elongation):
+
+def get_segments(type_of_poi, route_linestring, elongation, threshold):
     """
     Make segments around found pois on the route.
     Overlaps between segments are merged into one segment.
-    Elongation defines the length of the segments.
-    """    
-    if not nearby_pois:
+    Elongation defines how much points are elongated to a line along the route.
+    """ 
+
+    nearby_point_pois = Poi.objects.filter(category=type_of_poi, coordinate__dwithin=(route_linestring, D(m=threshold)))
+    nearby_line_pois = PoiLine.objects.filter(category=type_of_poi, line__dwithin=(route_linestring, D(m=threshold)))
+
+    if not nearby_point_pois and not nearby_line_pois:
         return []
 
     # Match each coordinate onto the route in the mercator projection
     route_lstr_mercator = route_linestring.transform(settings.METRICAL, clone=True)
     route_length_mercator = route_lstr_mercator.length
     segments = []
-    for poi in nearby_pois:
+    for poi in nearby_point_pois:
         poi_coordinate_mercator = poi.coordinate.transform(settings.METRICAL, clone=True)
         dist_on_route = route_lstr_mercator.project(poi_coordinate_mercator)
         dist_start = max(0, dist_on_route - elongation)
         dist_end = min(route_length_mercator, dist_on_route + elongation)
         segments.append([dist_start, dist_end])
+    for poi in nearby_line_pois:
+        poi_line_mercator = poi.line.transform(settings.METRICAL, clone=True)
+        projected_line = project_onto_route(poi_line_mercator, route_lstr_mercator)
+        for i in range(len(projected_line.coords) - 1):
+            dist_start = route_lstr_mercator.project(Point(projected_line.coords[i], srid=settings.METRICAL))
+            dist_end = route_lstr_mercator.project(Point(projected_line.coords[i + 1], srid=settings.METRICAL))
+            segments.append([dist_start, dist_end])
     
     segments = merge_segments(segments)
 
@@ -140,6 +258,7 @@ def map_to_segments(nearby_pois, route_linestring, elongation):
     ]
     return projected_segments_json
 
+
 @method_decorator(csrf_exempt, name="dispatch")
 class MatchPoisResource(View):
     def post(self, request):
@@ -176,22 +295,14 @@ class MatchPoisResource(View):
         except ValueError:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid route points"}))
 
-        return JsonResponse({
-            "success": True,
-            "constructions": map_to_segments(
-                Poi.objects.filter(category="construction", coordinate__dwithin=(route_linestring, D(m=threshold))),
-                route_linestring, elongation,
-            ),
-            "accidenthotspots": map_to_segments(
-                Poi.objects.filter(category="accidenthotspot", coordinate__dwithin=(route_linestring, D(m=threshold))),
-                route_linestring, elongation,
-            ),
-            "greenwaves": map_to_segments(
-                Poi.objects.filter(category="greenwave", coordinate__dwithin=(route_linestring, D(m=threshold))),
-                route_linestring, elongation,
-            ),
-            "veloroutes": map_to_segments(
-                Poi.objects.filter(category="veloroute", coordinate__dwithin=(route_linestring, D(m=threshold))),
-                route_linestring, elongation,
-            ),
-        })
+        response_json = { "success": True }
+
+        for type_of_poi in ["construction", "accidenthotspot", "greenwave", "veloroute"]:
+            response_json[f"{type_of_poi}s"] = get_segments(
+                type_of_poi,
+                route_linestring, 
+                elongation,
+                threshold,
+            )
+
+        return JsonResponse(response_json)

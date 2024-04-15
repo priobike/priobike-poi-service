@@ -1,7 +1,7 @@
 import requests
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
-from pois.models import Poi
+from pois.models import Poi, PoiLine
 
 
 def import_from_mapdata_service(base_url):
@@ -63,6 +63,8 @@ class Command(BaseCommand):
 
         try:
             Poi.objects.filter(category="accidenthotspot").delete()
+            # Not used right now, but to make sure for future editations of the code
+            PoiLine.objects.filter(category="accidenthotspot").delete()
         except Exception as e:
             print("Failed to delete existing accident hotspots: " + str(e))
             return
