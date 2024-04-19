@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yaml
+    with: 
+      branch: ${{ github.ref }}
+
+  publish-hamburg-release:
+    needs: test
+    uses: ./.github/workflows/publish.yaml
+    with:
+      registry: bikenow.vkw.tu-dresden.de
+      image: ${{ github.repository }}-hamburg
+      ref_name: ${{ github.ref_name }}
+      location: Hamburg
+    secrets:
+      NEXUS_DOCKER_PUB_USERNAME: ${{ secrets.NEXUS_DOCKER_PUB_USERNAME }}
+      NEXUS_DOCKER_PUB_PASSWORD: ${{ secrets.NEXUS_DOCKER_PUB_PASSWORD }}
