@@ -27,7 +27,7 @@ if [ $ret -ne 0 ]; then
     exit $ret
 fi
 
-poetry run python backend/manage.py import_constructions_overpass ${LOCATION}
+poetry run python backend/manage.py import_constructions ${LOCATION}
 
 # Check if previous command failed. If it did, exit
 ret=$?
