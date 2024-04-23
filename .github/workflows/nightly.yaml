@@ -16,7 +16,7 @@ jobs:
     with:
       registry: bikenow.vkw.tu-dresden.de
       image: ${{ github.repository }}-hamburg
-      branch: main
+      ref_name: main
       location: Hamburg
     secrets:
       NEXUS_DOCKER_PUB_USERNAME: ${{ secrets.NEXUS_DOCKER_PUB_USERNAME }}
@@ -28,7 +28,7 @@ jobs:
     with:
       registry: bikenow.vkw.tu-dresden.de
       image: ${{ github.repository }}-dresden
-      branch: main
+      ref_name: main
       location: Dresden
     secrets:
       NEXUS_DOCKER_PUB_USERNAME: ${{ secrets.NEXUS_DOCKER_PUB_USERNAME }}
@@ -40,7 +40,7 @@ jobs:
     with:
       registry: bikenow.vkw.tu-dresden.de
       image: ${{ github.repository }}-hamburg
-      branch: stable
+      ref_name: stable
       location: Hamburg
     secrets:
       NEXUS_DOCKER_PUB_USERNAME: ${{ secrets.NEXUS_DOCKER_PUB_USERNAME }}
@@ -52,7 +52,7 @@ jobs:
     with:
       registry: bikenow.vkw.tu-dresden.de
       image: ${{ github.repository }}-dresden
-      branch: stable
+      ref_name: stable
       location: Dresden
     secrets:
       NEXUS_DOCKER_PUB_USERNAME: ${{ secrets.NEXUS_DOCKER_PUB_USERNAME }}
@@ -64,7 +64,7 @@ jobs:
     with:
       registry: bikenow.vkw.tu-dresden.de
       image: ${{ github.repository }}-hamburg
-      branch: release
+      ref_name: release
       location: Hamburg
     secrets:
       NEXUS_DOCKER_PUB_USERNAME: ${{ secrets.NEXUS_DOCKER_PUB_USERNAME }}
@@ -76,7 +76,7 @@ jobs:
     with:
       registry: bikenow.vkw.tu-dresden.de
       image: ${{ github.repository }}-dresden
-      branch: release
+      ref_name: release
       location: Dresden
     secrets:
       NEXUS_DOCKER_PUB_USERNAME: ${{ secrets.NEXUS_DOCKER_PUB_USERNAME }}
