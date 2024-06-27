@@ -40,3 +40,23 @@ class PoiLine(models.Model):
     class Meta:
         verbose_name = "Line of points of interest"
         verbose_name_plural = "Lines of points of interest"
+
+
+class Landmark(models.Model):
+    """A Landmark."""
+
+    # Landmark.
+    category = models.TextField()
+
+    # The kind of landmark.
+    type = models.TextField()
+
+    # The coordinate of the point of interest.
+    coordinate = models.PointField(srid=settings.LONLAT, geography=True)
+
+    def __str__(self) -> str:
+        return f"{self.category}: {self.type} at {self.coordinate}"
+
+    class Meta:
+        verbose_name = "Landmark"
+        verbose_name_plural = "Landmarks"
