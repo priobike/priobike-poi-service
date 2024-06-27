@@ -53,7 +53,7 @@ def build_overpass_query(bounding_box) -> str:
     Build the query for the overpass API to fetch landmarks.
     """
 
-    assert type(bounding_box) == str, "Bounding box must be a string"
+    assert isinstance(bounding_box, str), "Bounding box must be a string"
     assert len(bounding_box) > 0, "Bounding box must not be empty"
 
     TIMEOUT = 120  # The timeout for the API-Request in seconds
