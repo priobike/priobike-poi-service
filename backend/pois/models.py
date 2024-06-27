@@ -55,7 +55,7 @@ class Landmark(models.Model):
     coordinate = models.PointField(srid=settings.LONLAT, geography=True)
 
     def __str__(self) -> str:
-        return f"{self.category}: {self.type} at {self.coordinate}"
+        return f"{self.category.capitalize()}: {self.type} at {self.coordinate}"
 
     class Meta:
         verbose_name = "Landmark"
