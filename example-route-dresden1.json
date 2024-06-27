@@ -1,0 +1,22 @@
+{
+    "elongation": 50,
+    "threshold": 500,
+    "comment": "Start bei Kreuzung in der Nähe HSZ und dann runter zum Hauptbahnhof",
+    "route": [
+        {
+            "lat": 51.030168,
+            "lon": 13.730896,
+            "comment": "Fritz-Foerster-Platz"
+        },
+        {
+            "lat": 51.032743,
+            "lon": 13.730165,
+            "comment": "Fritz-Löffler-Platz"
+        },
+        {
+            "lat": 51.039013,
+            "lon": 13.733441,
+            "comment": "Hauptbahnhof"
+        }
+    ]
+}
