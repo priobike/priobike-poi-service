@@ -7,7 +7,6 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
 from pois.models import Landmark, Poi, PoiLine
 
 
@@ -278,32 +277,89 @@ class MatchLandmarksResource(View):
                 json.dumps({"error": "Route must have at least 2 points"})
             )
 
-        response_json = {"success": True}
+        # Load Landmarks from the database
+        known_landmarks = Landmark.objects.all()
 
-        # TODO: hier muss ich doch die ganze Logik einbauen, mit der die Landmarks an den Entscheidungspunkten und auf der Strecke gematched werden
+        if not known_landmarks:
+            return HttpResponseBadRequest(
+                json.dumps({"error": "No landmarks found in database"})
+            )
 
-        matched_landmarks: list = match_landmarks_decisionpoints(route_points)
+        response_json = {}
+        response_json["success"] = True
+
+        if False:  # DEBUG
+            response_json["known_landmarks"] = len(known_landmarks)
+
+        if False:  # DEBUG
+            known_landmarks_list = []
+            for landmark in known_landmarks:
+                known_landmarks_list.append(
+                    {
+                        "type": landmark.type,
+                        "category": landmark.category,
+                        "coordinate": [landmark.coordinate.x, landmark.coordinate.y],
+                    }
+                )
+            response_json["known_landmarks_list"] = known_landmarks_list
+
+        matched_landmarks: dict = match_landmarks_decisionpoints(
+            route_points, known_landmarks
+        )
+        response_json["matched_landmarks"] = matched_landmarks
 
         return JsonResponse(response_json)
 
 
-def match_landmarks_decisionpoints(route_points: list) -> list:
+def match_landmarks_decisionpoints(route_points: list, known_landmarks: list) -> dict:
     """
     Match landmarks to decision points on the route.
     """
-
-    assert (
-        len(route_points) > 1
-    ), "Route must have at least 2 points to have decision points"
-
-    # Load Landmarks from the database
-    known_landmarks = Landmark.objects.all()
-
-    assert known_landmarks, "No landmarks found in the database"
 
     THRESHOLD_IN_METERS = 50
     # TODO: try out something like 30m
 
     # TODO: man bekommt ja eine Liste von Koordianten gegeben, also muss man die einfach nur durchiterieren und für alle, außer dem 1. (aber dem letzten als Ziel) die Landmarken matchen. Dazu braucht man einen gewissen Threshold
 
-    return []
+    # key = coord of decision point, value = best landmarks
+    # TODO: therefore I need to make sure I only end up with max. 1 landmark per decision point
+    landmarks_per_decisionpoint = {}
+
+    debug_return = {}
+
+    for point in route_points:
+        point_lon = point[0]
+        point_lat = point[1]
+
+        coord = Point(point_lon, point_lat)
+
+        # TODO: Ich kann das direkt über Datenbank-Anfrage und filter() machen, also brauche ich nicht selbst durch-iterieren
+        # check which landmark are within the threshold to the point
+        for landmark in (
+            Landmark.objects.filter(
+                coordinate__distance_lt=(coord, D(m=THRESHOLD_IN_METERS))
+            )
+            # .annotate(                distance=D("point", Point(point_lon, point_lat))            )
+        ):
+            # TODO: Ich muss immer checken, ob der Key schon exisitert, sonst wird er einfach überschrieben und ich habe nur so viele Ergebnisse wie Decision Points
+
+            landmark_lon: Landmark = landmark.coordinate.x
+            landmark_lat: Landmark = landmark.coordinate.y
+
+            distance = coord.distance(landmark.coordinate)
+
+            # if distance < THRESHOLD_IN_METERS:
+
+            # coordiante__distance__lt = Distance(m=THRESHOLD_IN_METERS)
+
+            # calculate the distance between the point and the landmark
+
+            decisionPoint = f"{point_lat, point_lon}"
+            foundLandmark = f"{landmark.type}, {landmark.category}, {landmark_lat, landmark_lon}, {distance}"
+
+            landmarks_per_decisionpoint[decisionPoint] = foundLandmark
+
+    if debug_return:
+        return debug_return
+
+    return landmarks_per_decisionpoint
