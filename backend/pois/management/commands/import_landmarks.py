@@ -192,6 +192,11 @@ class Command(BaseCommand):
         Fetch landmark data.
         """
 
+        # Parse the area argument from the command line args
+        area = options["area"]
+        assert area, "Area is required"
+        # TODO: use the area argument to determine the bounding box
+
         BBOX_HAMBURG = "(53.35,9.65,53.75,10.4)"
         BBOX_DRESDEN = "(50.9,13.5,51.2,14.0)"
         USE_DRESDEN = True  # otherwise Hamburg
