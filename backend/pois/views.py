@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
-from pois.models import Poi, PoiLine
+from pois.models import Landmark, Poi, PoiLine
 
 
 def merge_segments(segments):
@@ -292,10 +292,18 @@ def match_landmarks_decisionpoints(route_points: list) -> list:
     Match landmarks to decision points on the route.
     """
 
-    assert len(route_points) > 1
+    assert (
+        len(route_points) > 1
+    ), "Route must have at least 2 points to have decision points"
 
-    THRESHOLD_IN_METERS = 30
+    # Load Landmarks from the database
+    known_landmarks = Landmark.objects.all()
+
+    assert known_landmarks, "No landmarks found in the database"
+
+    THRESHOLD_IN_METERS = 50
+    # TODO: try out something like 30m
 
     # TODO: man bekommt ja eine Liste von Koordianten gegeben, also muss man die einfach nur durchiterieren und für alle, außer dem 1. (aber dem letzten als Ziel) die Landmarken matchen. Dazu braucht man einen gewissen Threshold
 
-    pass
+    return []

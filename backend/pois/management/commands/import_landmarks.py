@@ -48,7 +48,7 @@ from pois.models import Landmark
 #     print(f"Imported {len(construction_sites)} construction sites")
 
 
-def build_overpass_query(bounding_box) -> str:
+def build_overpass_query(bounding_box: str) -> str:
     """
     Build the query for the overpass API to fetch landmarks.
     """
@@ -95,17 +95,17 @@ def build_overpass_query(bounding_box) -> str:
     return full_query
 
 
-def import_from_overpass(bounding_box):
+def import_from_overpass(bounding_box: str):
     """
     Import landmark data from the overpass API.
     """
-    print("Importing land data from overpass turbo")
+    print("Importing landmark data from overpass turbo")
 
     query: str = build_overpass_query(bounding_box)
     API = "https://overpass-api.de/api/interpreter"
 
     try:
-        response = requests.post(API, params={"data": query})
+        response = requests.get(API, params={"data": query})
         response.raise_for_status()
         data = response.json()
     except Exception as e:
