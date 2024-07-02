@@ -7,6 +7,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
+
 from pois.models import Landmark, Poi, PoiLine
 
 
@@ -303,21 +304,20 @@ class MatchLandmarksResource(View):
                 )
             response_json["known_landmarks_list"] = known_landmarks_list
 
-        matched_landmarks: dict = match_landmarks_decisionpoints(
-            route_points, known_landmarks
-        )
+        matched_landmarks: dict = match_landmarks_decisionpoints(route_points)
         response_json["matched_landmarks"] = matched_landmarks
 
         return JsonResponse(response_json)
 
 
-def match_landmarks_decisionpoints(route_points: list, known_landmarks: list) -> dict:
+def match_landmarks_decisionpoints(route_points: list) -> dict:
     """
     Match landmarks to decision points on the route.
+    Since graphhopper only adds a new point when we have to change our direction, every point is a decision point.
     """
 
+    # The threshold in meters to match a landmark to a decision point
     THRESHOLD_IN_METERS = 50
-    # TODO: try out something like 30m
 
     # TODO: man bekommt ja eine Liste von Koordianten gegeben, also muss man die einfach nur durchiterieren und für alle, außer dem 1. (aber dem letzten als Ziel) die Landmarken matchen. Dazu braucht man einen gewissen Threshold
 
@@ -333,30 +333,26 @@ def match_landmarks_decisionpoints(route_points: list, known_landmarks: list) ->
 
         coord = Point(point_lon, point_lat)
 
-        # TODO: Ich kann das direkt über Datenbank-Anfrage und filter() machen, also brauche ich nicht selbst durch-iterieren
         # check which landmark are within the threshold to the point
-        for landmark in (
-            Landmark.objects.filter(
-                coordinate__distance_lt=(coord, D(m=THRESHOLD_IN_METERS))
-            )
-            # .annotate(                distance=D("point", Point(point_lon, point_lat))            )
+        for landmark in Landmark.objects.filter(
+            coordinate__distance_lt=(coord, D(m=THRESHOLD_IN_METERS))
         ):
-            # TODO: Ich muss immer checken, ob der Key schon exisitert, sonst wird er einfach überschrieben und ich habe nur so viele Ergebnisse wie Decision Points
-
             landmark_lon: Landmark = landmark.coordinate.x
             landmark_lat: Landmark = landmark.coordinate.y
 
             distance = coord.distance(landmark.coordinate)
 
-            # if distance < THRESHOLD_IN_METERS:
-
-            # coordiante__distance__lt = Distance(m=THRESHOLD_IN_METERS)
-
-            # calculate the distance between the point and the landmark
-
             decisionPoint = f"{point_lat, point_lon}"
-            foundLandmark = f"{landmark.type}, {landmark.category}, {landmark_lat, landmark_lon}, {distance}"
 
+            # check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
+            if decisionPoint in landmarks_per_decisionpoint:
+                old_distance = (
+                    landmarks_per_decisionpoint[decisionPoint].split(",")[-1].strip()
+                )
+                if distance >= float(old_distance):
+                    continue
+
+            foundLandmark = f"{landmark.type}, {landmark.category}, {landmark_lat, landmark_lon}, {distance}"
             landmarks_per_decisionpoint[decisionPoint] = foundLandmark
 
     if debug_return:
