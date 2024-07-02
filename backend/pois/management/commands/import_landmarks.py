@@ -124,32 +124,71 @@ def import_from_overpass(bounding_box: str):
         # There is no easy way to determine the type of landmark from the data
         # There is a tagging system, but it is not used consistently, therefore I try to create a hierarchy of usefull tags
 
+        # TODO: refactore this
+
         if "name" in element["tags"]:
             type = element["tags"]["name"]
+            if "amenity" in element["tags"]:
+                category = "amenity"
+            elif "brand" in element["tags"]:
+                category = "brand"
+            elif "man_made" in element["tags"]:
+                category = "man_made"
+            elif "railway" in element["tags"]:
+                category = "railway"
+            elif "public_transport" in element["tags"]:
+                category = "public_transport"
+            elif "tourism" in element["tags"]:
+                category = "tourism"
+            elif "historic" in element["tags"]:
+                category = "historic"
+            elif "leisure" in element["tags"]:
+                category = "leisure"
+            elif "shop" in element["tags"]:
+                category = "shop"
+            elif "sport" in element["tags"]:
+                category = "sport"
+            elif "playground" in element["tags"]:
+                category = "playground"
+            else:
+                category = "landmark"
+
         elif "amenity" in element["tags"]:
             type = element["tags"]["amenity"]
+            category = "amenity"
         elif "brand" in element["tags"]:
             type = element["tags"]["brand"]
+            category = "brand"
         elif "man_made" in element["tags"]:
             type = element["tags"]["man_made"]
+            category = "man_made"
         elif "railway" in element["tags"]:
             type = element["tags"]["railway"]
+            category = "railway"
         elif "public_transport" in element["tags"]:
             type = element["tags"]["public_transport"]
+            category = "public_transport"
         elif "tourism" in element["tags"]:
             type = element["tags"]["tourism"]
+            category = "tourism"
         elif "historic" in element["tags"]:
             type = element["tags"]["historic"]
+            category = "historic"
         elif "leisure" in element["tags"]:
             type = element["tags"]["leisure"]
+            category = "leisure"
         elif "shop" in element["tags"]:
             type = element["tags"]["shop"]
+            category = "shop"
         elif "sport" in element["tags"]:
             type = element["tags"]["sport"]
+            category = "sport"
         elif "playground" in element["tags"]:
             type = "playground"
+            category = "playground"
         else:
             type = "landmark"
+            category = "landmark"
 
             # Print debug message if no category was found
             tags = ""
@@ -165,7 +204,7 @@ def import_from_overpass(bounding_box: str):
         landmark = Landmark(
             coordinate=Point(element["lon"], element["lat"], srid=4326),
             type=type,
-            category="landmark",
+            category=category,
         )
         landmark_points.append(landmark)
 
