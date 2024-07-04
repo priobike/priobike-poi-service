@@ -7,7 +7,6 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
 from pois.models import Landmark, Poi, PoiLine
 
 
@@ -321,8 +320,7 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
 
     # TODO: man bekommt ja eine Liste von Koordianten gegeben, also muss man die einfach nur durchiterieren und für alle, außer dem 1. (aber dem letzten als Ziel) die Landmarken matchen. Dazu braucht man einen gewissen Threshold
 
-    # key = coord of decision point, value = best landmarks
-    # TODO: therefore I need to make sure I only end up with max. 1 landmark per decision point
+    # Key = coord of decision point, Value = best landmark
     landmarks_per_decisionpoint = {}
 
     debug_return = {}
@@ -333,7 +331,7 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
 
         coord = Point(point_lon, point_lat)
 
-        # check which landmark are within the threshold to the point
+        # Check which landmark are within the threshold to the point
         for landmark in Landmark.objects.filter(
             coordinate__distance_lt=(coord, D(m=THRESHOLD_IN_METERS))
         ):
@@ -344,15 +342,20 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
 
             decisionPoint = f"{point_lat, point_lon}"
 
-            # check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
+            # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
             if decisionPoint in landmarks_per_decisionpoint:
-                old_distance = (
-                    landmarks_per_decisionpoint[decisionPoint].split(",")[-1].strip()
-                )
+                old_distance = landmarks_per_decisionpoint[decisionPoint]["distance"]
                 if distance >= float(old_distance):
                     continue
 
-            foundLandmark = f"{landmark.type}, {landmark.category}, {landmark_lat, landmark_lon}, {distance}"
+            foundLandmark = {
+                "overpass_category": landmark.category,
+                "type": landmark.type,
+                "lat": landmark_lat,
+                "lon": landmark_lon,
+                "distance": distance,
+            }
+
             landmarks_per_decisionpoint[decisionPoint] = foundLandmark
 
     if debug_return:
