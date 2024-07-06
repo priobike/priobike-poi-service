@@ -1,4 +1,5 @@
 import json
+import time
 
 from django.conf import settings
 from django.contrib.gis.geos import LineString, Point
@@ -304,8 +305,16 @@ class MatchLandmarksResource(View):
                 )
             response_json["known_landmarks_list"] = known_landmarks_list
 
-        matched_landmarks: dict = match_landmarks_decisionpoints(route_points)
-        response_json["matched_landmarks"] = matched_landmarks
+        timestamp_before = time.time()
+
+        response_json["matched_landmarks"] = match_landmarks_decisionpoints(
+            route_points
+        )
+
+        timestamp_after = time.time()
+        print(
+            f"Time needed for matching landmarks: {round((timestamp_after - timestamp_before),2)} seconds"
+        )
 
         return JsonResponse(response_json)
 
