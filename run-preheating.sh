@@ -72,4 +72,7 @@ if [ $ret -ne 0 ]; then
     exit $ret
 fi
 
+echo "Timestamp:"
+echo $(date)
+
 echo "Preheating complete!"
