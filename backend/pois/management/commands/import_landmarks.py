@@ -1,7 +1,12 @@
+import json
+
 import requests
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 from pois.models import Landmark
+
+translation_table: dict = {}
+unknown_tags: set = set()
 
 # def import_from_mapdata_service(area):
 #     print("Importing construction sites data from priobike-map-data")
@@ -124,6 +129,10 @@ def import_from_overpass(bounding_box: str):
         # There is no easy way to determine the type of landmark from the data
         # There is a tagging system, but it is not used consistently, therefore I try to create a hierarchy of usefull tags
 
+        # Data structure:
+        # type = i.e. "Kino"
+        # category = i.e. "amenity" (the category used by openstreetmap/overpass)
+
         # TODO: refactore this
 
         if "name" in element["tags"]:
@@ -154,38 +163,40 @@ def import_from_overpass(bounding_box: str):
                 category = "landmark"
 
         elif "amenity" in element["tags"]:
-            type = element["tags"]["amenity"]
-            category = "amenity"
+            type = translate_tag("amenity", element["tags"]["amenity"])
+            category = translate_tag("amenity", "")
         elif "brand" in element["tags"]:
-            type = element["tags"]["brand"]
-            category = "brand"
+            type = element["tags"]["brand"]  # use brand as type, i.e. "McDonalds"
+            category = translate_tag("brand", "")
         elif "man_made" in element["tags"]:
-            type = element["tags"]["man_made"]
-            category = "man_made"
+            type = translate_tag("man_made", element["tags"]["man_made"])
+            category = translate_tag("man_made", "")
         elif "railway" in element["tags"]:
-            type = element["tags"]["railway"]
-            category = "railway"
+            type = translate_tag("railway", element["tags"]["railway"])
+            category = translate_tag("railway", "")
         elif "public_transport" in element["tags"]:
-            type = element["tags"]["public_transport"]
-            category = "public_transport"
+            type = translate_tag(
+                "public_transport", element["tags"]["public_transport"]
+            )
+            category = translate_tag("public_transport", "")
         elif "tourism" in element["tags"]:
-            type = element["tags"]["tourism"]
-            category = "tourism"
+            type = translate_tag("tourism", element["tags"]["tourism"])
+            category = translate_tag("tourism", "")
         elif "historic" in element["tags"]:
-            type = element["tags"]["historic"]
-            category = "historic"
+            type = translate_tag("historic", element["tags"]["historic"])
+            category = translate_tag("historic", "")
         elif "leisure" in element["tags"]:
-            type = element["tags"]["leisure"]
-            category = "leisure"
+            type = translate_tag("leisure", element["tags"]["leisure"])
+            category = translate_tag("leisure", "")
         elif "shop" in element["tags"]:
-            type = element["tags"]["shop"]
-            category = "shop"
+            type = translate_tag("shop", element["tags"]["shop"])
+            category = translate_tag("shop", "")
         elif "sport" in element["tags"]:
-            type = element["tags"]["sport"]
-            category = "sport"
+            type = translate_tag("sport", element["tags"]["sport"])
+            category = translate_tag("sport", "")
         elif "playground" in element["tags"]:
-            type = "playground"
-            category = "playground"
+            type = "Spielplatz"
+            category = "Spielplatz"
         else:
             type = "landmark"
             category = "landmark"
@@ -214,6 +225,39 @@ def import_from_overpass(bounding_box: str):
 
     Landmark.objects.bulk_create(landmark_points)
     print(f"Imported {len(landmark_points)} landmarks")
+
+
+def translate_tag(category: str, tag: str) -> str:
+    """
+    Helper function to translate the osm tags to german.
+    Source for the translation table: https://weblate.openstreetbrowser.org/projects/openstreetbrowser/osm-tags/de/#information
+    """
+
+    # Example:
+    # "tag:amenity=cinema": {
+    #   "message": "Kino",
+    #   "description": "Tag \"amenity=cinema\". See https://wiki.openstreetmap.org/wiki/Tag:amenity=cinema"
+    # },
+
+    global translation_table
+    global unknown_tags
+
+    assert category, "Category is required"
+    assert translation_table, "Translation table is empty"
+
+    # if tag is empty, only translate the category
+    if tag == "":
+        key = "tag:" + category
+        default_return = category
+    else:
+        key = "tag:" + category + "=" + tag
+        default_return = tag
+
+    if key in translation_table and translation_table[key]["message"]:
+        return translation_table[key]["message"]
+
+    unknown_tags.add(key)
+    return default_return
 
 
 class Command(BaseCommand):
@@ -253,5 +297,26 @@ class Command(BaseCommand):
             print("Failed to delete existing landmarks: " + str(e))
             return
 
+        global translation_table
+
+        # load translation table for osm tags
+        PATH = "backend/pois/openstreetbrowser-osm-tags-de.json"
+        with open(PATH, "r") as file:
+            translation_table = json.load(file)
+
+        assert translation_table, "Translation table is empty"
+
         import_from_overpass(bounding_box)
+
+        print("Unknown OSM tags: " + str(len(unknown_tags)))
+
+        output_limiter = 0
+        print("Unknown OSM tags for translation:")
+        for category in unknown_tags:
+            print(category)
+            output_limiter += 1
+            if output_limiter > 40:
+                print("...and more")
+                break
+
         # import_from_mapdata_service(area)        import_from_mapdata_service(area)

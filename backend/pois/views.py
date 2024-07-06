@@ -329,18 +329,21 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
         point_lon = point[0]
         point_lat = point[1]
 
-        coord = Point(point_lon, point_lat)
+        coord = Point(point_lon, point_lat, srid=settings.LONLAT)
 
         # Check which landmark are within the threshold to the point
         for landmark in Landmark.objects.filter(
             coordinate__distance_lt=(coord, D(m=THRESHOLD_IN_METERS))
         ):
-            landmark_lon: Landmark = landmark.coordinate.x
-            landmark_lat: Landmark = landmark.coordinate.y
+            point_mercator = coord.transform(settings.METRICAL, clone=True)
+            landmark_mercator = landmark.coordinate.transform(
+                settings.METRICAL, clone=True
+            )
+            distance: float = point_mercator.distance(landmark_mercator)
 
-            distance = coord.distance(landmark.coordinate)
+            # TODO: ich habe immer noch den Bug, dass es trotzdem Landmarken matcht, die z.B. 59m entfernt sind
 
-            decisionPoint = f"{point_lat, point_lon}"
+            decisionPoint = f"{point_lat}, {point_lon}"
 
             # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
             if decisionPoint in landmarks_per_decisionpoint:
@@ -349,11 +352,11 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
                     continue
 
             foundLandmark = {
-                "overpass_category": landmark.category,
+                "category": landmark.category,
                 "type": landmark.type,
-                "lat": landmark_lat,
-                "lon": landmark_lon,
-                "distance": distance,
+                "lat": landmark.coordinate.y,
+                "lon": landmark.coordinate.x,
+                "distance": round(distance, 4),
             }
 
             landmarks_per_decisionpoint[decisionPoint] = foundLandmark
