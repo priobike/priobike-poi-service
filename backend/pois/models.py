@@ -45,6 +45,9 @@ class PoiLine(models.Model):
 class Landmark(models.Model):
     """A Landmark."""
 
+    # The unique identifier of the landmark, given by OSM.
+    id = models.TextField(primary_key=True)
+
     # Landmark.
     category = models.TextField()
 

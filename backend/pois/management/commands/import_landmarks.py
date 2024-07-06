@@ -7,6 +7,7 @@ from pois.models import Landmark
 
 translation_table: dict = {}
 unknown_tags: set = set()
+known_tags: set = set()
 
 # def import_from_mapdata_service(area):
 #     print("Importing construction sites data from priobike-map-data")
@@ -126,6 +127,8 @@ def import_from_overpass(bounding_box: str):
             print("Found unknown element type: " + element["type"])
             continue
 
+        assert element["id"] is not None, "Element id is required"
+
         # There is no easy way to determine the type of landmark from the data
         # There is a tagging system, but it is not used consistently, therefore I try to create a hierarchy of usefull tags
 
@@ -138,29 +141,29 @@ def import_from_overpass(bounding_box: str):
         if "name" in element["tags"]:
             type = element["tags"]["name"]
             if "amenity" in element["tags"]:
-                category = "amenity"
+                category = translate_tag("amenity", "")
             elif "brand" in element["tags"]:
-                category = "brand"
+                category = translate_tag("brand", "")
             elif "man_made" in element["tags"]:
-                category = "man_made"
+                category = translate_tag("man_made", "")
             elif "railway" in element["tags"]:
-                category = "railway"
+                category = translate_tag("railway", "")
             elif "public_transport" in element["tags"]:
-                category = "public_transport"
+                category = translate_tag("public_transport", "")
             elif "tourism" in element["tags"]:
-                category = "tourism"
+                category = translate_tag("tourism", "")
             elif "historic" in element["tags"]:
-                category = "historic"
+                category = translate_tag("historic", "")
             elif "leisure" in element["tags"]:
-                category = "leisure"
+                category = translate_tag("leisure", "")
             elif "shop" in element["tags"]:
-                category = "shop"
+                category = translate_tag("shop", "")
             elif "sport" in element["tags"]:
-                category = "sport"
+                category = translate_tag("sport", "")
             elif "playground" in element["tags"]:
-                category = "playground"
+                category = "Spielplatz"
             else:
-                category = "landmark"
+                category = "Landmarke"
 
         elif "amenity" in element["tags"]:
             type = translate_tag("amenity", element["tags"]["amenity"])
@@ -198,8 +201,8 @@ def import_from_overpass(bounding_box: str):
             type = "Spielplatz"
             category = "Spielplatz"
         else:
-            type = "landmark"
-            category = "landmark"
+            type = "Landmarke"
+            category = "Landmarke"
 
             # Print debug message if no category was found
             tags = ""
@@ -211,8 +214,11 @@ def import_from_overpass(bounding_box: str):
                 "and tags '" + tags + "' using default category",
             )
 
-        # Create a point
+        # TODO: I could also just discard the landmarks if I have no valid translation
+
+        # Create a Landmark object
         landmark = Landmark(
+            id=element["id"],
             coordinate=Point(element["lon"], element["lat"], srid=4326),
             type=type,
             category=category,
@@ -230,7 +236,7 @@ def import_from_overpass(bounding_box: str):
 def translate_tag(category: str, tag: str) -> str:
     """
     Helper function to translate the osm tags to german.
-    Source for the translation table: https://weblate.openstreetbrowser.org/projects/openstreetbrowser/osm-tags/de/#information
+    Source for the translation table: https://github.com/plepe/openstreetmap-tag-translations/blob/master/tags/de.json
     """
 
     # Example:
@@ -241,6 +247,7 @@ def translate_tag(category: str, tag: str) -> str:
 
     global translation_table
     global unknown_tags
+    global known_tags
 
     assert category, "Category is required"
     assert translation_table, "Translation table is empty"
@@ -254,6 +261,7 @@ def translate_tag(category: str, tag: str) -> str:
         default_return = tag
 
     if key in translation_table and translation_table[key]["message"]:
+        known_tags.add(key)
         return translation_table[key]["message"]
 
     unknown_tags.add(key)
@@ -292,7 +300,7 @@ class Command(BaseCommand):
         print("Clearing database")
 
         try:
-            Landmark.objects.filter(category="landmark").delete()
+            Landmark.objects.all().delete()
         except Exception as e:
             print("Failed to delete existing landmarks: " + str(e))
             return
@@ -308,14 +316,21 @@ class Command(BaseCommand):
 
         import_from_overpass(bounding_box)
 
-        print("Unknown OSM tags: " + str(len(unknown_tags)))
+        print(
+            "Unknown OSM tags: "
+            + str(len(unknown_tags))
+            + " known tags: "
+            + str(len(known_tags))
+            + "=> "
+            + str(len(known_tags) / (len(known_tags) + len(unknown_tags)) * 100)
+            + "%"
+        )
 
         output_limiter = 0
-        print("Unknown OSM tags for translation:")
         for category in unknown_tags:
-            print(category)
+            print("Unknown OSM tags for translation:", category)
             output_limiter += 1
-            if output_limiter > 40:
+            if output_limiter >= 20:
                 print("...and more")
                 break
 

@@ -7,6 +7,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
+
 from pois.models import Landmark, Poi, PoiLine
 
 
@@ -331,7 +332,10 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
 
         coord = Point(point_lon, point_lat, srid=settings.LONLAT)
 
-        # Check which landmark are within the threshold to the point
+        decisionPoint = f"{point_lat}, {point_lon}"
+        landmarks_per_decisionpoint[decisionPoint] = {}
+
+        # Check which landmark are within the threshold to the ecision point
         for landmark in Landmark.objects.filter(
             coordinate__distance_lt=(coord, D(m=THRESHOLD_IN_METERS))
         ):
@@ -343,15 +347,14 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
 
             # TODO: ich habe immer noch den Bug, dass es trotzdem Landmarken matcht, die z.B. 59m entfernt sind
 
-            decisionPoint = f"{point_lat}, {point_lon}"
-
             # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
-            if decisionPoint in landmarks_per_decisionpoint:
+            if landmarks_per_decisionpoint[decisionPoint]:
                 old_distance = landmarks_per_decisionpoint[decisionPoint]["distance"]
                 if distance >= float(old_distance):
                     continue
 
             foundLandmark = {
+                "id": landmark.id,
                 "category": landmark.category,
                 "type": landmark.type,
                 "lat": landmark.coordinate.y,
