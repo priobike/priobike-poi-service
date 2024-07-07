@@ -9,6 +9,21 @@ translation_table: dict = {}
 unknown_tags: set = set()
 known_tags: set = set()
 
+# See: https://wiki.openstreetmap.org/wiki/Key: + category
+OSM_CATEGORIES = [
+    "amenity",
+    "historic",
+    "tourism",
+    "leisure",
+    "shop",
+    "public_transport",
+    "man_made",
+    "railway",
+    "bridge",  # => no results in Dresden
+    "sport",
+    "water",  # => no results in Dresden
+]
+
 # def import_from_mapdata_service(area):
 #     print("Importing construction sites data from priobike-map-data")
 
@@ -59,8 +74,11 @@ def build_overpass_query(bounding_box: str) -> str:
     Build the query for the overpass API to fetch landmarks.
     """
 
+    global OSM_CATEGORIES
+
     assert isinstance(bounding_box, str), "Bounding box must be a string"
     assert len(bounding_box) > 0, "Bounding box must not be empty"
+    assert len(OSM_CATEGORIES) > 0, "OSM categories must not be empty"
 
     TIMEOUT = 120  # The timeout for the API-Request in seconds
 
@@ -70,29 +88,9 @@ def build_overpass_query(bounding_box: str) -> str:
 
     categories = ""
 
-    # See: https://wiki.openstreetmap.org/wiki/Key:amenity
-    categories += 'node["amenity"]' + bounding_box + ";"
-    # See: https://wiki.openstreetmap.org/wiki/Key:historic
-    categories += 'node["historic"]' + bounding_box + ";"
-    # See: https://wiki.openstreetmap.org/wiki/Key:tourism
-    categories += 'node["tourism"]' + bounding_box + ";"
-    # See: https://wiki.openstreetmap.org/wiki/Key:leisure
-    categories += 'node["leisure"]' + bounding_box + ";"
-    # See: https://wiki.openstreetmap.org/wiki/Key:shop
-    categories += 'node["shop"]' + bounding_box + ";"
-
-    # See: https://wiki.openstreetmap.org/wiki/Key:public_transport
-    categories += 'node["public_transport"]' + bounding_box + ";"
-    # See: https://wiki.openstreetmap.org/wiki/Key:man_made
-    categories += 'node["man_made"]' + bounding_box + ";"
-    # See: https://wiki.openstreetmap.org/wiki/Key:railway
-    categories += 'node["railway"]' + bounding_box + ";"
-    # See: https://wiki.openstreetmap.org/wiki/Key:bridge
-    # get_categories += 'node["bridge"]' + bounding_box + ";" => no results in Dresden
-    # See: https://wiki.openstreetmap.org/wiki/Key:sport
-    categories += 'node["sport"]' + bounding_box + ";"
-    # See: https://wiki.openstreetmap.org/wiki/Key:water
-    # get_categories += 'node["water"]' + bounding_box + ";" => no results in Dresden
+    # See: https://wiki.openstreetmap.org/wiki/Key: + category
+    for category in OSM_CATEGORIES:
+        categories += f'node["{category}"]' + bounding_box + ";"
 
     suffix = "out;"
 
@@ -105,6 +103,10 @@ def import_from_overpass(bounding_box: str):
     """
     Import landmark data from the overpass API.
     """
+
+    global OSM_CATEGORIES
+    assert len(OSM_CATEGORIES) > 0, "OSM categories must not be empty"
+
     print("Importing landmark data from overpass turbo")
 
     query: str = build_overpass_query(bounding_box)
@@ -136,83 +138,36 @@ def import_from_overpass(bounding_box: str):
         # type = i.e. "Kino"
         # category = i.e. "amenity" (the category used by openstreetmap/overpass)
 
-        # TODO: refactore this
-
+        # Preferentially use the name tag as type
         if "name" in element["tags"]:
             type = element["tags"]["name"]
-            if "amenity" in element["tags"]:
-                category = translate_tag("amenity", "")
-            elif "brand" in element["tags"]:
-                category = translate_tag("brand", "")
-            elif "man_made" in element["tags"]:
-                category = translate_tag("man_made", "")
-            elif "railway" in element["tags"]:
-                category = translate_tag("railway", "")
-            elif "public_transport" in element["tags"]:
-                category = translate_tag("public_transport", "")
-            elif "tourism" in element["tags"]:
-                category = translate_tag("tourism", "")
-            elif "historic" in element["tags"]:
-                category = translate_tag("historic", "")
-            elif "leisure" in element["tags"]:
-                category = translate_tag("leisure", "")
-            elif "shop" in element["tags"]:
-                category = translate_tag("shop", "")
-            elif "sport" in element["tags"]:
-                category = translate_tag("sport", "")
-            elif "playground" in element["tags"]:
-                category = "Spielplatz"
-            else:
+            for category in OSM_CATEGORIES:
+                if category in element["tags"]:
+                    category = translate_tag(category, "")
+                    break
+
+            if not category:
+                category = "Landmarke"
+        else:
+            for category in OSM_CATEGORIES:
+                if category in element["tags"]:
+                    type = translate_tag(category, element["tags"][category])
+                    category = translate_tag(category, "")
+                    break
+
+            if not category or not type:
+                type = "Landmarke"
                 category = "Landmarke"
 
-        elif "amenity" in element["tags"]:
-            type = translate_tag("amenity", element["tags"]["amenity"])
-            category = translate_tag("amenity", "")
-        elif "brand" in element["tags"]:
-            type = element["tags"]["brand"]  # use brand as type, i.e. "McDonalds"
-            category = translate_tag("brand", "")
-        elif "man_made" in element["tags"]:
-            type = translate_tag("man_made", element["tags"]["man_made"])
-            category = translate_tag("man_made", "")
-        elif "railway" in element["tags"]:
-            type = translate_tag("railway", element["tags"]["railway"])
-            category = translate_tag("railway", "")
-        elif "public_transport" in element["tags"]:
-            type = translate_tag(
-                "public_transport", element["tags"]["public_transport"]
-            )
-            category = translate_tag("public_transport", "")
-        elif "tourism" in element["tags"]:
-            type = translate_tag("tourism", element["tags"]["tourism"])
-            category = translate_tag("tourism", "")
-        elif "historic" in element["tags"]:
-            type = translate_tag("historic", element["tags"]["historic"])
-            category = translate_tag("historic", "")
-        elif "leisure" in element["tags"]:
-            type = translate_tag("leisure", element["tags"]["leisure"])
-            category = translate_tag("leisure", "")
-        elif "shop" in element["tags"]:
-            type = translate_tag("shop", element["tags"]["shop"])
-            category = translate_tag("shop", "")
-        elif "sport" in element["tags"]:
-            type = translate_tag("sport", element["tags"]["sport"])
-            category = translate_tag("sport", "")
-        elif "playground" in element["tags"]:
-            type = "Spielplatz"
-            category = "Spielplatz"
-        else:
-            type = "Landmarke"
-            category = "Landmarke"
-
-            # Print debug message if no category was found
-            tags = ""
-            for key in element["tags"]:
-                tags += key + " = " + element["tags"][key] + ","
-            print(
-                "No category found for element with id",
-                str(element["id"]),
-                "and tags '" + tags + "' using default category",
-            )
+                # Print debug message if no category was found
+                tags = ""
+                for key in element["tags"]:
+                    tags += key + " = " + element["tags"][key] + ","
+                print(
+                    "No category found for element with id",
+                    str(element["id"]),
+                    "and tags '" + tags + "' using default category",
+                )
 
         # TODO: I could also just discard the landmarks if I have no valid translation
 
@@ -321,9 +276,13 @@ class Command(BaseCommand):
             + str(len(unknown_tags))
             + " known tags: "
             + str(len(known_tags))
-            + "=> "
-            + str(len(known_tags) / (len(known_tags) + len(unknown_tags)) * 100)
-            + "%"
+            + " => "
+            + str(
+                round(
+                    (len(unknown_tags) / (len(known_tags) + len(unknown_tags)) * 100), 2
+                )
+            )
+            + "% untranslated tags"
         )
 
         output_limiter = 0
