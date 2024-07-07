@@ -289,21 +289,6 @@ class MatchLandmarksResource(View):
         response_json = {}
         response_json["success"] = True
 
-        if False:  # DEBUG
-            response_json["known_landmarks"] = len(known_landmarks)
-
-        if False:  # DEBUG
-            known_landmarks_list = []
-            for landmark in known_landmarks:
-                known_landmarks_list.append(
-                    {
-                        "type": landmark.type,
-                        "category": landmark.category,
-                        "coordinate": [landmark.coordinate.x, landmark.coordinate.y],
-                    }
-                )
-            response_json["known_landmarks_list"] = known_landmarks_list
-
         timestamp_before = time.time()
 
         response_json["matched_landmarks"] = match_landmarks_decisionpoints(
@@ -313,7 +298,7 @@ class MatchLandmarksResource(View):
         timestamp_after = time.time()
         length_route = len(route_points)
         print(
-            f"Time needed for matching landmarks: {round((timestamp_after - timestamp_before),2)} seconds for route with {length_route} points"
+            f"{round((timestamp_after - timestamp_before),2)} seconds needed for matching landmarks with route with {length_route} points"
         )
 
         return JsonResponse(response_json)
@@ -328,12 +313,8 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
     # The threshold in meters to match a landmark to a decision point
     THRESHOLD_IN_METERS = 50
 
-    # TODO: man bekommt ja eine Liste von Koordianten gegeben, also muss man die einfach nur durchiterieren und für alle, außer dem 1. (aber dem letzten als Ziel) die Landmarken matchen. Dazu braucht man einen gewissen Threshold
-
     # Key = coord of decision point, Value = best landmark
     landmarks_per_decisionpoint = {}
-
-    debug_return = {}
 
     for point in route_points:
         point_lon = point[0]
@@ -370,8 +351,5 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
             }
 
             landmarks_per_decisionpoint[decision_point] = found_landmark
-
-    if debug_return:
-        return debug_return
 
     return landmarks_per_decisionpoint
