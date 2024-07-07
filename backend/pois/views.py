@@ -8,7 +8,6 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
 from pois.models import Landmark, Poi, PoiLine
 
 
@@ -312,8 +311,9 @@ class MatchLandmarksResource(View):
         )
 
         timestamp_after = time.time()
+        length_route = len(route_points)
         print(
-            f"Time needed for matching landmarks: {round((timestamp_after - timestamp_before),2)} seconds"
+            f"Time needed for matching landmarks: {round((timestamp_after - timestamp_before),2)} seconds for route with {length_route} points"
         )
 
         return JsonResponse(response_json)
@@ -340,21 +340,19 @@ def match_landmarks_decisionpoints(route_points: list) -> dict:
         point_lat = point[1]
 
         coord = Point(point_lon, point_lat, srid=settings.LONLAT)
+        point_mercator = coord.transform(settings.METRICAL, clone=True)
 
         decision_point = f"{point_lat}, {point_lon}"
         landmarks_per_decisionpoint[decision_point] = {}
 
         # Check which landmark are within the threshold to the ecision point
         for landmark in Landmark.objects.filter(
-            coordinate__distance_lt=(coord, D(m=THRESHOLD_IN_METERS))
+            coordinate__distance_lt=(point_mercator, D(m=THRESHOLD_IN_METERS))
         ):
-            point_mercator = coord.transform(settings.METRICAL, clone=True)
             landmark_mercator = landmark.coordinate.transform(
                 settings.METRICAL, clone=True
             )
             distance: float = point_mercator.distance(landmark_mercator)
-
-            # TODO: ich habe immer noch den Bug, dass es trotzdem Landmarken matcht, die z.B. 59m entfernt sind
 
             # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
             if landmarks_per_decisionpoint[decision_point]:
