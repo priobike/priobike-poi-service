@@ -24,50 +24,6 @@ OSM_CATEGORIES = [
     "water",  # => no results in Dresden
 ]
 
-# def import_from_mapdata_service(area):
-#     print("Importing construction sites data from priobike-map-data")
-
-#     if area == "Dresden":
-#         base_url = "priobike.vkw.tu-dresden.de/staging"
-#     elif area == "Hamburg":
-#         base_url = "priobike.vkw.tu-dresden.de/production"
-#     else:
-#         raise ValueError(f"Unknown area: {area}")
-
-#     API = f"https://{base_url}/map-data/construction_sites_v2.geojson"
-#     print(f"Fetching construction sites from {API}")
-
-#     try:
-#         response = requests.get(API)
-#         response.raise_for_status()
-#         data = response.json()
-#     except Exception as e:
-#         print("Failed to fetch construction sites data: " + str(e))
-#         return
-
-#     print(f"Loaded {len(data['features'])} construction sites.")
-
-#     construction_sites = []
-
-#     for feature in data["features"]:
-#         try:
-#             construction_site = Poi(
-#                 coordinate=Point(
-#                     feature["geometry"]["coordinates"][0],
-#                     feature["geometry"]["coordinates"][1],
-#                     srid=4326,
-#                 ),
-#                 category="construction",
-#             )
-#             construction_sites.append(construction_site)
-#         except Exception as e:
-#             print("Failed to create construction site: " + str(e))
-
-#     print(f"{len(construction_sites)} construction successfully created.")
-
-#     Poi.objects.bulk_create(construction_sites)
-#     print(f"Imported {len(construction_sites)} construction sites")
-
 
 def build_overpass_query(bounding_box: str) -> str:
     """
@@ -292,5 +248,3 @@ class Command(BaseCommand):
             if output_limiter >= 20:
                 print("...and more")
                 break
-
-        # import_from_mapdata_service(area)        import_from_mapdata_service(area)
