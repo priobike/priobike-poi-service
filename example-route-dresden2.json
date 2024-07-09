@@ -1,0 +1,22 @@
+{
+    "elongation": 50,
+    "threshold": 500,
+    "comment": "Start bei Kreuzung Tepltzer Strate / Casper-David-Friedrich-Straße bis zur Nossener Brücke",
+    "route": [
+        {
+            "lat": 51.026472,
+            "lon": 13.755576,
+            "comment": "Kreuzung Teplitzer Straße / Caspar-David-Friedrich-Straße"
+        },
+        {
+            "lat": 51.030168,
+            "lon": 13.730896,
+            "comment": "Fritz-Foerster-Platz"
+        },
+        {
+            "lat": 51.036963,
+            "lon": 13.715688,
+            "comment": "Beginn Nossener Brücke"
+        }
+    ]
+}
