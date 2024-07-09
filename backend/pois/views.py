@@ -8,6 +8,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
+
 from pois.models import Landmark, Poi, PoiLine
 
 
@@ -254,14 +255,26 @@ class MatchLandmarksResource(View):
         if not isinstance(elongation, int) or elongation < 0:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid elongation."}))
 
-        route = json_data.get("route")
+        route = json_data.get("points")
         if not route:
             return HttpResponseBadRequest(json.dumps({"error": "No route data"}))
 
+        route_points = {}
+        index = 0
         try:
-            route_points = [(point["lon"], point["lat"]) for point in route]
+            for point in route["coordinates"]:
+                route_points[index] = {"lat": point[1], "lon": point[0]}
+                index += 1
+
         except KeyError:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid route data"}))
+
+        """
+        Result: route points as dictionary
+        "0": {"lat": 51.03015, "lon": 13.730835},
+        "1": {"lat": 51.030206, "lon": 13.730826},
+        "2": {"lat": 51.030301, "lon": 13.730626},
+        """
 
         # TODO: route linestrings brauche ich wahrscheinlich eher für die Landmarken auf den Segmenten. Das mache ich aber erst später
         # try:
@@ -278,22 +291,33 @@ class MatchLandmarksResource(View):
                 json.dumps({"error": "Route must have at least 2 points"})
             )
 
-        # Load Landmarks from the database
-        known_landmarks = Landmark.objects.all()
+        # Determine decision points on the route by taking the last point of each segments and use the according coordinates based on the index
 
-        if not known_landmarks:
-            return HttpResponseBadRequest(
-                json.dumps({"error": "No landmarks found in database"})
-            )
+        # Gets the intervals for each instruction and determine the according coordinates for the last point of each interval, i.e. the decision point
+        instructions = json_data.get("instructions")
 
-        response_json = {}
-        response_json["success"] = True
+        if not instructions:
+            return HttpResponseBadRequest(json.dumps({"error": "No instructions data"}))
 
         timestamp_before = time.time()
 
-        response_json["matched_landmarks"] = match_landmarks_decisionpoints(
-            route_points
-        )
+        # Dont use last element as it is the destination, therefore it has the same interval as the previous element
+        for segment in instructions[:-1]:
+            # Get the last point of the interval and determine the coordinates
+            index: int = segment["interval"][-1]
+            coord = route_points[index]
+            point_lon = coord["lon"]
+            point_lat = coord["lat"]
+
+            decision_point = Point(point_lon, point_lat, srid=settings.LONLAT)
+            landmark = match_landmarks_to_decisionpoint(decision_point)
+
+            # if landmark found, add it to the graphhopper request
+            # if no landmark found, keep the instruction as it is
+            if landmark:
+                text = segment["text"]
+                text += " bei " + landmark["type"]
+                segment["text"] = text
 
         timestamp_after = time.time()
         length_route = len(route_points)
@@ -301,55 +325,41 @@ class MatchLandmarksResource(View):
             f"{round((timestamp_after - timestamp_before),2)} seconds needed for matching landmarks with route with {length_route} points"
         )
 
-        return JsonResponse(response_json)
+        return JsonResponse(json_data)
 
 
-def match_landmarks_decisionpoints(route_points: list) -> dict:
+def match_landmarks_to_decisionpoint(decision_point: Point) -> dict:
     """
     Match landmarks to decision points on the route.
-    Since graphhopper only adds a new point when we have to change our direction, every point is a decision point.
     """
 
     # The threshold in meters to match a landmark to a decision point
     THRESHOLD_IN_METERS = 50
 
-    # Key = coord of decision point, Value = best landmark
-    landmarks_per_decisionpoint = {}
+    point_mercator = decision_point.transform(settings.METRICAL, clone=True)
 
-    for point in route_points:
-        point_lon = point[0]
-        point_lat = point[1]
+    found_landmark = None
 
-        coord = Point(point_lon, point_lat, srid=settings.LONLAT)
-        point_mercator = coord.transform(settings.METRICAL, clone=True)
+    # Check which landmark are within the threshold to the ecision point
+    for landmark in Landmark.objects.filter(
+        coordinate__distance_lt=(point_mercator, D(m=THRESHOLD_IN_METERS))
+    ):
+        landmark_mercator = landmark.coordinate.transform(settings.METRICAL, clone=True)
+        distance: float = point_mercator.distance(landmark_mercator)
 
-        decision_point = f"{point_lat}, {point_lon}"
-        landmarks_per_decisionpoint[decision_point] = {}
+        # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
+        if found_landmark:
+            old_distance = found_landmark["distance"]
+            if distance >= float(old_distance):
+                continue
 
-        # Check which landmark are within the threshold to the ecision point
-        for landmark in Landmark.objects.filter(
-            coordinate__distance_lt=(point_mercator, D(m=THRESHOLD_IN_METERS))
-        ):
-            landmark_mercator = landmark.coordinate.transform(
-                settings.METRICAL, clone=True
-            )
-            distance: float = point_mercator.distance(landmark_mercator)
+        found_landmark = {
+            "id": landmark.id,
+            "category": landmark.category,
+            "type": landmark.type,
+            "lat": landmark.coordinate.y,
+            "lon": landmark.coordinate.x,
+            "distance": round(distance, 4),
+        }
 
-            # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
-            if landmarks_per_decisionpoint[decision_point]:
-                old_distance = landmarks_per_decisionpoint[decision_point]["distance"]
-                if distance >= float(old_distance):
-                    continue
-
-            found_landmark = {
-                "id": landmark.id,
-                "category": landmark.category,
-                "type": landmark.type,
-                "lat": landmark.coordinate.y,
-                "lon": landmark.coordinate.x,
-                "distance": round(distance, 4),
-            }
-
-            landmarks_per_decisionpoint[decision_point] = found_landmark
-
-    return landmarks_per_decisionpoint
+    return found_landmark
