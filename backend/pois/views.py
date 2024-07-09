@@ -301,9 +301,11 @@ class MatchLandmarksResource(View):
 
         timestamp_before = time.time()
 
-        # Dont use last element as it is the destination, therefore it has the same interval as the previous element
+        landmarks_found = 0
+
+        # Don't use last element as it is the destination, therefore it has the same interval as the previous element
         for segment in instructions[:-1]:
-            # Get the last point of the interval and determine the coordinates
+            # Get the last index of the interval and determine the associated coordinates
             index: int = segment["interval"][-1]
             coord = route_points[index]
             point_lon = coord["lon"]
@@ -312,17 +314,21 @@ class MatchLandmarksResource(View):
             decision_point = Point(point_lon, point_lat, srid=settings.LONLAT)
             landmark = match_landmarks_to_decisionpoint(decision_point)
 
-            # if landmark found, add it to the graphhopper request
+            # if landmark found, add it to the text of the graphhopper request
             # if no landmark found, keep the instruction as it is
             if landmark:
                 text = segment["text"]
                 text += " bei " + landmark["type"]
                 segment["text"] = text
+                landmarks_found += 1
 
         timestamp_after = time.time()
         length_route = len(route_points)
         print(
-            f"{round((timestamp_after - timestamp_before),2)} seconds needed for matching landmarks with route with {length_route} points"
+            f"Statistics: {round((timestamp_after - timestamp_before),2)} seconds needed for matching landmarks with route with {length_route} points"
+        )
+        print(
+            f"Statistics: {landmarks_found} landmarks found for {len(instructions[:-1])} segments"
         )
 
         return JsonResponse(json_data)
