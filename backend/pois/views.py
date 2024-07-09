@@ -8,7 +8,6 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
 from pois.models import Landmark, Poi, PoiLine
 
 
@@ -308,12 +307,12 @@ class MatchLandmarksResource(View):
         for segment in instructions[:-1]:
             # Get the last index of the interval and determine the associated coordinates
             index: int = segment["interval"][-1]
-            coord = route_points[index]
+            coord: dict = route_points[index]
             point_lon = coord["lon"]
             point_lat = coord["lat"]
 
             decision_point = Point(point_lon, point_lat, srid=settings.LONLAT)
-            landmark = match_landmarks_to_decisionpoint(decision_point)
+            landmark = match_landmark_to_decisionpoint(decision_point)
 
             # if landmark found, add it to the text of the graphhopper request
             # if no landmark found, keep the instruction as it is
@@ -335,9 +334,9 @@ class MatchLandmarksResource(View):
         return JsonResponse(json_data)
 
 
-def match_landmarks_to_decisionpoint(decision_point: Point) -> dict:
+def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
     """
-    Match landmarks to decision points on the route.
+    Match a landmark to a decision point on the route.
     """
 
     # The threshold in meters to match a landmark to a decision point
