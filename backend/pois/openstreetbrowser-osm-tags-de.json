@@ -2810,7 +2810,7 @@
         "description": "Tag \"historic=locomotive\". See https://wiki.openstreetmap.org/wiki/Tag:historic=locomotive"
     },
     "tag:historic=manor": {
-        "message": "",
+        "message": "Herrenhaus",
         "description": "Tag \"historic=manor\". See https://wiki.openstreetmap.org/wiki/Tag:historic=manor"
     },
     "tag:historic=memorial": {
@@ -2838,7 +2838,7 @@
         "description": "Tag \"historic=pillory\". See https://wiki.openstreetmap.org/wiki/Tag:historic=pillory"
     },
     "tag:historic=railway_car": {
-        "message": "",
+        "message": "Eisenbahnwagen",
         "description": "Tag \"historic=railway_car\". See https://wiki.openstreetmap.org/wiki/Tag:historic=railway_car"
     },
     "tag:historic=ruins": {
@@ -2850,11 +2850,11 @@
         "description": "Tag \"historic=ship\". See https://wiki.openstreetmap.org/wiki/Tag:historic=ship"
     },
     "tag:historic=stone": {
-        "message": "",
+        "message": "Stein",
         "description": "Tag \"historic=stone\". See https://wiki.openstreetmap.org/wiki/Tag:historic=stone"
     },
     "tag:historic=technical_monument": {
-        "message": "",
+        "message": "Technisches Denkmal",
         "description": "Tag \"historic=technical_monument\". See https://wiki.openstreetmap.org/wiki/Tag:historic=technical_monument"
     },
     "tag:historic=tomb": {
@@ -4562,11 +4562,11 @@
         "description": "Key \"public_transport\". See https://wiki.openstreetmap.org/wiki/Key:public_transport"
     },
     "tag:public_transport=platform": {
-        "message": "",
+        "message": "Haltestelle",
         "description": "Tag \"public_transport=platform\". See https://wiki.openstreetmap.org/wiki/Tag:public_transport=platform"
     },
     "tag:public_transport=stop_position": {
-        "message": "",
+        "message": "Haltestelle",
         "description": "Tag \"public_transport=stop_position\". See https://wiki.openstreetmap.org/wiki/Tag:public_transport=stop_position"
     },
     "tag:railway": {
@@ -5394,7 +5394,7 @@
         "description": "Tag \"shop=tea\". See https://wiki.openstreetmap.org/wiki/Tag:shop=tea"
     },
     "tag:shop=ticket": {
-        "message": "",
+        "message": "Ticketverkauf",
         "description": "Tag \"shop=ticket\". See https://wiki.openstreetmap.org/wiki/Tag:shop=ticket"
     },
     "tag:shop=tobacco": {
@@ -6466,5 +6466,158 @@
     },
     "tag:historic=razed:watermill": {
         "message": "Wassermühle"
+    },
+    "tag:tourism=outlook_frame": {
+        "message": "Aussichtsrahmen"
+    },
+    "tag:railway=blockpost": {
+        "message": "Blockposten"
+    },
+    "tag:amenity=dog_toilet": {
+        "message": "Hundetoilette"
+    },
+    "tag:man_made=water_tower": {
+        "message": "Wasserturm"
+    },
+    "tag:leisure=table": {
+        "message": "Tisch"
+    },
+    "tag:man_made=guard_stone": {
+        "message": "Wachstein"
+    },
+    "tag:railway=jumpered": {
+        "message": "Überbrückung"
+    },
+    "tag:amenity=table": {
+        "message": "Tisch"
+    },
+    "tag:amenity=boat_rental": {
+        "message": "Bootsverleih"
+    },
+    "tag:amenity=trolley_bay": {
+        "message": "Einkaufswagen"
+    },
+    "tag:amenity=fireplug": {
+        "message": "Hydrant"
+    },
+    "tag:amenity=ticket_validator": {
+        "message": "Fahrscheinentwerter"
+    },
+    "tag:historic=razed:windmill": {
+        "message": "Windmühle"
+    },
+    "tag:amenity=wifihotspot": {
+        "message": "WLAN-Hotspot"
+    },
+    "tag:man_made=stele": {
+        "message": "Säule"
+    },
+    "tag:amenity=boat_storage": {
+        "message": "Bootslager"
+    },
+    "tag:amenity=bell": {
+        "message": "Glocke"
+    },
+    "tag:amenity=stroller_parking": {
+        "message": "Kinderwagenparkplatz"
+    },
+    "tag:amenity=parking_space": {
+        "message": "Parkplatz"
+    },
+    "tag:railway=signal": {
+        "message": "Bahn-Signal"
+    },
+    "tag:man_made=sign": {
+        "message": "Schild"
+    },
+    "tag:man_made=septic_tank": {
+        "message": "Klärgrube"
+    },
+    "tag:man_made=button": {
+        "message": "Knopf"
+    },
+    "tag:man_made=beacon": {
+        "message": "Leuchtfeuer"
+    },
+    "tag:man_made=insect_hotel": {
+        "message": "Insektenhotel"
+    },
+    "tag:man_made=planter": {
+        "message": "Blumentopf"
+    },
+    "tag:shop=funeral_directors": {
+        "message": "Bestattungsunternehmen"
+    },
+    "tag:railway=tram_level_crossing": {
+        "message": "Straßenbahnübergang"
+    },
+    "tag:amenity=water_point": {
+        "message": "Wasserstelle"
+    },
+    "tag:shop=car": {
+        "message": "Auto"
+    },
+    "tag:man_made=watermill": {
+        "message": "Wassermühle"
+    },
+    "tag:man_made=chimney": {
+        "message": "Schornstein"
+    },
+    "tag:man_made=ventilation_shaft": {
+        "message": "Belüftungsschacht"
+    },
+    "tag:man_made=water_tap": {
+        "message": "Wasserhahn"
+    },
+    "tag:man_made=collecting_chute": {
+        "message": "Sammelrutsche"
+    },
+    "tag:railway=phone": {
+        "message": "Telefon"
+    },
+    "tag:amenity=lost_property_office": {
+        "message": "Fundbüro"
+    },
+    "tag:historic=guidepost": {
+        "message": "Wegweiser"
+    },
+    "tag:amenity=fireplace": {
+        "message": "Kamin"
+    },
+    "tag:railway=rail_brake": {
+        "message": "Bremse"
+    },
+    "tag:shop=honey": {
+        "message": "Honiggeschäft"
+    },
+    "tag:amenity=animal_breeding": {
+        "message": "Tierzucht"
+    },
+    "tag:amenity=bicycle_repair_station": {
+        "message": "Fahrradreparaturstation"
+    },
+    "tag:man_made=pole": {
+        "message": "Mast"
+    },
+    "tag:shop=tattoo": {
+        "message": "Tätowierer"
+    },
+    "tag:railway=derail": {
+        "message": "Gleissperre"
+    },
+    "tag:amenity=healthcare": {
+        "message": "Gesundheitswesen"
+    },
+    "tag:railway=turntable": {
+        "message": "Drehscheibe"
+    },
+    "tag:historic=survey_point": {
+        "message": "Vermessungspunkt"
+    },
+    "tag:amenity=reception_desk": {
+        "message": "Rezeption"
+    },
+    "tag:railway=crossing;tram_crossing": {
+        "message": "Straßenbahnübergang"
     }
 }

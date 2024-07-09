@@ -301,6 +301,7 @@ class MatchLandmarksResource(View):
 
         timestamp_before = time.time()
 
+        # for statistics, keep track of how many landmarks were found
         landmarks_found = 0
 
         # Don't use last element as it is the destination, therefore it has the same interval as the previous element
@@ -365,7 +366,11 @@ def match_landmarks_to_decisionpoint(decision_point: Point) -> dict:
             "type": landmark.type,
             "lat": landmark.coordinate.y,
             "lon": landmark.coordinate.x,
-            "distance": round(distance, 4),
+            "distance": distance,
         }
+
+    # If it enough to keep the distance with 4 decimal places
+    if found_landmark:
+        found_landmark["distance"] = round(found_landmark["distance"], 4)
 
     return found_landmark
