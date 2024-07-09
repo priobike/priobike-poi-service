@@ -2786,7 +2786,7 @@
         "description": "Tag \"historic=exhibit\". See https://wiki.openstreetmap.org/wiki/Tag:historic=exhibit"
     },
     "tag:historic=farm": {
-        "message": "",
+        "message": "Bauernhof",
         "description": "Tag \"historic=farm\". See https://wiki.openstreetmap.org/wiki/Tag:historic=farm"
     },
     "tag:historic=flood_mark": {
@@ -2858,7 +2858,7 @@
         "description": "Tag \"historic=technical_monument\". See https://wiki.openstreetmap.org/wiki/Tag:historic=technical_monument"
     },
     "tag:historic=tomb": {
-        "message": "",
+        "message": "Grab",
         "description": "Tag \"historic=tomb\". See https://wiki.openstreetmap.org/wiki/Tag:historic=tomb"
     },
     "tag:historic=tower": {
@@ -4578,7 +4578,7 @@
         "description": "Tag \"railway=abandoned\". See https://wiki.openstreetmap.org/wiki/Tag:railway=abandoned"
     },
     "tag:railway=buffer_stop": {
-        "message": "",
+        "message": "Puffer",
         "description": "Tag \"railway=buffer_stop\". See https://wiki.openstreetmap.org/wiki/Tag:railway=buffer_stop"
     },
     "tag:railway=crossing": {
@@ -4586,7 +4586,7 @@
         "description": "Tag \"railway=crossing\". See https://wiki.openstreetmap.org/wiki/Tag:railway=crossing"
     },
     "tag:railway=crossing_box": {
-        "message": "",
+        "message": "Bahnübergangskasten",
         "description": "Tag \"railway=crossing_box\". See https://wiki.openstreetmap.org/wiki/Tag:railway=crossing_box"
     },
     "tag:railway=disused": {
@@ -5322,7 +5322,7 @@
         "description": "Tag \"shop=pastry\". See https://wiki.openstreetmap.org/wiki/Tag:shop=pastry"
     },
     "tag:shop=perfumery": {
-        "message": "",
+        "message": "Parfümerie",
         "description": "Tag \"shop=perfumery\". See https://wiki.openstreetmap.org/wiki/Tag:shop=perfumery"
     },
     "tag:shop=pet": {
@@ -6340,5 +6340,131 @@
     "tag:access=destination": {
         "message": "nur für Anlieger",
         "description": "Tag \"access=destination\". See https://wiki.openstreetmap.org/wiki/Tag:access=destination"
+    },
+    "tag:railway=fuel": {
+        "message": "Kraftstoff"
+    },
+    "tag:man_made=utility_pole": {
+        "message": "Versorgungsmast"
+    },
+    "tag:amenity=light_post": {
+        "message": "Straßenlaterne"
+    },
+    "tag:leisure=river": {
+        "message": "Fluss"
+    },
+    "tag:man_made=stone": {
+        "message": "Stein"
+    },
+    "tag:man_made=quay": {
+        "message": "Kai"
+    },
+    "tag:amenity=grit_bin": {
+        "message": "Streugutbehältnis"
+    },
+    "tag:railway=train_station_entrance": {
+        "message": "Bahnhofseingang"
+    },
+    "tag:amenity=game_feeding": {
+        "message": "Wildfütterung"
+    },
+    "tag:amenity=mobile_library": {
+        "message": "Mobile Bibliothek"
+    },
+    "tag:amenity=smoking_area": {
+        "message": "Raucherbereich"
+    },
+    "tag:amenity=stage": {
+        "message": "Bühne"
+    },
+    "tag:man_made=surveillance": {
+        "message": "Überwachung"
+    },
+    "tag:man_made=storage_tank": {
+        "message": "Speichertank"
+    },
+    "tag:man_made=tower": {
+        "message": "Turm"
+    },
+    "tag:amenity=stool": {
+        "message": "Stuhl"
+    },
+    "tag:man_made=MDF": {
+        "message": "MDF"
+    },
+    "tag:man_made=clothes_line": {
+        "message": "Wäscheleine"
+    },
+    "tag:shop=mobile_bakery": {
+        "message": "Mobiler Bäcker"
+    },
+    "tag:man_made=antenna": {
+        "message": "Antenne"
+    },
+    "tag:man_made=bridge": {
+        "message": "Brücke"
+    },
+    "tag:man_made=compass_rose": {
+        "message": "Windrose"
+    },
+    "tag:man_made=water_works": {
+        "message": "Wasserwerk"
+    },
+    "tag:man_made=beehive": {
+        "message": "Bienenstock"
+    },
+    "tag:man_made=street_lamp": {
+        "message": "Straßenlaterne"
+    },
+    "tag:man_made=mast": {
+        "message": "Mast"
+    },
+    "tag:historic=quarry": {
+        "message": "Steinbruch"
+    },
+    "tag:man_made=monitoring_station": {
+        "message": "Überwachungsstation"
+    },
+    "tag:railway=vacancy_detection": {
+        "message": "Leerstandserkennung"
+    },
+    "tag:amenity=letter_box": {
+        "message": "Briefkasten"
+    },
+    "tag:amenity=water_slide": {
+        "message": "Wasserrutsche"
+    },
+    "tag:man_made=survey_point": {
+        "message": "Vermessungspunkt"
+    },
+    "tag:historic=marker": {
+        "message": "Markierung"
+    },
+    "tag:amenity=kitchen": {
+        "message": "Küche"
+    },
+    "tag:man_made=telescope": {
+        "message": "Teleskop"
+    },
+    "tag:amenity=smoking": {
+        "message": "Raucherbereich"
+    },
+    "tag:man_made=adit": {
+        "message": "Stollen"
+    },
+    "tag:amenity=washing_machine": {
+        "message": "Waschmaschine"
+    },
+    "tag:railway=tram_crossing": {
+        "message": "Straßenbahnübergang"
+    },
+    "tag:amenity=mobile_bank": {
+        "message": "Mobile Bank"
+    },
+    "tag:amenity=dressing_room": {
+        "message": "Umkleide"
+    },
+    "tag:historic=razed:watermill": {
+        "message": "Wassermühle"
     }
 }

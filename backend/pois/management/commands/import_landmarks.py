@@ -241,10 +241,5 @@ class Command(BaseCommand):
             + "% untranslated tags"
         )
 
-        output_limiter = 0
         for category in unknown_tags:
             print("Unknown OSM tags for translation:", category)
-            output_limiter += 1
-            if output_limiter >= 20:
-                print("...and more")
-                break
