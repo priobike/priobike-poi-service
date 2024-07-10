@@ -2750,7 +2750,7 @@
         "description": "Tag \"historic=battlefield\". See https://wiki.openstreetmap.org/wiki/Tag:historic=battlefield"
     },
     "tag:historic=boundary_stone": {
-        "message": "",
+        "message": "Grenzstein",
         "description": "Tag \"historic=boundary_stone\". See https://wiki.openstreetmap.org/wiki/Tag:historic=boundary_stone"
     },
     "tag:historic=bridge": {
@@ -2758,7 +2758,7 @@
         "description": "Tag \"historic=bridge\". See https://wiki.openstreetmap.org/wiki/Tag:historic=bridge"
     },
     "tag:historic=building": {
-        "message": "",
+        "message": "Gebäude",
         "description": "Tag \"historic=building\". See https://wiki.openstreetmap.org/wiki/Tag:historic=building"
     },
     "tag:historic=cannon": {
@@ -2782,7 +2782,7 @@
         "description": "Tag \"historic=citywalls\". See https://wiki.openstreetmap.org/wiki/Tag:historic=citywalls"
     },
     "tag:historic=exhibit": {
-        "message": "",
+        "message": "Ausstellung",
         "description": "Tag \"historic=exhibit\". See https://wiki.openstreetmap.org/wiki/Tag:historic=exhibit"
     },
     "tag:historic=farm": {
@@ -2818,7 +2818,7 @@
         "description": "Tag \"historic=memorial\". See https://wiki.openstreetmap.org/wiki/Tag:historic=memorial"
     },
     "tag:historic=milestone": {
-        "message": "",
+        "message": "Meilenstein",
         "description": "Tag \"historic=milestone\". See https://wiki.openstreetmap.org/wiki/Tag:historic=milestone"
     },
     "tag:historic=mine": {
@@ -2842,7 +2842,7 @@
         "description": "Tag \"historic=railway_car\". See https://wiki.openstreetmap.org/wiki/Tag:historic=railway_car"
     },
     "tag:historic=ruins": {
-        "message": "",
+        "message": "Ruine",
         "description": "Tag \"historic=ruins\". See https://wiki.openstreetmap.org/wiki/Tag:historic=ruins"
     },
     "tag:historic=ship": {
@@ -3106,7 +3106,7 @@
         "description": "Key \"leisure\". See https://wiki.openstreetmap.org/wiki/Key:leisure"
     },
     "tag:leisure=adult_gaming_centre": {
-        "message": "",
+        "message": "Spielhalle",
         "description": "Tag \"leisure=adult_gaming_centre\". See https://wiki.openstreetmap.org/wiki/Tag:leisure=adult_gaming_centre"
     },
     "tag:leisure=amusement_arcade": {
@@ -4682,7 +4682,7 @@
         "description": "Tag \"railway=subway_entrance\". See https://wiki.openstreetmap.org/wiki/Tag:railway=subway_entrance"
     },
     "tag:railway=switch": {
-        "message": "",
+        "message": "Gleisweiche",
         "description": "Tag \"railway=switch\". See https://wiki.openstreetmap.org/wiki/Tag:railway=switch"
     },
     "tag:railway=tram": {
@@ -5010,7 +5010,7 @@
         "description": "Tag \"shop=bakery\". See https://wiki.openstreetmap.org/wiki/Tag:shop=bakery"
     },
     "tag:shop=beauty": {
-        "message": "",
+        "message": "Kosmetiksalon",
         "description": "Tag \"shop=beauty\". See https://wiki.openstreetmap.org/wiki/Tag:shop=beauty"
     },
     "tag:shop=bed": {
@@ -5110,7 +5110,7 @@
         "description": "Tag \"shop=dairy\". See https://wiki.openstreetmap.org/wiki/Tag:shop=dairy"
     },
     "tag:shop=deli": {
-        "message": "",
+        "message": "Feinkostladen",
         "description": "Tag \"shop=deli\". See https://wiki.openstreetmap.org/wiki/Tag:shop=deli"
     },
     "tag:shop=department_store": {
@@ -5418,7 +5418,7 @@
         "description": "Tag \"shop=vacant\". See https://wiki.openstreetmap.org/wiki/Tag:shop=vacant"
     },
     "tag:shop=variety_store": {
-        "message": "",
+        "message": "Gemischtwarenladen",
         "description": "Tag \"shop=variety_store\". See https://wiki.openstreetmap.org/wiki/Tag:shop=variety_store"
     },
     "tag:shop=video": {
@@ -6619,5 +6619,221 @@
     },
     "tag:railway=crossing;tram_crossing": {
         "message": "Straßenbahnübergang"
+    },
+    "tag:man_made=video_wall": {
+        "message": "Videowand"
+    },
+    "tag:amenity=device_charging_station": {
+        "message": "Ladestation"
+    },
+    "tag:amenity=bbq": {
+        "message": "Grillplatz"
+    },
+    "tag:man_made=marker": {
+        "message": "Markierung"
+    },
+    "tag:man_made=pumping_station": {
+        "message": "Pumpstation"
+    },
+    "tag:amenity=lounger": {
+        "message": "Liege"
+    },
+    "tag:amenity=locker": {
+        "message": "Schließfach"
+    },
+    "tag:railway=balise_group": {
+        "message": "Balise-Gruppe"
+    },
+    "tag:man_made=reservoir_covered": {
+        "message": "Überdachter Speicher"
+    },
+    "tag:man_made=charge_point": {
+        "message": "Ladestation"
+    },
+    "tag:amenity=animal_hitch": {
+        "message": "Tierhalterung"
+    },
+    "tag:amenity=parking_entrance": {
+        "message": "Parkplatz-Eingang"
+    },
+    "tag:sport=table_soccer": {
+        "message": "Tischfußball"
+    },
+    "tag:public_transport=info_board": {
+        "message": "Fahrplan"
+    },
+    "tag:man_made=communications_tower": {
+        "message": "Kommunikationsturm"
+    },
+    "tag:public_transport=platform_section_sign": {
+        "message": "Bahnsteigabschnittsschild"
+    },
+    "tag:amenity=weighbridge": {
+        "message": "Waage"
+    },
+    "tag:railway=power_supply": {
+        "message": "Stromversorgung"
+    },
+    "tag:railway=railway_crossing": {
+        "message": "Bahnübergang"
+    },
+    "tag:man_made=manhole": {
+        "message": "Schacht"
+    },
+    "tag:amenity=luggage_locker": {
+        "message": "Gepäckschließfach"
+    },
+    "tag:shop=massage": {
+        "message": "Massagesalon"
+    },
+    "tag:shop=caravan": {
+        "message": "Wohnwagengeschäft"
+    },
+    "tag:amenity=kneipp_water_cure": {
+        "message": "Kneipp-Wasseranwendung"
+    },
+    "tag:amenity=baking_oven": {
+        "message": "Backofen"
+    },
+    "tag:amenity=food_sharing": {
+        "message": "Lebensmittelteilen"
+    },
+    "tag:man_made=crane": {
+        "message": "Kran"
+    },
+    "tag:shop=gardener": {
+        "message": "Gärtner"
+    },
+    "tag:public_transport=destination_display": {
+        "message": "Zielanzeige"
+    },
+    "tag:man_made=street_cabinet": {
+        "message": "Straßenschrank"
+    },
+    "tag:amenity=photo_booth": {
+        "message": "Fotokabine"
+    },
+    "tag:amenity=driving_school": {
+        "message": "Fahrschule"
+    },
+    "tag:man_made=dovecote": {
+        "message": "Taubenhaus"
+    },
+    "tag:amenity=music_school": {
+        "message": "Musikschule"
+    },
+    "tag:historic=epigraph": {
+        "message": "Epigraph"
+    },
+    "tag:amenity=feeding_place": {
+        "message": "Tier-Futterplatz"
+    },
+    "tag:amenity=loading_dock": {
+        "message": "Laderampe"
+    },
+    "tag:man_made=flagpole": {
+        "message": "Fahnenmast"
+    },
+    "tag:amenity=give_box": {
+        "message": "Spendenbox"
+    },
+    "tag:railway=milestone": {
+        "message": "Meilenstein"
+    },
+    "tag:man_made=outfall": {
+        "message": "Auslass"
+    },
+    "tag:amenity=watering_place": {
+        "message": "Wasserstelle"
+    },
+    "tag:historic=Ober-Piependorf": {
+        "message": "Ober-Piependorf"
+    },
+    "tag:railway=water_crane": {
+        "message": "Wasserkran"
+    },
+    "tag:railway=switch;milestone": {
+        "message": "Weiche;Meilenstein"
+    },
+    "tag:man_made=nesting_site": {
+        "message": "Nistplatz"
+    },
+    "tag:man_made=cross": {
+        "message": "Kreuz"
+    },
+    "tag:man_made=historic": {
+        "message": "Historisches Objekt"
+    },
+    "tag:man_made=observatory": {
+        "message": "Observatorium"
+    },
+    "tag:man_made=particle_accelerator": {
+        "message": "Teilchenbeschleuniger"
+    },
+    "tag:man_made=flow_control": {
+        "message": "Wehr"
+    },
+    "tag:amenity=vehicle_ramp": {
+        "message": "Fahrzeugrampe"
+    },
+    "tag:historic=mine_adit": {
+        "message": "Bergwerkstollen"
+    },
+    "tag:amenity=hunting_stand": {
+        "message": "Jagdstand"
+    },
+    "tag:amenity=feeding_rack": {
+        "message": "Futtertrog"
+    },
+    "tag:amenity=sanitary_dump_station": {
+        "message": "Entsorgungsstation"
+    },
+    "tag:man_made=sport_feature": {
+        "message": "Sportgerät"
+    },
+    "tag:historic=highwater_mark": {
+        "message": "Hochwassermarkierung"
+    },
+    "tag:amenity=waiting_area": {
+        "message": "Wartebereich"
+    },
+    "tag:leisure=diving_platform": {
+        "message": "Sprungturm"
+    },
+    "tag:man_made=works": {
+        "message": "Werk"
+    },
+    "tag:amenity=hunting_blind": {
+        "message": "Jagdstand"
+    },
+    "tag:man_made=surge_tank": {
+        "message": "Druckausgleichsbehälter"
+    },
+    "tag:shop=cosmetics": {
+        "message": "Kosmetikgeschäft"
+    },
+    "tag:man_made=fuel_pump": {
+        "message": "Kraftstoffpumpe"
+    },
+    "tag:man_made=water_well": {
+        "message": "Brunnen"
+    },
+    "tag:amenity=moneychanger": {
+        "message": "Geldwechsel"
+    },
+    "tag:amenity=library_dropoff": {
+        "message": "Bücherei-Rückgabe"
+    },
+    "tag:amenity=vacuum_cleaner": {
+        "message": "Staubsauger"
+    },
+    "tag:man_made=advertising": {
+        "message": "Werbung"
+    },
+    "tag:shop=motorcycle_repair": {
+        "message": "Motorradreparatur"
+    },
+    "tag:amenity=billboard": {
+        "message": "Plakatwand"
     }
 }
