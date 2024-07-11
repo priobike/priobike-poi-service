@@ -317,8 +317,7 @@ class MatchLandmarksResource(View):
             # if landmark found, add it to the text of the graphhopper request
             # if no landmark found, keep the instruction as it is
             if landmark:
-                text = segment["text"]
-                text += " bei " + landmark["type"]
+                text = "Bei " + landmark["type"] + " " + segment["text"]
                 segment["text"] = text
                 landmarks_found += 1
 
