@@ -6378,7 +6378,7 @@
         "message": "Bühne"
     },
     "tag:man_made=surveillance": {
-        "message": "Überwachung"
+        "message": "Überwachungsanlage"
     },
     "tag:man_made=storage_tank": {
         "message": "Speichertank"
@@ -6678,7 +6678,7 @@
         "message": "Bahnübergang"
     },
     "tag:man_made=manhole": {
-        "message": "Schacht"
+        "message": "Gullydeckel"
     },
     "tag:amenity=luggage_locker": {
         "message": "Gepäckschließfach"
@@ -6708,7 +6708,7 @@
         "message": "Zielanzeige"
     },
     "tag:man_made=street_cabinet": {
-        "message": "Straßenschrank"
+        "message": "Stromkästen"
     },
     "tag:amenity=photo_booth": {
         "message": "Fotokabine"
