@@ -24,6 +24,10 @@ OSM_CATEGORIES = [
     "water",  # => no results in Dresden
 ]
 
+# OSM tags that are not useful for the user
+# Must be translated to german exacly as in the translation table
+BLACKLIST = []
+
 
 def build_overpass_query(bounding_box: str) -> str:
     """
@@ -94,7 +98,7 @@ def import_from_overpass(bounding_box: str):
         # type = i.e. "Kino"
         # category = i.e. "amenity" (the category used by openstreetmap/overpass)
 
-        # Preferentially use the name tag as type
+        # Always preferentially use the name tag as type
         if "name" in element["tags"]:
             type = element["tags"]["name"]
             for category in OSM_CATEGORIES:
@@ -107,6 +111,8 @@ def import_from_overpass(bounding_box: str):
         else:
             for category in OSM_CATEGORIES:
                 if category in element["tags"]:
+                    if translate_tag(category, element["tags"][category]) in BLACKLIST:
+                        continue
                     type = translate_tag(category, element["tags"][category])
                     category = translate_tag(category, "")
                     break
