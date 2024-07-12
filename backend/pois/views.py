@@ -325,6 +325,7 @@ class MatchLandmarksResource(View):
                 )
                 segment["text"] = text
                 landmarks_found += 1
+                segment["landmark"] = landmark
 
         timestamp_after = time.time()
         length_route = len(route_points)
