@@ -2774,7 +2774,7 @@
         "description": "Tag \"historic=church\". See https://wiki.openstreetmap.org/wiki/Tag:historic=church"
     },
     "tag:historic=city_gate": {
-        "message": "",
+        "message": "Stadttor",
         "description": "Tag \"historic=city_gate\". See https://wiki.openstreetmap.org/wiki/Tag:historic=city_gate"
     },
     "tag:historic=citywalls": {
@@ -2790,7 +2790,7 @@
         "description": "Tag \"historic=farm\". See https://wiki.openstreetmap.org/wiki/Tag:historic=farm"
     },
     "tag:historic=flood_mark": {
-        "message": "",
+        "message": "Hochwassermarkierung",
         "description": "Tag \"historic=flood_mark\". See https://wiki.openstreetmap.org/wiki/Tag:historic=flood_mark"
     },
     "tag:historic=fort": {
@@ -2846,7 +2846,7 @@
         "description": "Tag \"historic=ruins\". See https://wiki.openstreetmap.org/wiki/Tag:historic=ruins"
     },
     "tag:historic=ship": {
-        "message": "",
+        "message": "Schiff",
         "description": "Tag \"historic=ship\". See https://wiki.openstreetmap.org/wiki/Tag:historic=ship"
     },
     "tag:historic=stone": {
@@ -5058,7 +5058,7 @@
         "description": "Tag \"shop=carpet\". See https://wiki.openstreetmap.org/wiki/Tag:shop=carpet"
     },
     "tag:shop=charity": {
-        "message": "",
+        "message": "Wohltätigkeitsladen",
         "description": "Tag \"shop=charity\". See https://wiki.openstreetmap.org/wiki/Tag:shop=charity"
     },
     "tag:shop=cheese": {
@@ -5098,11 +5098,11 @@
         "description": "Tag \"shop=copyshop\". See https://wiki.openstreetmap.org/wiki/Tag:shop=copyshop"
     },
     "tag:shop=craft": {
-        "message": "",
+        "message": "Handwerksladen",
         "description": "Tag \"shop=craft\". See https://wiki.openstreetmap.org/wiki/Tag:shop=craft"
     },
     "tag:shop=curtain": {
-        "message": "",
+        "message": "Jalousiengeschäft",
         "description": "Tag \"shop=curtain\". See https://wiki.openstreetmap.org/wiki/Tag:shop=curtain"
     },
     "tag:shop=dairy": {
@@ -5162,7 +5162,7 @@
         "description": "Tag \"shop=fish\". See https://wiki.openstreetmap.org/wiki/Tag:shop=fish"
     },
     "tag:shop=fishing": {
-        "message": "",
+        "message": "Angelladen",
         "description": "Tag \"shop=fishing\". See https://wiki.openstreetmap.org/wiki/Tag:shop=fishing"
     },
     "tag:shop=fishmonger": {
@@ -5222,7 +5222,7 @@
         "description": "Tag \"shop=hardware\". See https://wiki.openstreetmap.org/wiki/Tag:shop=hardware"
     },
     "tag:shop=health_food": {
-        "message": "",
+        "message": "Naturkostladen",
         "description": "Tag \"shop=health_food\". See https://wiki.openstreetmap.org/wiki/Tag:shop=health_food"
     },
     "tag:shop=hearing_aids": {
@@ -5242,7 +5242,7 @@
         "description": "Tag \"shop=ice_cream\". See https://wiki.openstreetmap.org/wiki/Tag:shop=ice_cream"
     },
     "tag:shop=interior_decoration": {
-        "message": "",
+        "message": "Innenausstatter",
         "description": "Tag \"shop=interior_decoration\". See https://wiki.openstreetmap.org/wiki/Tag:shop=interior_decoration"
     },
     "tag:shop=jewelry": {
@@ -5270,7 +5270,7 @@
         "description": "Tag \"shop=market\". See https://wiki.openstreetmap.org/wiki/Tag:shop=market"
     },
     "tag:shop=medical_supply": {
-        "message": "",
+        "message": "Medizinbedarfsgeschäft",
         "description": "Tag \"shop=medical_supply\". See https://wiki.openstreetmap.org/wiki/Tag:shop=medical_supply"
     },
     "tag:shop=mobile_phone": {
@@ -5278,7 +5278,7 @@
         "description": "Tag \"shop=mobile_phone\". See https://wiki.openstreetmap.org/wiki/Tag:shop=mobile_phone"
     },
     "tag:shop=model": {
-        "message": "",
+        "message": "Modelbaugeschäft",
         "description": "Tag \"shop=model\". See https://wiki.openstreetmap.org/wiki/Tag:shop=model"
     },
     "tag:shop=motorcycle": {
@@ -5290,7 +5290,7 @@
         "description": "Tag \"shop=music\". See https://wiki.openstreetmap.org/wiki/Tag:shop=music"
     },
     "tag:shop=musical_instrument": {
-        "message": "",
+        "message": "Instrumentengeschäft",
         "description": "Tag \"shop=musical_instrument\". See https://wiki.openstreetmap.org/wiki/Tag:shop=musical_instrument"
     },
     "tag:shop=newsagent": {
@@ -5346,7 +5346,7 @@
         "description": "Tag \"shop=second_hand\". See https://wiki.openstreetmap.org/wiki/Tag:shop=second_hand"
     },
     "tag:shop=sewing": {
-        "message": "",
+        "message": "Nähgeschäft",
         "description": "Tag \"shop=sewing\". See https://wiki.openstreetmap.org/wiki/Tag:shop=sewing"
     },
     "tag:shop=shoemaker": {
@@ -5374,7 +5374,7 @@
         "description": "Tag \"shop=stationery\". See https://wiki.openstreetmap.org/wiki/Tag:shop=stationery"
     },
     "tag:shop=storage_rental": {
-        "message": "",
+        "message": "Lagervermietung",
         "description": "Tag \"shop=storage_rental\". See https://wiki.openstreetmap.org/wiki/Tag:shop=storage_rental"
     },
     "tag:shop=supermarket": {
@@ -5426,7 +5426,7 @@
         "description": "Tag \"shop=video\". See https://wiki.openstreetmap.org/wiki/Tag:shop=video"
     },
     "tag:shop=video_games": {
-        "message": "",
+        "message": "Videospielgeschäft",
         "description": "Tag \"shop=video_games\". See https://wiki.openstreetmap.org/wiki/Tag:shop=video_games"
     },
     "tag:shop=watches": {
@@ -6835,5 +6835,227 @@
     },
     "tag:amenity=billboard": {
         "message": "Plakatwand"
+    },
+    "tag:leisure=point_of_interest": {
+        "message": "Sehenswürdigkeit"
+    },
+    "tag:amenity=animal_training": {
+        "message": "Tiertraining"
+    },
+    "tag:shop=bathroom_furnishing": {
+        "message": "Badezimmerausstattungsgeschäft"
+    },
+    "tag:amenity=stripclub": {
+        "message": "Stripclub"
+    },
+    "tag:shop=paint": {
+        "message": "Farbengeschäft"
+    },
+    "tag:sport=martial_arts": {
+        "message": "Kampfsport"
+    },
+    "tag:railway=site": {
+        "message": "Bahnstelle"
+    },
+    "tag:amenity=research_institute": {
+        "message": "Forschungsinstitut"
+    },
+    "tag:public_transport=service_point": {
+        "message": "Servicepunkt"
+    },
+    "tag:shop=wigs": {
+        "message": "Perückengeschäft"
+    },
+    "tag:railway=junction": {
+        "message": "Bahnkreuzung"
+    },
+    "tag:shop=gold": {
+        "message": "Goldgeschäft"
+    },
+    "tag:amenity=payment_terminal": {
+        "message": "Zahlungsterminal"
+    },
+    "tag:shop=tape": {
+        "message": "Klebebandgeschäft"
+    },
+    "tag:shop=window_blind": {
+        "message": "Jalousiengeschäft"
+    },
+    "tag:shop=electronics_repair": {
+        "message": "Elektronikreparaturgeschäft"
+    },
+    "tag:leisure=trampoline_park": {
+        "message": "Trampolinpark"
+    },
+    "tag:shop=collector": {
+        "message": "Sammlerbedarfsgeschäft"
+    },
+    "tag:amenity=social_centre": {
+        "message": "Sozialzentrum"
+    },
+    "tag:amenity=dojo": {
+        "message": "Dojo"
+    },
+    "tag:amenity=events_venue": {
+        "message": "Veranstaltungsort"
+    },
+    "tag:shop=chess": {
+        "message": "Schachgeschäft"
+    },
+    "tag:man_made=inscet_hotel": {
+        "message": "Insektenhotel"
+    },
+    "tag:shop=fan": {
+        "message": "Ventilatorgeschäft"
+    },
+    "tag:amenity=stables": {
+        "message": "Ställe"
+    },
+    "tag:shop=nutrition_supplements": {
+        "message": "Nahrungsergänzungsgeschäft"
+    },
+    "tag:leisure=spa": {
+        "message": "Spa"
+    },
+    "tag:shop=security": {
+        "message": "Sicherheitsgeschäft"
+    },
+    "tag:sport=judo": {
+        "message": "Judo"
+    },
+    "tag:amenity=animal_shelter;animal rescue": {
+        "message": "Tierheim; Tierrettung"
+    },
+    "tag:shop=printer_ink": {
+        "message": "Druckertintengeschäft"
+    },
+    "tag:historic=watermill": {
+        "message": "Wassermühle"
+    },
+    "tag:shop=philately": {
+        "message": "Philateliegeschäft"
+    },
+    "tag:shop=gas": {
+        "message": "Gasgeschäft"
+    },
+    "tag:amenity=coworking_space": {
+        "message": "Coworking Space"
+    },
+    "tag:amenity=animal_shelter": {
+        "message": "Tierheim"
+    },
+    "tag:shop=shoe_repair": {
+        "message": "Schuhreparaturgeschäft"
+    },
+    "tag:amenity=casino": {
+        "message": "Casino"
+    },
+    "tag:amenity=refugee_site": {
+        "message": "Flüchtlingslager"
+    },
+    "tag:shop=pest_control": {
+        "message": "Schädlingsbekämpfungsgeschäft"
+    },
+    "tag:shop=pottery": {
+        "message": "Töpfereigeschäft"
+    },
+    "tag:tourism=guest_house;apartment": {
+        "message": "Gästehaus; Wohnung"
+    },
+    "tag:leisure=escape_game": {
+        "message": "Escape Game"
+    },
+    "tag:amenity=vehicle_inspection": {
+        "message": "Fahrzeugprüfung"
+    },
+    "tag:amenity=music_school; art_school": {
+        "message": "Musikschule; Kunstschule"
+    },
+    "tag:leisure=tanning_salon": {
+        "message": "Sonnenstudio"
+    },
+    "tag:shop=pet_grooming": {
+        "message": "Haustierpflegengeschäft"
+    },
+    "tag:shop=cannabis": {
+        "message": "Cannabisgeschäft"
+    },
+    "tag:shop=locksmith": {
+        "message": "Schlüsseldienstgeschäft"
+    },
+    "tag:amenity=exhibition_hall": {
+        "message": "Ausstellungshalle"
+    },
+    "tag:shop=scooter": {
+        "message": "Rollergeschäft"
+    },
+    "tag:man_made=maypole": {
+        "message": "Maibaum"
+    },
+    "tag:amenity=conference_centre": {
+        "message": "Konferenzzentrum"
+    },
+    "tag:amenity=workshop": {
+        "message": "Werkstatt"
+    },
+    "tag:shop=gift;tea": {
+        "message": "Geschenkeladen; Teegeschäft"
+    },
+    "tag:shop=windows": {
+        "message": "Fenstergeschäft"
+    },
+    "tag:amenity=concert_hall": {
+        "message": "Konzerthalle"
+    },
+    "tag:amenity=dive_centre": {
+        "message": "Tauchzentrum"
+    },
+    "tag:shop=porcelain": {
+        "message": "Porzellangeschäft"
+    },
+    "tag:historic=railway": {
+        "message": "Eisenbahn"
+    },
+    "tag:shop=glaziery": {
+        "message": "Glasereigeschäft"
+    },
+    "tag:amenity=cooking_school": {
+        "message": "Kochschule"
+    },
+    "tag:sport=climbing;hiking": {
+        "message": "Klettern; Wandern"
+    },
+    "tag:shop=flooring": {
+        "message": "Bodenbelagsgeschäft"
+    },
+    "tag:amenity=nightclub": {
+        "message": "Nachtclub"
+    },
+    "tag:shop=catalogue": {
+        "message": "Kataloggeschäft"
+    },
+    "tag:shop=folk_art": {
+        "message": "Volkskunstgeschäft"
+    },
+    "tag:amenity=training": {
+        "message": "Training"
+    },
+    "tag:amenity=binoculars": {
+        "message": "Fernglas"
+    },
+    "tag:amenity=post_depot": {
+        "message": "Postdepot"
+    },
+    "tag:amenity=health_facility": {
+        "message": "Gesundheitseinrichtung"
+    },
+    "tag:railway=service_station": {
+        "message": "Servicebahnhof"
+    },
+    "tag:amenity=care_home": {
+        "message": "Pflegeheim"
+    },
+    "tag:shop=photo_studio": {
+        "message": "Fotostudio"
     }
 }

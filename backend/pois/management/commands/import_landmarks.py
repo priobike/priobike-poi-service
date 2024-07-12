@@ -250,4 +250,4 @@ class Command(BaseCommand):
         )
 
         for category in unknown_tags:
-            print("Unknown OSM tags for translation:", category)
+            print(category)
