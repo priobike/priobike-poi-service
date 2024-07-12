@@ -24,8 +24,13 @@ OSM_CATEGORIES = [
     "water",  # => no results in Dresden
 ]
 
-# OSM tags that are not useful for the user
-# Must be translated to german exacly as in the translation table
+# OSM Tags that are not useful and therefore discarded
+BLACKLIST = [
+    "Bahnübergang",
+    "Eisenbahnübergang",
+    "Gleisweiche",
+]
+# Tags "Bahnübergang" und "Eisenbahnübergang" sind häufig nicht hilfreich, da man bei vielen Straßen parallel zu Bahnstrecke fährt
 
 
 def build_overpass_query(bounding_box: str) -> str:
@@ -125,6 +130,9 @@ def import_from_overpass(bounding_box: str):
                 "and tags '" + tags + "' using default category",
             )
 
+        if type in BLACKLIST:
+            continue
+
         # Create a Landmark object
         landmark = Landmark(
             id=element["id"],
@@ -219,7 +227,7 @@ class Command(BaseCommand):
         global translation_table
 
         # load translation table for osm tags
-        PATH = "backend/pois/openstreetbrowser-osm-tags-de.json"
+        PATH = "backend/pois/osm-tags-de.json"
         with open(PATH, "r") as file:
             translation_table = json.load(file)
 
