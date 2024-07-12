@@ -2734,7 +2734,7 @@
         "description": "Tag \"historic:civilization=western_roman\". See https://wiki.openstreetmap.org/wiki/Tag:historic:civilization=western_roman"
     },
     "tag:historic=aircraft": {
-        "message": "",
+        "message": "Flugzeug",
         "description": "Tag \"historic=aircraft\". See https://wiki.openstreetmap.org/wiki/Tag:historic=aircraft"
     },
     "tag:historic=aqueduct": {
@@ -2754,7 +2754,7 @@
         "description": "Tag \"historic=boundary_stone\". See https://wiki.openstreetmap.org/wiki/Tag:historic=boundary_stone"
     },
     "tag:historic=bridge": {
-        "message": "",
+        "message": "Brücke",
         "description": "Tag \"historic=bridge\". See https://wiki.openstreetmap.org/wiki/Tag:historic=bridge"
     },
     "tag:historic=building": {
@@ -2798,7 +2798,7 @@
         "description": "Tag \"historic=fort\". See https://wiki.openstreetmap.org/wiki/Tag:historic=fort"
     },
     "tag:historic=industrial": {
-        "message": "",
+        "message": "Industrie",
         "description": "Tag \"historic=industrial\". See https://wiki.openstreetmap.org/wiki/Tag:historic=industrial"
     },
     "tag:historic=kiln": {
@@ -2806,7 +2806,7 @@
         "description": "Tag \"historic=kiln\". See https://wiki.openstreetmap.org/wiki/Tag:historic=kiln"
     },
     "tag:historic=locomotive": {
-        "message": "",
+        "message": "Lokomotive",
         "description": "Tag \"historic=locomotive\". See https://wiki.openstreetmap.org/wiki/Tag:historic=locomotive"
     },
     "tag:historic=manor": {
@@ -3170,7 +3170,7 @@
         "description": "Tag \"leisure=golf_course\". See https://wiki.openstreetmap.org/wiki/Tag:leisure=golf_course"
     },
     "tag:leisure=hackerspace": {
-        "message": "",
+        "message": "Hackerspace",
         "description": "Tag \"leisure=hackerspace\". See https://wiki.openstreetmap.org/wiki/Tag:leisure=hackerspace"
     },
     "tag:leisure=horse_riding": {
@@ -3358,7 +3358,7 @@
         "description": "Key \"man_made\". See https://wiki.openstreetmap.org/wiki/Key:man_made"
     },
     "tag:man_made=mineshaft": {
-        "message": "",
+        "message": "Bergwerksschacht",
         "description": "Tag \"man_made=mineshaft\". See https://wiki.openstreetmap.org/wiki/Tag:man_made=mineshaft"
     },
     "tag:man_made=pipeline": {
@@ -4698,7 +4698,7 @@
         "description": "Tag \"railway=tram_stop\". See https://wiki.openstreetmap.org/wiki/Tag:railway=tram_stop"
     },
     "tag:railway=yard": {
-        "message": "",
+        "message": "Bahnhofsgelände",
         "description": "Tag \"railway=yard\". See https://wiki.openstreetmap.org/wiki/Tag:railway=yard"
     },
     "tag:real_ale": {
@@ -4974,7 +4974,7 @@
         "description": "Key \"shop\". See https://wiki.openstreetmap.org/wiki/Key:shop"
     },
     "tag:shop=agrarian": {
-        "message": "",
+        "message": "Agrargeschäft",
         "description": "Tag \"shop=agrarian\". See https://wiki.openstreetmap.org/wiki/Tag:shop=agrarian"
     },
     "tag:shop=alcohol": {
@@ -4982,7 +4982,7 @@
         "description": "Tag \"shop=alcohol\". See https://wiki.openstreetmap.org/wiki/Tag:shop=alcohol"
     },
     "tag:shop=anime": {
-        "message": "",
+        "message": "Animegeschäft",
         "description": "Tag \"shop=anime\". See https://wiki.openstreetmap.org/wiki/Tag:shop=anime"
     },
     "tag:shop=antiques": {
@@ -5086,7 +5086,7 @@
         "description": "Tag \"shop=computer\". See https://wiki.openstreetmap.org/wiki/Tag:shop=computer"
     },
     "tag:shop=confectionery": {
-        "message": "",
+        "message": "Süßwarengeschäft",
         "description": "Tag \"shop=confectionery\". See https://wiki.openstreetmap.org/wiki/Tag:shop=confectionery"
     },
     "tag:shop=convenience": {
@@ -5106,7 +5106,7 @@
         "description": "Tag \"shop=curtain\". See https://wiki.openstreetmap.org/wiki/Tag:shop=curtain"
     },
     "tag:shop=dairy": {
-        "message": "",
+        "message": "Milchgeschäft",
         "description": "Tag \"shop=dairy\". See https://wiki.openstreetmap.org/wiki/Tag:shop=dairy"
     },
     "tag:shop=deli": {
@@ -5126,11 +5126,11 @@
         "description": "Tag \"shop=dry_cleaning\". See https://wiki.openstreetmap.org/wiki/Tag:shop=dry_cleaning"
     },
     "tag:shop=e-cigarette": {
-        "message": "",
+        "message": "E-Zigarettenladen",
         "description": "Tag \"shop=e-cigarette\". See https://wiki.openstreetmap.org/wiki/Tag:shop=e-cigarette"
     },
     "tag:shop=electrical": {
-        "message": "",
+        "message": "Elektrogeschäft",
         "description": "Tag \"shop=electrical\". See https://wiki.openstreetmap.org/wiki/Tag:shop=electrical"
     },
     "tag:shop=electronics": {
@@ -5146,7 +5146,7 @@
         "description": "Tag \"shop=estate_agent\". See https://wiki.openstreetmap.org/wiki/Tag:shop=estate_agent"
     },
     "tag:shop=fabric": {
-        "message": "",
+        "message": "Stoffgeschäft",
         "description": "Tag \"shop=fabric\". See https://wiki.openstreetmap.org/wiki/Tag:shop=fabric"
     },
     "tag:shop=farm": {
@@ -5178,7 +5178,7 @@
         "description": "Tag \"shop=florist\". See https://wiki.openstreetmap.org/wiki/Tag:shop=florist"
     },
     "tag:shop=frame": {
-        "message": "",
+        "message": "Rahmengeschäft",
         "description": "Tag \"shop=frame\". See https://wiki.openstreetmap.org/wiki/Tag:shop=frame"
     },
     "tag:shop=frozen_food": {
@@ -5190,7 +5190,7 @@
         "description": "Tag \"shop=furniture\". See https://wiki.openstreetmap.org/wiki/Tag:shop=furniture"
     },
     "tag:shop=games": {
-        "message": "",
+        "message": "Spieleladen",
         "description": "Tag \"shop=games\". See https://wiki.openstreetmap.org/wiki/Tag:shop=games"
     },
     "tag:shop=garden_centre": {
@@ -5198,7 +5198,7 @@
         "description": "Tag \"shop=garden_centre\". See https://wiki.openstreetmap.org/wiki/Tag:shop=garden_centre"
     },
     "tag:shop=general": {
-        "message": "",
+        "message": "Gemischtwarenladen",
         "description": "Tag \"shop=general\". See https://wiki.openstreetmap.org/wiki/Tag:shop=general"
     },
     "tag:shop=gift": {
@@ -5234,7 +5234,7 @@
         "description": "Tag \"shop=hifi\". See https://wiki.openstreetmap.org/wiki/Tag:shop=hifi"
     },
     "tag:shop=houseware": {
-        "message": "",
+        "message": "Haushaltswarengeschäft",
         "description": "Tag \"shop=houseware\". See https://wiki.openstreetmap.org/wiki/Tag:shop=houseware"
     },
     "tag:shop=ice_cream": {
@@ -5310,11 +5310,11 @@
         "description": "Tag \"shop=outdoor\". See https://wiki.openstreetmap.org/wiki/Tag:shop=outdoor"
     },
     "tag:shop=party": {
-        "message": "",
+        "message": "Partybedarf",
         "description": "Tag \"shop=party\". See https://wiki.openstreetmap.org/wiki/Tag:shop=party"
     },
     "tag:shop=pasta": {
-        "message": "",
+        "message": "Nudelladen",
         "description": "Tag \"shop=pasta\". See https://wiki.openstreetmap.org/wiki/Tag:shop=pasta"
     },
     "tag:shop=pastry": {
@@ -5334,7 +5334,7 @@
         "description": "Tag \"shop=photo\". See https://wiki.openstreetmap.org/wiki/Tag:shop=photo"
     },
     "tag:shop=printing": {
-        "message": "",
+        "message": "Druckerei",
         "description": "Tag \"shop=printing\". See https://wiki.openstreetmap.org/wiki/Tag:shop=printing"
     },
     "tag:shop=seafood": {
@@ -5486,7 +5486,7 @@
         "description": "Tag \"sport=9pin\". See https://wiki.openstreetmap.org/wiki/Tag:sport=9pin"
     },
     "tag:sport=american_football": {
-        "message": "",
+        "message": "American Football",
         "description": "Tag \"sport=american_football\". See https://wiki.openstreetmap.org/wiki/Tag:sport=american_football"
     },
     "tag:sport=archery": {
@@ -7057,5 +7057,230 @@
     },
     "tag:shop=photo_studio": {
         "message": "Fotostudio"
+    },
+    "tag:amenity=money_transfer": {
+        "message": "Geldtransfer"
+    },
+    "tag:shop=outpost": {
+        "message": "Aussenposten"
+    },
+    "tag:shop=candles": {
+        "message": "Kerzenladen"
+    },
+    "tag:historic=waterway": {
+        "message": "Wasserweg"
+    },
+    "tag:shop=car_preparation": {
+        "message": "Autovorbereitung"
+    },
+    "tag:shop=printshop": {
+        "message": "Druckerei"
+    },
+    "tag:shop=drones": {
+        "message": "Drohnenladen"
+    },
+    "tag:amenity=swingerclub": {
+        "message": "Swingerclub"
+    },
+    "tag:shop=merchandise": {
+        "message": "Handelsware"
+    },
+    "tag:amenity=dancing_school": {
+        "message": "Tanzschule"
+    },
+    "tag:sport=ski": {
+        "message": "Ski"
+    },
+    "tag:railway=crossover": {
+        "message": "Kreuzung"
+    },
+    "tag:shop=sauna": {
+        "message": "Saunashop"
+    },
+    "tag:amenity=emergency_service": {
+        "message": "Notdienst"
+    },
+    "tag:amenity=construction:fast_food": {
+        "message": "Schnellimbiss"
+    },
+    "tag:amenity=fraternity": {
+        "message": "Studentenverbindung"
+    },
+    "tag:amenity=ski_rental": {
+        "message": "Skiverleih"
+    },
+    "tag:shop=growshop": {
+        "message": "Growshop"
+    },
+    "tag:shop=radiotechnics": {
+        "message": "Radiotechnik"
+    },
+    "tag:shop=greengrocer;florist": {
+        "message": "Gemüsehändler; Florist"
+    },
+    "tag:shop=yes": {
+        "message": "Ja"
+    },
+    "tag:shop=groundskeeping": {
+        "message": "Geländepflege"
+    },
+    "tag:shop=handcraft": {
+        "message": "Handwerk"
+    },
+    "tag:shop=scuba_diving": {
+        "message": "Tauchladen"
+    },
+    "tag:shop=telecommunication": {
+        "message": "Telekommunikation"
+    },
+    "tag:shop=herbalist": {
+        "message": "Kräuterladen"
+    },
+    "tag:historic=no": {
+        "message": "Nein"
+    },
+    "tag:shop=bookmaker": {
+        "message": "Buchmacher"
+    },
+    "tag:historic=wine_press": {
+        "message": "Weinpresse"
+    },
+    "tag:sport=yoga": {
+        "message": "Yoga"
+    },
+    "tag:shop=convenience;newsagent;lottery": {
+        "message": "Lebensmittelgeschäft; Zeitungsladen; Lotterie"
+    },
+    "tag:amenity=campfire": {
+        "message": "Lagerfeuer"
+    },
+    "tag:shop=vacuum_cleaner": {
+        "message": "Staubsaugerladen"
+    },
+    "tag:shop=bbq": {
+        "message": "Grillladen"
+    },
+    "tag:shop=tiles": {
+        "message": "Fliesengeschäft"
+    },
+    "tag:shop=kitchen": {
+        "message": "Küchengeschäft"
+    },
+    "tag:shop=hairdresser_supply": {
+        "message": "Friseurbedarf"
+    },
+    "tag:public_transport=station": {
+        "message": "Bahnhof"
+    },
+    "tag:shop=lottery": {
+        "message": "Lotto"
+    },
+    "tag:railway=proposed": {
+        "message": "Vorgeschlagen"
+    },
+    "tag:shop=medical": {
+        "message": "Medizinbedarf"
+    },
+    "tag:amenity=animal_boarding": {
+        "message": "Tierpension"
+    },
+    "tag:shop=smoking_equipment": {
+        "message": "Raucherbedarf"
+    },
+    "tag:shop=boat": {
+        "message": "Bootsladen"
+    },
+    "tag:shop=wholesale": {
+        "message": "Großhandel"
+    },
+    "tag:shop=trade": {
+        "message": "Handel"
+    },
+    "tag:shop=lighting": {
+        "message": "Beleuchtung"
+    },
+    "tag:amenity=canteen": {
+        "message": "Kantine"
+    },
+    "tag:shop=repair": {
+        "message": "Reparatur"
+    },
+    "tag:shop=candles;craft": {
+        "message": "Kerzenladen; Handwerk"
+    },
+    "tag:shop=fashion_accessories": {
+        "message": "Modeaccessoires"
+    },
+    "tag:shop=car_service;travel_agency": {
+        "message": "Autoservice; Reisebüro"
+    },
+    "tag:amenity=buiding_yard": {
+        "message": "Bauhof"
+    },
+    "tag:shop=trophy": {
+        "message": "Trophäenladen"
+    },
+    "tag:amenity=prep_school": {
+        "message": "Vorschule"
+    },
+    "tag:shop=food": {
+        "message": "Lebensmittel"
+    },
+    "tag:amenity=hookah_lounge": {
+        "message": "Shisha-Lounge"
+    },
+    "tag:amenity=bicycle_parking;car_sharing": {
+        "message": "Fahrradparkplatz; Carsharing"
+    },
+    "tag:shop=precious_metals": {
+        "message": "Edelmetalle"
+    },
+    "tag:shop=atv": {
+        "message": "ATV-Laden"
+    },
+    "tag:shop=fuel": {
+        "message": "Kraftstoff"
+    },
+    "tag:shop=newspaper": {
+        "message": "Zeitungsladen"
+    },
+    "tag:leisure=cliff": {
+        "message": "Kliff"
+    },
+    "tag:amenity=meditation_centre": {
+        "message": "Meditationszentrum"
+    },
+    "tag:shop=garage": {
+        "message": "Garage"
+    },
+    "tag:shop=rental": {
+        "message": "Verleih"
+    },
+    "tag:shop=non-profit": {
+        "message": "Gemeinnützig"
+    },
+    "tag:historic=place": {
+        "message": "Ort"
+    },
+    "tag:amenity=cultural_management": {
+        "message": "Kulturmanagement"
+    },
+    "tag:amenity=archive": {
+        "message": "Archiv"
+    },
+    "tag:shop=fireplace": {
+        "message": "Kaminladen"
+    },
+    "tag:shop=gold_buyer": {
+        "message": "Goldankauf"
+    },
+    "tag:shop=wool": {
+        "message": "Wollgeschäft"
+    },
+    "tag:amenity=gambling": {
+        "message": "Glücksspiel"
+    },
+    "tag:historic=mine_shaft": {
+        "message": "Bergwerksschacht"
     }
 }
