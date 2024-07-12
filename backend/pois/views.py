@@ -243,16 +243,16 @@ class MatchLandmarksResource(View):
         except json.JSONDecodeError:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
 
-        # TODO: what is the threshold for?
-        threshold = json_data.get("threshold", 5)
-        # Make sure threshold is a positive integer
-        if not isinstance(threshold, int) or threshold < 0:
-            return HttpResponseBadRequest(json.dumps({"error": "Invalid threshold."}))
+        # # TODO: what is the threshold for?
+        # threshold = json_data.get("threshold", 5)
+        # # Make sure threshold is a positive integer
+        # if not isinstance(threshold, int) or threshold < 0:
+        #     return HttpResponseBadRequest(json.dumps({"error": "Invalid threshold."}))
 
-        elongation = json_data.get("elongation", 20)
-        # Make sure elongation is a positive float
-        if not isinstance(elongation, int) or elongation < 0:
-            return HttpResponseBadRequest(json.dumps({"error": "Invalid elongation."}))
+        # elongation = json_data.get("elongation", 20)
+        # # Make sure elongation is a positive float
+        # if not isinstance(elongation, int) or elongation < 0:
+        #     return HttpResponseBadRequest(json.dumps({"error": "Invalid elongation."}))
 
         route = json_data.get("points")
         if not route:
@@ -306,8 +306,8 @@ class MatchLandmarksResource(View):
         # Don't use last element as it is the destination, therefore it has the same interval as the previous element
         for segment in instructions[:-1]:
             # Get the last index of the interval and determine the associated coordinates
-            index: int = segment["interval"][-1]
-            coord: dict = route_points[index]
+            segment_index: int = segment["interval"][-1]
+            coord: dict = route_points[segment_index]
             point_lon = coord["lon"]
             point_lat = coord["lat"]
 
@@ -317,7 +317,16 @@ class MatchLandmarksResource(View):
             # if landmark found, add it to the text of the graphhopper request
             # if no landmark found, keep the instruction as it is
             if landmark:
-                text = "Bei " + landmark["type"] + " " + segment["text"]
+                landmark["direction"] = determine_direction_landmark(
+                    segment_index, route_points, landmark
+                )
+                text = (
+                    landmark["direction"]
+                    + " bei "
+                    + landmark["type"]
+                    + " "
+                    + segment["text"]
+                )
                 segment["text"] = text
                 landmarks_found += 1
 
@@ -372,3 +381,63 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
         found_landmark["distance"] = round(found_landmark["distance"], 4)
 
     return found_landmark
+
+
+def determine_direction_landmark(
+    segment_index: int, route_points: dict, landmark: dict
+) -> str:
+    """
+    Determine the direction of the landmar by checking the current and the previous point of the route.
+    With that line, we can determine if the landmark is on the left or right side relative to the line.
+    """
+
+    # Get own direction by checking previous and current position
+    current_coords = route_points[segment_index]
+    previous_coords = route_points[segment_index - 1]
+
+    # current_point = Point(
+    #     current_coords["lon"], current_coords["lat"], srid=settings.LONLAT
+    # )
+    # previous_point = Point(
+    #     previous_coords["lon"], previous_coords["lat"], srid=settings.LONLAT
+    # )
+    # # Transform the landmark to a point
+    # landmark_point = Point(landmark["lon"], landmark["lat"], srid=settings.LONLAT)
+
+    difference_lat = current_coords["lat"] - previous_coords["lat"]  # east-west-axis
+    difference_lon = current_coords["lon"] - previous_coords["lon"]  # north-south-axis
+
+    # positive lon => east
+    # negative lon => west
+    # positive lat => north
+    # negative lat => south
+
+    # Determine own direction by checking in which direction we moved more
+    if abs(difference_lat) > abs(difference_lon):
+        # more movement along the north-south-axis
+        if difference_lat > 0:
+            # we move to the north
+            if landmark["lon"] > current_coords["lon"]:
+                return "rechts"
+            else:
+                return "links"
+        else:
+            # we move to the south
+            if landmark["lon"] > current_coords["lon"]:
+                return "links"
+            else:
+                return "rechts"
+    else:
+        # more movement along the east-west-axis
+        if difference_lon > 0:
+            # we move to the east
+            if landmark["lat"] > current_coords["lat"]:
+                return "links"
+            else:
+                return "rechts"
+        else:
+            # we move to the west
+            if landmark["lat"] > current_coords["lat"]:
+                return "rechts"
+            else:
+                return "links"
