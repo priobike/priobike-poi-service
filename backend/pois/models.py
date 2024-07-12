@@ -48,6 +48,9 @@ class Landmark(models.Model):
     # The unique identifier of the landmark, given by OSM.
     id = models.TextField(primary_key=True)
 
+    # The name of the landmark, if available.
+    name = models.TextField()
+
     # Landmark.
     category = models.TextField()
 

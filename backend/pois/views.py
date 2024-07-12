@@ -317,9 +317,12 @@ class MatchLandmarksResource(View):
                     segment_index, route_points, landmark
                 )
                 text = (
-                    landmark["direction"]
-                    + " bei "
+                    "bei "
                     + landmark["type"]
+                    + " "
+                    + landmark["name"]
+                    + " "
+                    + landmark["direction"]
                     + " "
                     + segment["text"]
                 )
@@ -363,6 +366,7 @@ def match_landmark_to_decisionpoint(decision_point: Point, threshold: int) -> di
 
         found_landmark = {
             "id": landmark.id,
+            "name": landmark.name,
             "category": landmark.category,
             "type": landmark.type,
             "lat": landmark.coordinate.y,
@@ -413,26 +417,26 @@ def determine_direction_landmark(
         if difference_lat > 0:
             # we move to the north
             if landmark["lon"] > current_coords["lon"]:
-                return "rechts"
+                return "auf rechter Seite"
             else:
-                return "links"
+                return "auf linker Seite"
         else:
             # we move to the south
             if landmark["lon"] > current_coords["lon"]:
-                return "links"
+                return "auf linker Seite"
             else:
-                return "rechts"
+                return "auf rechter Seite"
     else:
         # more movement along the east-west-axis
         if difference_lon > 0:
             # we move to the east
             if landmark["lat"] > current_coords["lat"]:
-                return "links"
+                return "auf linker Seite"
             else:
-                return "rechts"
+                return "auf rechter Seite"
         else:
             # we move to the west
             if landmark["lat"] > current_coords["lat"]:
-                return "rechts"
+                return "auf rechter Seite"
             else:
-                return "links"
+                return "auf linker Seite"

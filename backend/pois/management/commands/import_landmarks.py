@@ -101,40 +101,36 @@ def import_from_overpass(bounding_box: str):
 
         # Always preferentially use the name tag as type
         if "name" in element["tags"]:
-            type = element["tags"]["name"]
-            for category in OSM_CATEGORIES:
-                if category in element["tags"]:
-                    category = translate_tag(category, "")
-                    break
-
-            if not category:
-                category = "Landmarke"
+            name = element["tags"]["name"]
         else:
-            for category in OSM_CATEGORIES:
-                if category in element["tags"]:
-                    if translate_tag(category, element["tags"][category]) in BLACKLIST:
-                        continue
-                    type = translate_tag(category, element["tags"][category])
-                    category = translate_tag(category, "")
-                    break
+            name = ""
 
-            if not category or not type:
-                type = "Landmarke"
-                category = "Landmarke"
+        for category in OSM_CATEGORIES:
+            if category in element["tags"]:
+                if translate_tag(category, element["tags"][category]) in BLACKLIST:
+                    continue
+                type = translate_tag(category, element["tags"][category])
+                category = translate_tag(category, "")
+                break
 
-                # Print debug message if no category was found
-                tags = ""
-                for key in element["tags"]:
-                    tags += key + " = " + element["tags"][key] + ","
-                print(
-                    "No category found for element with id",
-                    str(element["id"]),
-                    "and tags '" + tags + "' using default category",
-                )
+        if not category or not type:
+            type = "Landmarke"
+            category = "Landmarke"
+
+            # Print debug message if no category was found
+            tags = ""
+            for key in element["tags"]:
+                tags += key + " = " + element["tags"][key] + ","
+            print(
+                "No category found for element with id",
+                str(element["id"]),
+                "and tags '" + tags + "' using default category",
+            )
 
         # Create a Landmark object
         landmark = Landmark(
             id=element["id"],
+            name=name,
             coordinate=Point(element["lon"], element["lat"], srid=4326),
             type=type,
             category=category,
