@@ -11,7 +11,10 @@ from django.views.generic import View
 from pois.models import Landmark, Poi, PoiLine
 
 # A list of OSM Tags that are only used for matching of landmarks, if no others is found and if they are really close
-LOW_PRIORITY_TAGS = []
+LOW_PRIORITY_TAGS = [
+    "Mülleimer",
+    "Fahrradständer",
+]
 
 
 def merge_segments(segments):

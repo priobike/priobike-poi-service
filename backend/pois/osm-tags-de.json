@@ -161,7 +161,7 @@
         "description": "Tag \"amenity=bench\". See https://wiki.openstreetmap.org/wiki/Tag:amenity=bench"
     },
     "tag:amenity=bicycle_parking": {
-        "message": "Fahrradparkplatz",
+        "message": "Fahrradständer",
         "description": "Tag \"amenity=bicycle_parking\". See https://wiki.openstreetmap.org/wiki/Tag:amenity=bicycle_parking"
     },
     "tag:amenity=bicycle_parking capacity<=20": {
@@ -7230,7 +7230,7 @@
         "message": "Shisha-Lounge"
     },
     "tag:amenity=bicycle_parking;car_sharing": {
-        "message": "Fahrradparkplatz; Carsharing"
+        "message": "Fahrradständer; Carsharing"
     },
     "tag:shop=precious_metals": {
         "message": "Edelmetalle"
