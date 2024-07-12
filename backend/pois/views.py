@@ -12,8 +12,6 @@ from pois.models import Landmark, Poi, PoiLine
 
 # A list of OSM Tags that are only used for matching of landmarks, if no others is found and if they are really close
 LOW_PRIORITY_TAGS = []
-# TODO: change blacklist to low priority list
-# TODO: add Gullydeckel, Fahrradparkplatz, Mülleimer
 
 
 def merge_segments(segments):
@@ -307,7 +305,7 @@ class MatchLandmarksResource(View):
         # Don't use last element as it is the destination, therefore it has the same interval as the previous element
         for segment in instructions[:-1]:
             # Get the last index of the interval and determine the associated coordinates
-            segment_index: int = segment["interval"][-1]
+            segment_index: int = segment["interval"][0]
             coord: dict = route_points[segment_index]
             point_lon = coord["lon"]
             point_lat = coord["lat"]
@@ -352,6 +350,8 @@ def match_landmark_to_decisionpoint(decision_point: Point, threshold: int) -> di
     Match a landmark to a decision point on the route.
     """
 
+    threshold_low_priority: int = round(threshold * 0.5)
+
     point_mercator = decision_point.transform(settings.METRICAL, clone=True)
 
     found_landmark = None
@@ -365,8 +365,14 @@ def match_landmark_to_decisionpoint(decision_point: Point, threshold: int) -> di
 
         # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
         if found_landmark:
-            old_distance = found_landmark["distance"]
-            if distance >= float(old_distance):
+            # Low priority landmarks are only considered if they are closer
+            if (landmark.type in LOW_PRIORITY_TAGS) and (
+                distance > threshold_low_priority
+            ):
+                continue
+
+            old_distance = float(found_landmark["distance"])
+            if distance >= old_distance:
                 continue
 
         found_landmark = {
@@ -396,8 +402,14 @@ def determine_direction_landmark(
     """
 
     # Get own direction by checking previous and current position
-    current_coords = route_points[segment_index]
-    previous_coords = route_points[segment_index - 1]
+    if segment_index == 0:
+        # edge case for first segment
+        current_coords = route_points[segment_index + 1]
+        previous_coords = route_points[segment_index]
+    else:
+        # normal case
+        current_coords = route_points[segment_index]
+        previous_coords = route_points[segment_index - 1]
 
     # current_point = Point(
     #     current_coords["lon"], current_coords["lat"], srid=settings.LONLAT
