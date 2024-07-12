@@ -26,8 +26,6 @@ OSM_CATEGORIES = [
 
 # OSM tags that are not useful for the user
 # Must be translated to german exacly as in the translation table
-BLACKLIST = []
-# TODO: change blacklist to low priority list
 
 
 def build_overpass_query(bounding_box: str) -> str:
@@ -107,8 +105,8 @@ def import_from_overpass(bounding_box: str):
 
         for category in OSM_CATEGORIES:
             if category in element["tags"]:
-                if translate_tag(category, element["tags"][category]) in BLACKLIST:
-                    continue
+                # if translate_tag(category, element["tags"][category]) in BLACKLIST:
+                #     continue
                 type = translate_tag(category, element["tags"][category])
                 category = translate_tag(category, "")
                 break

@@ -10,6 +10,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from pois.models import Landmark, Poi, PoiLine
 
+# A list of OSM Tags that are only used for matching of landmarks, if no others is found and if they are really close
+LOW_PRIORITY_TAGS = []
+# TODO: change blacklist to low priority list
+# TODO: add Gullydeckel, Fahrradparkplatz, Mülleimer
+
 
 def merge_segments(segments):
     """
@@ -245,7 +250,7 @@ class MatchLandmarksResource(View):
 
         # The Treshold in meters to match a landmark to a decision point
         # It is set by the app and send with the request, otherwise use the default
-        threshold = json_data.get("threshold", 50)
+        threshold = json_data.get("threshold", 30)
         # Make sure threshold is a positive integer
         if not isinstance(threshold, int) or threshold < 0:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid threshold."}))
