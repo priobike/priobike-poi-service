@@ -368,6 +368,7 @@ def match_landmark_to_decisionpoint(decision_point: Point, threshold: int) -> di
             "lat": landmark.coordinate.y,
             "lon": landmark.coordinate.x,
             "distance": distance,
+            "osm_tags": json.loads(landmark.tags),
         }
 
     # If it enough to keep the distance with 4 decimal places

@@ -27,6 +27,7 @@ OSM_CATEGORIES = [
 # OSM tags that are not useful for the user
 # Must be translated to german exacly as in the translation table
 BLACKLIST = []
+# TODO: change blacklist to low priority list
 
 
 def build_overpass_query(bounding_box: str) -> str:
@@ -131,14 +132,13 @@ def import_from_overpass(bounding_box: str):
                     "and tags '" + tags + "' using default category",
                 )
 
-        # TODO: I could also just discard the landmarks if I have no valid translation
-
         # Create a Landmark object
         landmark = Landmark(
             id=element["id"],
             coordinate=Point(element["lon"], element["lat"], srid=4326),
             type=type,
             category=category,
+            tags=json.dumps(element["tags"]),
         )
         landmark_points.append(landmark)
 

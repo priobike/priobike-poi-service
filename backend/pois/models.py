@@ -54,6 +54,10 @@ class Landmark(models.Model):
     # The kind of landmark.
     type = models.TextField()
 
+    # The osm tags of the landmark.
+    # TODO: maybe remove later
+    tags = models.TextField()
+
     # The coordinate of the point of interest.
     coordinate = models.PointField(srid=settings.LONLAT, geography=True)
 
