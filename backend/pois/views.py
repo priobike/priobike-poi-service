@@ -243,16 +243,12 @@ class MatchLandmarksResource(View):
         except json.JSONDecodeError:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
 
-        # # TODO: what is the threshold for?
-        # threshold = json_data.get("threshold", 5)
-        # # Make sure threshold is a positive integer
-        # if not isinstance(threshold, int) or threshold < 0:
-        #     return HttpResponseBadRequest(json.dumps({"error": "Invalid threshold."}))
-
-        # elongation = json_data.get("elongation", 20)
-        # # Make sure elongation is a positive float
-        # if not isinstance(elongation, int) or elongation < 0:
-        #     return HttpResponseBadRequest(json.dumps({"error": "Invalid elongation."}))
+        # The Treshold in meters to match a landmark to a decision point
+        # It is set by the app and send with the request, otherwise use the default
+        threshold = json_data.get("threshold", 50)
+        # Make sure threshold is a positive integer
+        if not isinstance(threshold, int) or threshold < 0:
+            return HttpResponseBadRequest(json.dumps({"error": "Invalid threshold."}))
 
         route = json_data.get("points")
         if not route:
@@ -312,7 +308,7 @@ class MatchLandmarksResource(View):
             point_lat = coord["lat"]
 
             decision_point = Point(point_lon, point_lat, srid=settings.LONLAT)
-            landmark = match_landmark_to_decisionpoint(decision_point)
+            landmark = match_landmark_to_decisionpoint(decision_point, threshold)
 
             # if landmark found, add it to the text of the graphhopper request
             # if no landmark found, keep the instruction as it is
@@ -342,13 +338,10 @@ class MatchLandmarksResource(View):
         return JsonResponse(json_data)
 
 
-def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
+def match_landmark_to_decisionpoint(decision_point: Point, threshold: int) -> dict:
     """
     Match a landmark to a decision point on the route.
     """
-
-    # The threshold in meters to match a landmark to a decision point
-    THRESHOLD_IN_METERS = 50
 
     point_mercator = decision_point.transform(settings.METRICAL, clone=True)
 
@@ -356,7 +349,7 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
 
     # Check which landmark are within the threshold to the ecision point
     for landmark in Landmark.objects.filter(
-        coordinate__distance_lt=(point_mercator, D(m=THRESHOLD_IN_METERS))
+        coordinate__distance_lt=(point_mercator, D(m=threshold))
     ):
         landmark_mercator = landmark.coordinate.transform(settings.METRICAL, clone=True)
         distance: float = point_mercator.distance(landmark_mercator)
