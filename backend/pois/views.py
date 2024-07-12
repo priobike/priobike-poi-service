@@ -277,14 +277,6 @@ class MatchLandmarksResource(View):
         "2": {"lat": 51.030301, "lon": 13.730626},
         """
 
-        # TODO: route linestrings brauche ich wahrscheinlich eher für die Landmarken auf den Segmenten. Das mache ich aber erst später
-        # try:
-        #     route_linestring: LineString = LineString(
-        #         route_points, srid=settings.LONLAT
-        #     )
-        # except ValueError:
-        #     return HttpResponseBadRequest(json.dumps({"error": "Invalid route points"}))
-
         if not route_points:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid route points"}))
         if len(route_points) < 2:
@@ -413,15 +405,6 @@ def determine_direction_landmark(
         # normal case
         current_coords = route_points[segment_index]
         previous_coords = route_points[segment_index - 1]
-
-    # current_point = Point(
-    #     current_coords["lon"], current_coords["lat"], srid=settings.LONLAT
-    # )
-    # previous_point = Point(
-    #     previous_coords["lon"], previous_coords["lat"], srid=settings.LONLAT
-    # )
-    # # Transform the landmark to a point
-    # landmark_point = Point(landmark["lon"], landmark["lat"], srid=settings.LONLAT)
 
     difference_lat = current_coords["lat"] - previous_coords["lat"]  # east-west-axis
     difference_lon = current_coords["lon"] - previous_coords["lon"]  # north-south-axis
