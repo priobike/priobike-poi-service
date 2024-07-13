@@ -14,6 +14,10 @@ from pois.models import Landmark, Poi, PoiLine
 LOW_PRIORITY_TAGS = [
     "Mülleimer",
     "Fahrradständer",
+    "Gullydeckel",
+    "Stolperstein",
+    "Mast",
+    "Überwachungskamera",
 ]
 
 
@@ -361,10 +365,13 @@ def match_landmark_to_decisionpoint(decision_point: Point, threshold: int) -> di
         # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
         if found_landmark:
             # Low priority landmarks are only considered if they are closer
-            if (landmark.type in LOW_PRIORITY_TAGS) and (
-                distance > threshold_low_priority
-            ):
-                continue
+            if landmark.type in LOW_PRIORITY_TAGS:
+                if distance > threshold_low_priority:
+                    continue
+                # Also check tags
+                for tag in landmark.tags:
+                    if tag in LOW_PRIORITY_TAGS:
+                        continue
 
             old_distance = float(found_landmark["distance"])
             if distance >= old_distance:
