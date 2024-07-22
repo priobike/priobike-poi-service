@@ -1584,7 +1584,7 @@
         "description": "Key \"craft\". See https://wiki.openstreetmap.org/wiki/Key:craft"
     },
     "tag:craft=agricultural_engines": {
-        "message": "",
+        "message": "Landwirtschaftsmaschinen",
         "description": "Tag \"craft=agricultural_engines\". See https://wiki.openstreetmap.org/wiki/Tag:craft=agricultural_engines"
     },
     "tag:craft=artist": {
@@ -1620,11 +1620,11 @@
         "description": "Tag \"craft=brewery\". See https://wiki.openstreetmap.org/wiki/Tag:craft=brewery"
     },
     "tag:craft=builder": {
-        "message": "",
+        "message": "Bauunternehmen",
         "description": "Tag \"craft=builder\". See https://wiki.openstreetmap.org/wiki/Tag:craft=builder"
     },
     "tag:craft=cabinet_maker": {
-        "message": "",
+        "message": "Tischler",
         "description": "Tag \"craft=cabinet_maker\". See https://wiki.openstreetmap.org/wiki/Tag:craft=cabinet_maker"
     },
     "tag:craft=car_painter": {
@@ -1640,11 +1640,11 @@
         "description": "Tag \"craft=carpenter\". See https://wiki.openstreetmap.org/wiki/Tag:craft=carpenter"
     },
     "tag:craft=carpet_layer": {
-        "message": "",
+        "message": "Teppichleger",
         "description": "Tag \"craft=carpet_layer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=carpet_layer"
     },
     "tag:craft=caterer": {
-        "message": "",
+        "message": "Catering",
         "description": "Tag \"craft=caterer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=caterer"
     },
     "tag:craft=ceramist": {
@@ -1656,7 +1656,7 @@
         "description": "Tag \"craft=chimney_sweeper\". See https://wiki.openstreetmap.org/wiki/Tag:craft=chimney_sweeper"
     },
     "tag:craft=cleaning": {
-        "message": "",
+        "message": "Reinigung",
         "description": "Tag \"craft=cleaning\". See https://wiki.openstreetmap.org/wiki/Tag:craft=cleaning"
     },
     "tag:craft=clockmaker": {
@@ -1664,11 +1664,11 @@
         "description": "Tag \"craft=clockmaker\". See https://wiki.openstreetmap.org/wiki/Tag:craft=clockmaker"
     },
     "tag:craft=computer": {
-        "message": "",
+        "message": "Informatiker",
         "description": "Tag \"craft=computer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=computer"
     },
     "tag:craft=confectionery": {
-        "message": "",
+        "message": "Zuckerwarenfabrikant",
         "description": "Tag \"craft=confectionery\". See https://wiki.openstreetmap.org/wiki/Tag:craft=confectionery"
     },
     "tag:craft=construction": {
@@ -1680,11 +1680,11 @@
         "description": "Tag \"craft=dental_technician\". See https://wiki.openstreetmap.org/wiki/Tag:craft=dental_technician"
     },
     "tag:craft=distillery": {
-        "message": "",
+        "message": "Brennerei",
         "description": "Tag \"craft=distillery\". See https://wiki.openstreetmap.org/wiki/Tag:craft=distillery"
     },
     "tag:craft=dressmaker": {
-        "message": "",
+        "message": "Schneider",
         "description": "Tag \"craft=dressmaker\". See https://wiki.openstreetmap.org/wiki/Tag:craft=dressmaker"
     },
     "tag:craft=electrician": {
@@ -1692,7 +1692,7 @@
         "description": "Tag \"craft=electrician\". See https://wiki.openstreetmap.org/wiki/Tag:craft=electrician"
     },
     "tag:craft=electronics_repair": {
-        "message": "",
+        "message": "Elektriker",
         "description": "Tag \"craft=electronics_repair\". See https://wiki.openstreetmap.org/wiki/Tag:craft=electronics_repair"
     },
     "tag:craft=embroidery": {
@@ -1704,7 +1704,7 @@
         "description": "Tag \"craft=engraver\". See https://wiki.openstreetmap.org/wiki/Tag:craft=engraver"
     },
     "tag:craft=floorer": {
-        "message": "",
+        "message": "Bodenleger",
         "description": "Tag \"craft=floorer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=floorer"
     },
     "tag:craft=furniture": {
@@ -1716,7 +1716,7 @@
         "description": "Tag \"craft=gardener\". See https://wiki.openstreetmap.org/wiki/Tag:craft=gardener"
     },
     "tag:craft=glaziery": {
-        "message": "",
+        "message": "Glaserei",
         "description": "Tag \"craft=glaziery\". See https://wiki.openstreetmap.org/wiki/Tag:craft=glaziery"
     },
     "tag:craft=goldsmith": {
@@ -1732,7 +1732,7 @@
         "description": "Tag \"craft=grinding_mill\". See https://wiki.openstreetmap.org/wiki/Tag:craft=grinding_mill"
     },
     "tag:craft=handicraft": {
-        "message": "",
+        "message": "Handwerker",
         "description": "Tag \"craft=handicraft\". See https://wiki.openstreetmap.org/wiki/Tag:craft=handicraft"
     },
     "tag:craft=heating_engineer": {
@@ -1740,11 +1740,11 @@
         "description": "Tag \"craft=heating_engineer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=heating_engineer"
     },
     "tag:craft=hvac": {
-        "message": "",
+        "message": "Heizung, Lüftung, und Klimatechnik",
         "description": "Tag \"craft=hvac\". See https://wiki.openstreetmap.org/wiki/Tag:craft=hvac"
     },
     "tag:craft=insulation": {
-        "message": "",
+        "message": "Dämmungshersteller",
         "description": "Tag \"craft=insulation\". See https://wiki.openstreetmap.org/wiki/Tag:craft=insulation"
     },
     "tag:craft=iron_craftsman": {
@@ -1752,7 +1752,7 @@
         "description": "Tag \"craft=iron_craftsman\". See https://wiki.openstreetmap.org/wiki/Tag:craft=iron_craftsman"
     },
     "tag:craft=jeweller": {
-        "message": "",
+        "message": "Juwelier",
         "description": "Tag \"craft=jeweller\". See https://wiki.openstreetmap.org/wiki/Tag:craft=jeweller"
     },
     "tag:craft=joiner": {
@@ -1764,7 +1764,7 @@
         "description": "Tag \"craft=juice_bottler\". See https://wiki.openstreetmap.org/wiki/Tag:craft=juice_bottler"
     },
     "tag:craft=key_cutter": {
-        "message": "",
+        "message": "Schlüsseldienst",
         "description": "Tag \"craft=key_cutter\". See https://wiki.openstreetmap.org/wiki/Tag:craft=key_cutter"
     },
     "tag:craft=laboratory": {
@@ -1772,11 +1772,11 @@
         "description": "Tag \"craft=laboratory\". See https://wiki.openstreetmap.org/wiki/Tag:craft=laboratory"
     },
     "tag:craft=leather": {
-        "message": "",
+        "message": "Lederfirma",
         "description": "Tag \"craft=leather\". See https://wiki.openstreetmap.org/wiki/Tag:craft=leather"
     },
     "tag:craft=locksmith": {
-        "message": "",
+        "message": "Schlosser",
         "description": "Tag \"craft=locksmith\". See https://wiki.openstreetmap.org/wiki/Tag:craft=locksmith"
     },
     "tag:craft=luthier": {
@@ -1788,7 +1788,7 @@
         "description": "Tag \"craft=mason\". See https://wiki.openstreetmap.org/wiki/Tag:craft=mason"
     },
     "tag:craft=metal_construction": {
-        "message": "",
+        "message": "Metallbau",
         "description": "Tag \"craft=metal_construction\". See https://wiki.openstreetmap.org/wiki/Tag:craft=metal_construction"
     },
     "tag:craft=metal_works": {
@@ -1808,7 +1808,7 @@
         "description": "Tag \"craft=model_maker\". See https://wiki.openstreetmap.org/wiki/Tag:craft=model_maker"
     },
     "tag:craft=musical_instrument": {
-        "message": "",
+        "message": "Musikinstrument-Firma",
         "description": "Tag \"craft=musical_instrument\". See https://wiki.openstreetmap.org/wiki/Tag:craft=musical_instrument"
     },
     "tag:craft=optician": {
@@ -1824,7 +1824,7 @@
         "description": "Tag \"craft=painter\". See https://wiki.openstreetmap.org/wiki/Tag:craft=painter"
     },
     "tag:craft=parquet_layer": {
-        "message": "",
+        "message": "Parkettleger",
         "description": "Tag \"craft=parquet_layer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=parquet_layer"
     },
     "tag:craft=paver": {
@@ -1852,7 +1852,7 @@
         "description": "Tag \"craft=plasterer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=plasterer"
     },
     "tag:craft=plumber": {
-        "message": "",
+        "message": "Klempner",
         "description": "Tag \"craft=plumber\". See https://wiki.openstreetmap.org/wiki/Tag:craft=plumber"
     },
     "tag:craft=pottery": {
@@ -1868,7 +1868,7 @@
         "description": "Tag \"craft=printer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=printer"
     },
     "tag:craft=printmaker": {
-        "message": "",
+        "message": "Druckerei",
         "description": "Tag \"craft=printmaker\". See https://wiki.openstreetmap.org/wiki/Tag:craft=printmaker"
     },
     "tag:craft=repair": {
@@ -1876,7 +1876,7 @@
         "description": "Tag \"craft=repair\". See https://wiki.openstreetmap.org/wiki/Tag:craft=repair"
     },
     "tag:craft=restoration": {
-        "message": "",
+        "message": "Restaurierung",
         "description": "Tag \"craft=restoration\". See https://wiki.openstreetmap.org/wiki/Tag:craft=restoration"
     },
     "tag:craft=rigger": {
@@ -1888,7 +1888,7 @@
         "description": "Tag \"craft=roofer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=roofer"
     },
     "tag:craft=saddler": {
-        "message": "",
+        "message": "Sattler",
         "description": "Tag \"craft=saddler\". See https://wiki.openstreetmap.org/wiki/Tag:craft=saddler"
     },
     "tag:craft=sailmaker": {
@@ -1900,11 +1900,11 @@
         "description": "Tag \"craft=sawmill\". See https://wiki.openstreetmap.org/wiki/Tag:craft=sawmill"
     },
     "tag:craft=scaffolder": {
-        "message": "",
+        "message": "Gerüstbauer",
         "description": "Tag \"craft=scaffolder\". See https://wiki.openstreetmap.org/wiki/Tag:craft=scaffolder"
     },
     "tag:craft=sculptor": {
-        "message": "",
+        "message": "Bildhauer",
         "description": "Tag \"craft=sculptor\". See https://wiki.openstreetmap.org/wiki/Tag:craft=sculptor"
     },
     "tag:craft=shoe_repair": {
@@ -1916,7 +1916,7 @@
         "description": "Tag \"craft=shoemaker\". See https://wiki.openstreetmap.org/wiki/Tag:craft=shoemaker"
     },
     "tag:craft=signmaker": {
-        "message": "",
+        "message": "Schilderfirma",
         "description": "Tag \"craft=signmaker\". See https://wiki.openstreetmap.org/wiki/Tag:craft=signmaker"
     },
     "tag:craft=stand_builder": {
@@ -1924,23 +1924,23 @@
         "description": "Tag \"craft=stand_builder\". See https://wiki.openstreetmap.org/wiki/Tag:craft=stand_builder"
     },
     "tag:craft=stonemason": {
-        "message": "",
+        "message": "Steinmetz",
         "description": "Tag \"craft=stonemason\". See https://wiki.openstreetmap.org/wiki/Tag:craft=stonemason"
     },
     "tag:craft=sun_protection": {
-        "message": "",
+        "message": "Sonnenschutzfirma",
         "description": "Tag \"craft=sun_protection\". See https://wiki.openstreetmap.org/wiki/Tag:craft=sun_protection"
     },
     "tag:craft=tailor": {
-        "message": "",
+        "message": "Schneider",
         "description": "Tag \"craft=tailor\". See https://wiki.openstreetmap.org/wiki/Tag:craft=tailor"
     },
     "tag:craft=tiler": {
-        "message": "",
+        "message": "Fliesenleger",
         "description": "Tag \"craft=tiler\". See https://wiki.openstreetmap.org/wiki/Tag:craft=tiler"
     },
     "tag:craft=tinsmith": {
-        "message": "",
+        "message": "Klempner",
         "description": "Tag \"craft=tinsmith\". See https://wiki.openstreetmap.org/wiki/Tag:craft=tinsmith"
     },
     "tag:craft=toolmaker": {
@@ -1952,7 +1952,7 @@
         "description": "Tag \"craft=turner\". See https://wiki.openstreetmap.org/wiki/Tag:craft=turner"
     },
     "tag:craft=upholsterer": {
-        "message": "",
+        "message": "Polsterer",
         "description": "Tag \"craft=upholsterer\". See https://wiki.openstreetmap.org/wiki/Tag:craft=upholsterer"
     },
     "tag:craft=varnisher": {
@@ -1960,7 +1960,7 @@
         "description": "Tag \"craft=varnisher\". See https://wiki.openstreetmap.org/wiki/Tag:craft=varnisher"
     },
     "tag:craft=watchmaker": {
-        "message": "",
+        "message": "Uhrenmacher",
         "description": "Tag \"craft=watchmaker\". See https://wiki.openstreetmap.org/wiki/Tag:craft=watchmaker"
     },
     "tag:craft=welder": {
@@ -1968,11 +1968,11 @@
         "description": "Tag \"craft=welder\". See https://wiki.openstreetmap.org/wiki/Tag:craft=welder"
     },
     "tag:craft=window_construction": {
-        "message": "",
+        "message": "Fensterbau",
         "description": "Tag \"craft=window_construction\". See https://wiki.openstreetmap.org/wiki/Tag:craft=window_construction"
     },
     "tag:craft=winery": {
-        "message": "",
+        "message": "Winzerei",
         "description": "Tag \"craft=winery\". See https://wiki.openstreetmap.org/wiki/Tag:craft=winery"
     },
     "tag:created_by": {
@@ -2641,11 +2641,11 @@
         "description": "Key \"emergency\". See https://wiki.openstreetmap.org/wiki/Key:emergency"
     },
     "tag:emergency=access_point": {
-        "message": "",
+        "message": "Zugangspunkt",
         "description": "Tag \"emergency=access_point\". See https://wiki.openstreetmap.org/wiki/Tag:emergency=access_point"
     },
     "tag:emergency=defibrillator": {
-        "message": "",
+        "message": "Defibrillator",
         "description": "Tag \"emergency=defibrillator\". See https://wiki.openstreetmap.org/wiki/Tag:emergency=defibrillator"
     },
     "tag:emergency=fire_hydrant fire_hydrant:type=pillar": {
@@ -2833,7 +2833,7 @@
         "description": "Key \"goods\". See https://wiki.openstreetmap.org/wiki/Key:goods"
     },
     "tag:healthcare=alternative": {
-        "message": "",
+        "message": "Alternative Medizin",
         "description": "Tag \"healthcare=alternative\". See https://wiki.openstreetmap.org/wiki/Tag:healthcare=alternative"
     },
     "tag:healthcare=audiologist": {
@@ -2905,7 +2905,7 @@
         "description": "Tag \"healthcare=physiotherapist\". See https://wiki.openstreetmap.org/wiki/Tag:healthcare=physiotherapist"
     },
     "tag:healthcare=podiatrist": {
-        "message": "",
+        "message": "Fußspezialist",
         "description": "Tag \"healthcare=podiatrist\". See https://wiki.openstreetmap.org/wiki/Tag:healthcare=podiatrist"
     },
     "tag:healthcare=psychotherapist": {
@@ -2913,7 +2913,7 @@
         "description": "Tag \"healthcare=psychotherapist\". See https://wiki.openstreetmap.org/wiki/Tag:healthcare=psychotherapist"
     },
     "tag:healthcare=rehabilitation": {
-        "message": "",
+        "message": "Rehabilitation",
         "description": "Tag \"healthcare=rehabilitation\". See https://wiki.openstreetmap.org/wiki/Tag:healthcare=rehabilitation"
     },
     "tag:healthcare=speech_therapist": {
@@ -5115,11 +5115,11 @@
         "description": "Tag \"power=cable\". See https://wiki.openstreetmap.org/wiki/Tag:power=cable"
     },
     "tag:power=catenary_mast": {
-        "message": "",
+        "message": "Oberleitungsmast",
         "description": "Tag \"power=catenary_mast\". See https://wiki.openstreetmap.org/wiki/Tag:power=catenary_mast"
     },
     "tag:power=compensator": {
-        "message": "",
+        "message": "Kompensator",
         "description": "Tag \"power=compensator\". See https://wiki.openstreetmap.org/wiki/Tag:power=compensator"
     },
     "tag:power=converter": {
@@ -5151,7 +5151,7 @@
         "description": "Tag \"power=pole\". See https://wiki.openstreetmap.org/wiki/Tag:power=pole"
     },
     "tag:power=portal": {
-        "message": "",
+        "message": "Stromportal",
         "description": "Tag \"power=portal\". See https://wiki.openstreetmap.org/wiki/Tag:power=portal"
     },
     "tag:power=station": {
@@ -5167,7 +5167,7 @@
         "description": "Tag \"power=switchgear\". See https://wiki.openstreetmap.org/wiki/Tag:power=switchgear"
     },
     "tag:power=terminal": {
-        "message": "",
+        "message": "Netzklemme",
         "description": "Tag \"power=terminal\". See https://wiki.openstreetmap.org/wiki/Tag:power=terminal"
     },
     "tag:power=tower": {
@@ -5175,7 +5175,7 @@
         "description": "Tag \"power=tower\". See https://wiki.openstreetmap.org/wiki/Tag:power=tower"
     },
     "tag:power=transformer": {
-        "message": "",
+        "message": "Transformator",
         "description": "Tag \"power=transformer\". See https://wiki.openstreetmap.org/wiki/Tag:power=transformer"
     },
     "tag:power_source": {
@@ -7282,5 +7282,296 @@
     "tag:xmas:feature=tree": {
         "message": "Weihnachtsbaum",
         "description": "Tag \"xmas:feature=tree\". See https://wiki.openstreetmap.org/wiki/Tag:xmas:feature=tree"
+    },
+    "tag:barrier=sally_port": {
+        "message": "Ausfalltor"
+    },
+    "tag:barrier=hampshire_gate": {
+        "message": "Hampshire-Tor"
+    },
+    "tag:barrier=turnstile": {
+        "message": "Drehkreuz"
+    },
+    "tag:shop=interior_decoration, folk_art": {
+        "message": "Innenausstattung, Volkskunst"
+    },
+    "tag:barrier=log": {
+        "message": "Stamm"
+    },
+    "tag:barrier=door": {
+        "message": "Tür"
+    },
+    "tag:power=switch": {
+        "message": "Schalter"
+    },
+    "tag:barrier=planter": {
+        "message": "Pflanzkasten"
+    },
+    "tag:aeroway=threshold": {
+        "message": "Schwelle"
+    },
+    "tag:emergency=suction_point": {
+        "message": "Absaugpunkt"
+    },
+    "tag:healthcare=vaccination_centre": {
+        "message": "Impfzentrum"
+    },
+    "tag:barrier=rope": {
+        "message": "Seil"
+    },
+    "tag:barrier=kerb": {
+        "message": "Randstein"
+    },
+    "tag:emergency=siren": {
+        "message": "Sirene"
+    },
+    "tag:barrier=height_restrictor": {
+        "message": "Höhenbegrenzung"
+    },
+    "tag:barrier=wicket_gate": {
+        "message": "Schlupfgitter"
+    },
+    "tag:emergency=water_tank": {
+        "message": "Wassertank"
+    },
+    "tag:barrier=revolving_door": {
+        "message": "Drehtür"
+    },
+    "tag:barrier=gate": {
+        "message": "Tor"
+    },
+    "tag:barrier=jersey_barrier": {
+        "message": "Jersey-Barriere"
+    },
+    "tag:barrier=gate;bollard": {
+        "message": "Tor; Poller"
+    },
+    "tag:aeroway=holding_position": {
+        "message": "Halteposition"
+    },
+    "tag:barrier=toll_booth": {
+        "message": "Mautstelle"
+    },
+    "tag:aeroway=gate": {
+        "message": "Gate"
+    },
+    "tag:barrier=stone": {
+        "message": "Stein"
+    },
+    "tag:power=ÖB": {
+        "message": "ÖB"
+    },
+    "tag:power=cable_distribution_cabinet": {
+        "message": "Kabelverteilerschrank"
+    },
+    "tag:barrier=lift_gate": {
+        "message": "Hebeschranke"
+    },
+    "tag:craft=Housekeeping": {
+        "message": "Hauswirtschaft"
+    },
+    "tag:craft=stager": {
+        "message": "Bühnenbildner"
+    },
+    "tag:barrier=entrance": {
+        "message": "Eingang"
+    },
+    "tag:healthcare": {
+        "message": "Gesundheitswesen"
+    },
+    "tag:craft=construction_company": {
+        "message": "Baufirma"
+    },
+    "tag:barrier=entry": {
+        "message": "Eintritt"
+    },
+    "tag:craft=building_service": {
+        "message": "Gebäudedienstleistung"
+    },
+    "tag:barrier=coupure": {
+        "message": "Schlitz"
+    },
+    "tag:barrier=kissing_gate": {
+        "message": "Kussenschranke"
+    },
+    "tag:healthcare=osteopath": {
+        "message": "Osteopath"
+    },
+    "tag:craft=carpenter;cabinet_maker;floorer;parquet_layer;stand_builder;tilerwindow_construction;door_construction": {
+        "message": "Zimmermann;Tischler;Bodenleger;Parkettleger;Standbauer;Fliesenleger;Fensterbau;Türbau"
+    },
+    "tag:emergency=fire_extinguisher": {
+        "message": "Feuerlöscher"
+    },
+    "tag:emergency=exit": {
+        "message": "Notausgang"
+    },
+    "tag:barrier=bollard": {
+        "message": "Poller"
+    },
+    "tag:emergency=control_centre": {
+        "message": "Leitstelle"
+    },
+    "tag:emergency=ambulance_station": {
+        "message": "Rettungswache"
+    },
+    "tag:healthcare=speech_therapist; occupational_therapist": {
+        "message": "Logopäde;Ergotherapeut"
+    },
+    "tag:barrier=cattle_grid": {
+        "message": "Viehrost"
+    },
+    "tag:barrier=tree": {
+        "message": "Baum"
+    },
+    "tag:emergency=fire_hose": {
+        "message": "Feuerschlauch"
+    },
+    "tag:emergency=assembly_point": {
+        "message": "Sammelpunkt"
+    },
+    "tag:craft=cleaners": {
+        "message": "Reiniger"
+    },
+    "tag:healthcare=yes": {
+        "message": "Ja"
+    },
+    "tag:barrier=step": {
+        "message": "Stufe"
+    },
+    "tag:aeroway=windsock": {
+        "message": "Windsack"
+    },
+    "tag:barrier=sump_buster": {
+        "message": "Tiefenbegrenzer"
+    },
+    "tag:amenity=fixme": {
+        "message": "Repariere mich"
+    },
+    "tag:craft=building_trade": {
+        "message": "Baugewerbe"
+    },
+    "tag:emergency=life_ring": {
+        "message": "Rettungsring"
+    },
+    "tag:barrier=yes": {
+        "message": "Ja"
+    },
+    "tag:aerialway=pylon": {
+        "message": "Mast"
+    },
+    "tag:barrier=guard_rail": {
+        "message": "Leitplanke"
+    },
+    "tag:leisure=yes": {
+        "message": "Ja"
+    },
+    "tag:emergency=dry_riser_inlet": {
+        "message": "Trockensteigleitungseinlass"
+    },
+    "tag:power=connection": {
+        "message": "Anschluss"
+    },
+    "tag:craft=hvac; plumber": {
+        "message": "HLK; Klempner"
+    },
+    "tag:barrier=bump_gate": {
+        "message": "Stoßtor"
+    },
+    "tag:barrier=chain": {
+        "message": "Kette"
+    },
+    "tag:power=street_cabinet": {
+        "message": "Straßenschrank"
+    },
+    "tag:craft=atelier": {
+        "message": "Atelier"
+    },
+    "tag:barrier=block": {
+        "message": "Block"
+    },
+    "tag:barrier=bar": {
+        "message": "Riegel"
+    },
+    "tag:barrier=sliding_gate": {
+        "message": "Schiebetor"
+    },
+    "tag:emergency=air_rescue_service": {
+        "message": "Luftrettungsdienst"
+    },
+    "tag:barrier=stile": {
+        "message": "Überstieg"
+    },
+    "tag:healthcare=physiotherapist;occupational_therapist;speech_therapist": {
+        "message": "Physiotherapeut;Ergotherapeut;Logopäde"
+    },
+    "tag:emergency=emergency_ward_entrance": {
+        "message": "Notaufnahme Eingang"
+    },
+    "tag:amenity=music_school;art_school": {
+        "message": "Musikschule;Kunstschule"
+    },
+    "tag:craft=Construction Operations": {
+        "message": "Bauausführung"
+    },
+    "tag:power=abandoned:tower": {
+        "message": "Verlassener Turm"
+    },
+    "tag:emergency=yes": {
+        "message": "Ja"
+    },
+    "tag:barrier=barrier_board": {
+        "message": "Schrankenbrett"
+    },
+    "tag:barrier=fallen_tree": {
+        "message": "Umgestürzter Baum"
+    },
+    "tag:emergency=fire_water_pond": {
+        "message": "Löschwasserteich"
+    },
+    "tag:healthcare=sample_collection": {
+        "message": "Probenentnahme"
+    },
+    "tag:barrier=Viehgatter": {
+        "message": "Viehschranke"
+    },
+    "tag:barrier=swing_gate": {
+        "message": "Schwenktor"
+    },
+    "tag:emergency=fire_service_inlet": {
+        "message": "Feuerwehranschluss"
+    },
+    "tag:healthcare=counselling": {
+        "message": "Beratung"
+    },
+    "tag:craft=yes": {
+        "message": "Ja"
+    },
+    "tag:aeroway=helipad": {
+        "message": "Hubschrauberlandeplatz"
+    },
+    "tag:barrier=cycle_barrier": {
+        "message": "Radschranke"
+    },
+    "tag:craft=textile_printing": {
+        "message": "Textildruck"
+    },
+    "tag:barrier=debris": {
+        "message": "Trümmer"
+    },
+    "tag:barrier=cycle_barrier;gate": {
+        "message": "Radschranke;Tor"
+    },
+    "tag:power=transition": {
+        "message": "Übergang"
+    },
+    "tag:aeroway=navigationaid": {
+        "message": "Navigationshilfe"
+    },
+    "tag:barrier=full-height_turnstile": {
+        "message": "Drehkreuz in voller Höhe"
+    },
+    "tag:amenity= music_school; art_school": {
+        "message": "Kunstschule"
     }
 }
