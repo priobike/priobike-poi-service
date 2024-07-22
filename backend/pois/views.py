@@ -19,7 +19,7 @@ LOW_PRIORITY_TAGS = [
     "Mast",
     "Überwachungskamera",
 ]
-
+# Ich sollte die vielleicht doch mit einbeziehen, weil man ja durch die Richtungseingabe schon in der Regel eindeutig sieht, wo das stehen soll.
 
 def merge_segments(segments):
     """

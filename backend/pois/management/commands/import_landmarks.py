@@ -19,9 +19,17 @@ OSM_CATEGORIES = [
     "public_transport",
     "man_made",
     "railway",
-    "bridge",  # => no results in Dresden
     "sport",
-    "water",  # => no results in Dresden
+    # additions
+    "aerialway",
+    "aeroway",
+    "barrier",
+    "craft",
+    "emergency",
+    "healthcare",
+    "landuse",
+    "miliary",
+    "power",
 ]
 
 # OSM Tags that are not useful and therefore discarded
