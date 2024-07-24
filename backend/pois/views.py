@@ -10,6 +10,22 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from pois.models import Landmark, Poi, PoiLine
 
+# A list of OSM Tags that are only used for matching of landmarks, if no others is found and if they are really close
+LOW_PRIORITY_TAGS = [
+    "Mülleimer",
+    "Fahrradständer",
+    "Gullydeckel",
+    "Stolperstein",
+    "Mast",
+    "Überwachungskamera",
+    "Unterstand",
+    "Sitzbank",
+    "Touristen-Information",
+    "Oberleitungsmast",
+    "Überwachungsstation",
+    "Bahn-Signal",
+]
+# Ich sollte die vielleicht doch mit einbeziehen, weil man ja durch die Richtungseingabe schon in der Regel eindeutig sieht, wo das stehen soll.
 
 def merge_segments(segments):
     """
@@ -243,16 +259,18 @@ class MatchLandmarksResource(View):
         except json.JSONDecodeError:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
 
-        # TODO: what is the threshold for?
-        threshold = json_data.get("threshold", 5)
-        # Make sure threshold is a positive integer
-        if not isinstance(threshold, int) or threshold < 0:
-            return HttpResponseBadRequest(json.dumps({"error": "Invalid threshold."}))
+        # get query parameters
+        replace_graphhopper_query = False
+        try:
+            replace_instructions = str(request.GET.get('replaceInstructions', 'false'))
+            if replace_instructions.lower() == 'true':
+                replace_graphhopper_query = True
+                print("Replace Graphhopper query. replace_graphhopper_query == True")
+            else:
+                print("Extend Graphhopper query. replace_graphhopper_query == False")
+        except:
+            print("Exception when checkingreplaceInstructions 'replaceInstructions' query parameter => Extend Graphhopper query")
 
-        elongation = json_data.get("elongation", 20)
-        # Make sure elongation is a positive float
-        if not isinstance(elongation, int) or elongation < 0:
-            return HttpResponseBadRequest(json.dumps({"error": "Invalid elongation."}))
 
         route = json_data.get("points")
         if not route:
@@ -274,14 +292,6 @@ class MatchLandmarksResource(View):
         "1": {"lat": 51.030206, "lon": 13.730826},
         "2": {"lat": 51.030301, "lon": 13.730626},
         """
-
-        # TODO: route linestrings brauche ich wahrscheinlich eher für die Landmarken auf den Segmenten. Das mache ich aber erst später
-        # try:
-        #     route_linestring: LineString = LineString(
-        #         route_points, srid=settings.LONLAT
-        #     )
-        # except ValueError:
-        #     return HttpResponseBadRequest(json.dumps({"error": "Invalid route points"}))
 
         if not route_points:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid route points"}))
@@ -306,8 +316,8 @@ class MatchLandmarksResource(View):
         # Don't use last element as it is the destination, therefore it has the same interval as the previous element
         for segment in instructions[:-1]:
             # Get the last index of the interval and determine the associated coordinates
-            index: int = segment["interval"][-1]
-            coord: dict = route_points[index]
+            segment_index: int = segment["interval"][0]
+            coord: dict = route_points[segment_index]
             point_lon = coord["lon"]
             point_lat = coord["lat"]
 
@@ -317,10 +327,35 @@ class MatchLandmarksResource(View):
             # if landmark found, add it to the text of the graphhopper request
             # if no landmark found, keep the instruction as it is
             if landmark:
-                text = segment["text"]
-                text += " bei " + landmark["type"]
+                landmark["direction"] = determine_direction_landmark(
+                    segment_index, route_points, landmark
+                )
+                text:str = ""
+                # wheather to replace the graphhopper query or extend it
+                if replace_graphhopper_query:
+                    text = (
+                        "bei "
+                        + landmark["type"]
+                        + " "
+                        + landmark["name"]
+                        + " "
+                        + landmark["direction"]
+                    )
+                else:
+                    text = (
+                        "bei "
+                        + landmark["type"]
+                        + " "
+                        + landmark["name"]
+                        + " "
+                        + landmark["direction"]
+                        + " "
+                        + segment["text"]
+                    )
+
                 segment["text"] = text
                 landmarks_found += 1
+                segment["landmark"] = landmark
 
         timestamp_after = time.time()
         length_route = len(route_points)
@@ -339,8 +374,10 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
     Match a landmark to a decision point on the route.
     """
 
-    # The threshold in meters to match a landmark to a decision point
-    THRESHOLD_IN_METERS = 50
+     # The Treshold in meters to match a landmark to a decision point
+    # It is set by the app and send with the request, otherwise use the default
+    TRESHOLD_IN_METERS = 30
+    TRESHOLD_LOW_PRIORITY: int = round(TRESHOLD_IN_METERS * 0.5)
 
     point_mercator = decision_point.transform(settings.METRICAL, clone=True)
 
@@ -348,24 +385,35 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
 
     # Check which landmark are within the threshold to the ecision point
     for landmark in Landmark.objects.filter(
-        coordinate__distance_lt=(point_mercator, D(m=THRESHOLD_IN_METERS))
+        coordinate__distance_lt=(point_mercator, D(m=TRESHOLD_IN_METERS))
     ):
         landmark_mercator = landmark.coordinate.transform(settings.METRICAL, clone=True)
         distance: float = point_mercator.distance(landmark_mercator)
 
         # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
         if found_landmark:
-            old_distance = found_landmark["distance"]
-            if distance >= float(old_distance):
+            # Low priority landmarks are only considered if they are closer
+            if landmark.type in LOW_PRIORITY_TAGS:
+                if distance > TRESHOLD_LOW_PRIORITY:
+                    continue
+                # Also check tags
+                for tag in landmark.tags:
+                    if tag in LOW_PRIORITY_TAGS:
+                        continue
+
+            old_distance = float(found_landmark["distance"])
+            if distance >= old_distance:
                 continue
 
         found_landmark = {
             "id": landmark.id,
+            "name": landmark.name,
             "category": landmark.category,
             "type": landmark.type,
             "lat": landmark.coordinate.y,
             "lon": landmark.coordinate.x,
             "distance": distance,
+            "osm_tags": json.loads(landmark.tags),
         }
 
     # If it enough to keep the distance with 4 decimal places
@@ -373,3 +421,60 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
         found_landmark["distance"] = round(found_landmark["distance"], 4)
 
     return found_landmark
+
+
+def determine_direction_landmark(
+    segment_index: int, route_points: dict, landmark: dict
+) -> str:
+    """
+    Determine the direction of the landmar by checking the current and the previous point of the route.
+    With that line, we can determine if the landmark is on the left or right side relative to the line.
+    """
+
+    # Get own direction by checking previous and current position
+    if segment_index == 0:
+        # edge case for first segment
+        current_coords = route_points[segment_index + 1]
+        previous_coords = route_points[segment_index]
+    else:
+        # normal case
+        current_coords = route_points[segment_index]
+        previous_coords = route_points[segment_index - 1]
+
+    difference_lat = current_coords["lat"] - previous_coords["lat"]  # east-west-axis
+    difference_lon = current_coords["lon"] - previous_coords["lon"]  # north-south-axis
+
+    # positive lon => east
+    # negative lon => west
+    # positive lat => north
+    # negative lat => south
+
+    # Determine own direction by checking in which direction we moved more
+    if abs(difference_lat) > abs(difference_lon):
+        # more movement along the north-south-axis
+        if difference_lat > 0:
+            # we move to the north
+            if landmark["lon"] > current_coords["lon"]:
+                return "auf rechter Seite"
+            else:
+                return "auf linker Seite"
+        else:
+            # we move to the south
+            if landmark["lon"] > current_coords["lon"]:
+                return "auf linker Seite"
+            else:
+                return "auf rechter Seite"
+    else:
+        # more movement along the east-west-axis
+        if difference_lon > 0:
+            # we move to the east
+            if landmark["lat"] > current_coords["lat"]:
+                return "auf linker Seite"
+            else:
+                return "auf rechter Seite"
+        else:
+            # we move to the west
+            if landmark["lat"] > current_coords["lat"]:
+                return "auf rechter Seite"
+            else:
+                return "auf linker Seite"

@@ -19,10 +19,30 @@ OSM_CATEGORIES = [
     "public_transport",
     "man_made",
     "railway",
-    "bridge",  # => no results in Dresden
     "sport",
-    "water",  # => no results in Dresden
+    # additions
+    "aerialway",
+    "aeroway",
+    "barrier",
+    "craft",
+    "emergency",
+    "healthcare",
+    "landuse",
+    "miliary",
+    "power",
 ]
+
+# OSM Tags that are not useful and therefore discarded
+BLACKLIST = [
+    "Bahnübergang",
+    "Eisenbahnübergang",
+    "Gleisweiche",
+    "Straßenbahnübergang",
+    "Hydrant", # man könnte dabei eventuell noch unterscheiden nach "fire_hydrant:type",
+    "Randstein",
+    "Tor",
+]
+# Tags "Bahnübergang" und "Eisenbahnübergang" sind häufig nicht hilfreich, da man bei vielen Straßen parallel zu Bahnstrecke fährt
 
 
 def build_overpass_query(bounding_box: str) -> str:
@@ -94,45 +114,43 @@ def import_from_overpass(bounding_box: str):
         # type = i.e. "Kino"
         # category = i.e. "amenity" (the category used by openstreetmap/overpass)
 
-        # Preferentially use the name tag as type
+        # Always preferentially use the name tag as type
         if "name" in element["tags"]:
-            type = element["tags"]["name"]
-            for category in OSM_CATEGORIES:
-                if category in element["tags"]:
-                    category = translate_tag(category, "")
-                    break
-
-            if not category:
-                category = "Landmarke"
+            name = element["tags"]["name"]
         else:
-            for category in OSM_CATEGORIES:
-                if category in element["tags"]:
-                    type = translate_tag(category, element["tags"][category])
-                    category = translate_tag(category, "")
-                    break
+            name = ""
 
-            if not category or not type:
-                type = "Landmarke"
-                category = "Landmarke"
+        for category in OSM_CATEGORIES:
+            if category in element["tags"]:
+                type = translate_tag(category, element["tags"][category])
+                category = translate_tag(category, "")
+                break
 
-                # Print debug message if no category was found
-                tags = ""
-                for key in element["tags"]:
-                    tags += key + " = " + element["tags"][key] + ","
-                print(
-                    "No category found for element with id",
-                    str(element["id"]),
-                    "and tags '" + tags + "' using default category",
-                )
+        if not category or not type:
+            type = "Landmarke"
+            category = "Landmarke"
 
-        # TODO: I could also just discard the landmarks if I have no valid translation
+            # Print debug message if no category was found
+            tags = ""
+            for key in element["tags"]:
+                tags += key + " = " + element["tags"][key] + ","
+            print(
+                "No category found for element with id",
+                str(element["id"]),
+                "and tags '" + tags + "' using default category",
+            )
+
+        if type in BLACKLIST:
+            continue
 
         # Create a Landmark object
         landmark = Landmark(
             id=element["id"],
+            name=name,
             coordinate=Point(element["lon"], element["lat"], srid=4326),
             type=type,
             category=category,
+            tags=json.dumps(element["tags"]),
         )
         landmark_points.append(landmark)
 
@@ -219,7 +237,7 @@ class Command(BaseCommand):
         global translation_table
 
         # load translation table for osm tags
-        PATH = "backend/pois/openstreetbrowser-osm-tags-de.json"
+        PATH = "backend/pois/osm-tags-de.json"
         with open(PATH, "r") as file:
             translation_table = json.load(file)
 
@@ -242,4 +260,4 @@ class Command(BaseCommand):
         )
 
         for category in unknown_tags:
-            print("Unknown OSM tags for translation:", category)
+            print(category)

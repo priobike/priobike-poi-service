@@ -48,11 +48,18 @@ class Landmark(models.Model):
     # The unique identifier of the landmark, given by OSM.
     id = models.TextField(primary_key=True)
 
+    # The name of the landmark, if available.
+    name = models.TextField()
+
     # Landmark.
     category = models.TextField()
 
     # The kind of landmark.
     type = models.TextField()
+
+    # The osm tags of the landmark.
+    # TODO: maybe remove later
+    tags = models.TextField()
 
     # The coordinate of the point of interest.
     coordinate = models.PointField(srid=settings.LONLAT, geography=True)
