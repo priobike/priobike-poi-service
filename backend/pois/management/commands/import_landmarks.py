@@ -37,6 +37,9 @@ BLACKLIST = [
     "Bahnübergang",
     "Eisenbahnübergang",
     "Gleisweiche",
+    "Straßenbahnübergang",
+    "Hydrant", # man könnte dabei eventuell noch unterscheiden nach "fire_hydrant:type",
+    "Randstein",
 ]
 # Tags "Bahnübergang" und "Eisenbahnübergang" sind häufig nicht hilfreich, da man bei vielen Straßen parallel zu Bahnstrecke fährt
 
@@ -118,8 +121,6 @@ def import_from_overpass(bounding_box: str):
 
         for category in OSM_CATEGORIES:
             if category in element["tags"]:
-                # if translate_tag(category, element["tags"][category]) in BLACKLIST:
-                #     continue
                 type = translate_tag(category, element["tags"][category])
                 category = translate_tag(category, "")
                 break
