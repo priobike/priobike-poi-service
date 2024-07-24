@@ -259,12 +259,18 @@ class MatchLandmarksResource(View):
         except json.JSONDecodeError:
             return HttpResponseBadRequest(json.dumps({"error": "Invalid request."}))
 
-        # The Treshold in meters to match a landmark to a decision point
-        # It is set by the app and send with the request, otherwise use the default
-        threshold = json_data.get("threshold", 30)
-        # Make sure threshold is a positive integer
-        if not isinstance(threshold, int) or threshold < 0:
-            return HttpResponseBadRequest(json.dumps({"error": "Invalid threshold."}))
+        # get query parameters
+        replace_graphhopper_query = False
+        try:
+            replace_instructions = str(request.GET.get('replaceInstructions', 'false'))
+            if replace_instructions.lower() == 'true':
+                replace_graphhopper_query = True
+                print("Replace Graphhopper query. replace_graphhopper_query == True")
+            else:
+                print("Extend Graphhopper query. replace_graphhopper_query == False")
+        except:
+            print("Exception when checkingreplaceInstructions 'replaceInstructions' query parameter => Extend Graphhopper query")
+
 
         route = json_data.get("points")
         if not route:
@@ -316,7 +322,7 @@ class MatchLandmarksResource(View):
             point_lat = coord["lat"]
 
             decision_point = Point(point_lon, point_lat, srid=settings.LONLAT)
-            landmark = match_landmark_to_decisionpoint(decision_point, threshold)
+            landmark = match_landmark_to_decisionpoint(decision_point)
 
             # if landmark found, add it to the text of the graphhopper request
             # if no landmark found, keep the instruction as it is
@@ -324,16 +330,29 @@ class MatchLandmarksResource(View):
                 landmark["direction"] = determine_direction_landmark(
                     segment_index, route_points, landmark
                 )
-                text = (
-                    "bei "
-                    + landmark["type"]
-                    + " "
-                    + landmark["name"]
-                    + " "
-                    + landmark["direction"]
-                    + " "
-                    + segment["text"]
-                )
+                text:str = ""
+                # wheather to replace the graphhopper query or extend it
+                if replace_graphhopper_query:
+                    text = (
+                        "bei "
+                        + landmark["type"]
+                        + " "
+                        + landmark["name"]
+                        + " "
+                        + landmark["direction"]
+                    )
+                else:
+                    text = (
+                        "bei "
+                        + landmark["type"]
+                        + " "
+                        + landmark["name"]
+                        + " "
+                        + landmark["direction"]
+                        + " "
+                        + segment["text"]
+                    )
+
                 segment["text"] = text
                 landmarks_found += 1
                 segment["landmark"] = landmark
@@ -350,12 +369,16 @@ class MatchLandmarksResource(View):
         return JsonResponse(json_data)
 
 
-def match_landmark_to_decisionpoint(decision_point: Point, threshold: int) -> dict:
+def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
     """
     Match a landmark to a decision point on the route.
     """
 
-    threshold_low_priority: int = round(threshold * 0.5)
+     # The Treshold in meters to match a landmark to a decision point
+    # It is set by the app and send with the request, otherwise use the default
+    TRESHOLD = 30
+
+    threshold_low_priority: int = round(TRESHOLD * 0.5)
 
     point_mercator = decision_point.transform(settings.METRICAL, clone=True)
 
@@ -363,7 +386,7 @@ def match_landmark_to_decisionpoint(decision_point: Point, threshold: int) -> di
 
     # Check which landmark are within the threshold to the ecision point
     for landmark in Landmark.objects.filter(
-        coordinate__distance_lt=(point_mercator, D(m=threshold))
+        coordinate__distance_lt=(point_mercator, D(m=TRESHOLD))
     ):
         landmark_mercator = landmark.coordinate.transform(settings.METRICAL, clone=True)
         distance: float = point_mercator.distance(landmark_mercator)
