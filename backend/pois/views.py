@@ -376,9 +376,8 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
 
      # The Treshold in meters to match a landmark to a decision point
     # It is set by the app and send with the request, otherwise use the default
-    TRESHOLD = 30
-
-    threshold_low_priority: int = round(TRESHOLD * 0.5)
+    TRESHOLD_IN_METERS = 30
+    TRESHOLD_LOW_PRIORITY: int = round(TRESHOLD_IN_METERS * 0.5)
 
     point_mercator = decision_point.transform(settings.METRICAL, clone=True)
 
@@ -386,7 +385,7 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
 
     # Check which landmark are within the threshold to the ecision point
     for landmark in Landmark.objects.filter(
-        coordinate__distance_lt=(point_mercator, D(m=TRESHOLD))
+        coordinate__distance_lt=(point_mercator, D(m=TRESHOLD_IN_METERS))
     ):
         landmark_mercator = landmark.coordinate.transform(settings.METRICAL, clone=True)
         distance: float = point_mercator.distance(landmark_mercator)
@@ -395,7 +394,7 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
         if found_landmark:
             # Low priority landmarks are only considered if they are closer
             if landmark.type in LOW_PRIORITY_TAGS:
-                if distance > threshold_low_priority:
+                if distance > TRESHOLD_LOW_PRIORITY:
                     continue
                 # Also check tags
                 for tag in landmark.tags:
