@@ -27,6 +27,7 @@ LOW_PRIORITY_TAGS = [
 ]
 # Ich sollte die vielleicht doch mit einbeziehen, weil man ja durch die Richtungseingabe schon in der Regel eindeutig sieht, wo das stehen soll.
 
+
 def merge_segments(segments):
     """
     Merge overlapping segments.
@@ -262,15 +263,16 @@ class MatchLandmarksResource(View):
         # get query parameters
         replace_graphhopper_query = False
         try:
-            replace_instructions = str(request.GET.get('replaceInstructions', 'false'))
-            if replace_instructions.lower() == 'true':
+            replace_instructions = str(request.GET.get("replaceInstructions", "false"))
+            if replace_instructions.lower() == "true":
                 replace_graphhopper_query = True
                 print("Replace Graphhopper query. replace_graphhopper_query == True")
             else:
                 print("Extend Graphhopper query. replace_graphhopper_query == False")
-        except:
-            print("Exception when checkingreplaceInstructions 'replaceInstructions' query parameter => Extend Graphhopper query")
-
+        except Exception:
+            print(
+                "Exception when checkingreplaceInstructions 'replaceInstructions' query parameter => Extend Graphhopper query"
+            )
 
         route = json_data.get("points")
         if not route:
@@ -330,7 +332,7 @@ class MatchLandmarksResource(View):
                 landmark["direction"] = determine_direction_landmark(
                     segment_index, route_points, landmark
                 )
-                text:str = ""
+                text: str = ""
                 # wheather to replace the graphhopper query or extend it
                 if replace_graphhopper_query:
                     text = (
@@ -340,6 +342,8 @@ class MatchLandmarksResource(View):
                         + landmark["name"]
                         + " "
                         + landmark["direction"]
+                        + " "
+                        + translate_graphopper_sign(int(segment["sign"]))
                     )
                 else:
                     text = (
@@ -374,10 +378,10 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
     Match a landmark to a decision point on the route.
     """
 
-     # The Treshold in meters to match a landmark to a decision point
+    # The Treshold in meters to match a landmark to a decision point
     # It is set by the app and send with the request, otherwise use the default
-    TRESHOLD_IN_METERS = 30
-    TRESHOLD_LOW_PRIORITY: int = round(TRESHOLD_IN_METERS * 0.5)
+    TRESHOLD = 30
+    TRESHOLD_LOW_PRIORITY: int = round(TRESHOLD * 0.5)
 
     point_mercator = decision_point.transform(settings.METRICAL, clone=True)
 
@@ -385,7 +389,7 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
 
     # Check which landmark are within the threshold to the ecision point
     for landmark in Landmark.objects.filter(
-        coordinate__distance_lt=(point_mercator, D(m=TRESHOLD_IN_METERS))
+        coordinate__distance_lt=(point_mercator, D(m=TRESHOLD))
     ):
         landmark_mercator = landmark.coordinate.transform(settings.METRICAL, clone=True)
         distance: float = point_mercator.distance(landmark_mercator)
@@ -427,7 +431,7 @@ def determine_direction_landmark(
     segment_index: int, route_points: dict, landmark: dict
 ) -> str:
     """
-    Determine the direction of the landmar by checking the current and the previous point of the route.
+    Determine the direction of the landmark by checking the current and the previous point of the route.
     With that line, we can determine if the landmark is on the left or right side relative to the line.
     """
 
@@ -448,6 +452,9 @@ def determine_direction_landmark(
     # negative lon => west
     # positive lat => north
     # negative lat => south
+
+    # Lat = Breitengrad
+    # Lon = Längengrad
 
     # Determine own direction by checking in which direction we moved more
     if abs(difference_lat) > abs(difference_lon):
@@ -478,3 +485,46 @@ def determine_direction_landmark(
                 return "auf rechter Seite"
             else:
                 return "auf linker Seite"
+
+
+def translate_graphopper_sign(sign: int) -> str:
+    """
+    Translates the graphhopper sign to an actual instruction.
+    See: https://docs.graphhopper.com/#operation/getRoute => Responses => paths => instructions
+    """
+
+    if sign == -98:
+        return "wenden"
+    if sign == -8:
+        return "links wenden"
+    if sign == -7:
+        return "links halten"
+    if sign == -6:
+        return "Kreisverkehr verlassen"
+    if sign == -3:
+        return "scharf links abbiegen"
+    if sign == -2:
+        return "links abbiegen"
+    if sign == -1:
+        return "leicht links abbiegen"
+    if sign == 0:
+        return "geradeaus weiter"
+    if sign == 1:
+        return "leicht rechts abbiegen"
+    if sign == 2:
+        return "rechts abbiegen"
+    if sign == 3:
+        return "scharf rechts abbiegen"
+    if sign == 4:
+        return "Ziel erreicht"
+    if sign == 5:
+        return "Zwischenziel erreicht"
+    if sign == 6:
+        return "in den Kreisverkehr fahren"
+    if sign == 7:
+        return "rechts halten"
+    if sign == 8:
+        return "rechts wenden"
+
+    print(f"Sign {sign} not found")
+    return ""
