@@ -453,6 +453,9 @@ def determine_direction_landmark(
     # positive lat => north
     # negative lat => south
 
+    # Lat = Breitengrad
+    # Lon = Längengrad
+
     # Determine own direction by checking in which direction we moved more
     if abs(difference_lat) > abs(difference_lon):
         # more movement along the north-south-axis
