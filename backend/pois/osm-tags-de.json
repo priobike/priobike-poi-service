@@ -7573,5 +7573,8 @@
     },
     "tag:amenity= music_school; art_school": {
         "message": "Kunstschule"
+    },
+    "tag:historic=millstone": {
+        "message": "Mühlstein"
     }
 }
