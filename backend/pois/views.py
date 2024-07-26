@@ -20,10 +20,11 @@ LOW_PRIORITY_TAGS = [
     "Überwachungskamera",
     "Unterstand",
     "Sitzbank",
-    "Touristen-Information",
     "Oberleitungsmast",
     "Überwachungsstation",
     "Bahn-Signal",
+    "Grenzstein",
+    "Poller",
 ]
 # Ich sollte die vielleicht doch mit einbeziehen, weil man ja durch die Richtungseingabe schon in der Regel eindeutig sieht, wo das stehen soll.
 
