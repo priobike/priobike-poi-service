@@ -45,6 +45,7 @@ BLACKLIST = [
     "Strommast",
     "Touristen-Information",
     "Eingang",
+    "Feuerwehranschluss",
 ]
 # Tags "Bahnübergang" und "Eisenbahnübergang" sind häufig nicht hilfreich, da man bei vielen Straßen parallel zu Bahnstrecke fährt
 
