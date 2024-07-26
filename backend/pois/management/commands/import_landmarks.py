@@ -38,9 +38,14 @@ BLACKLIST = [
     "Eisenbahnübergang",
     "Gleisweiche",
     "Straßenbahnübergang",
-    "Hydrant", # man könnte dabei eventuell noch unterscheiden nach "fire_hydrant:type",
+    "Hydrant",  # man könnte dabei eventuell noch unterscheiden nach "fire_hydrant:type",
     "Randstein",
     "Tor",
+    "Sammelpunkt",
+    "Strommast",
+    "Touristen-Information",
+    "Eingang",
+    "Feuerwehranschluss",
 ]
 # Tags "Bahnübergang" und "Eisenbahnübergang" sind häufig nicht hilfreich, da man bei vielen Straßen parallel zu Bahnstrecke fährt
 

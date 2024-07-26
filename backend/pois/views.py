@@ -20,10 +20,13 @@ LOW_PRIORITY_TAGS = [
     "Überwachungskamera",
     "Unterstand",
     "Sitzbank",
-    "Touristen-Information",
     "Oberleitungsmast",
     "Überwachungsstation",
     "Bahn-Signal",
+    "Grenzstein",
+    "Poller",
+    "Kabelverteilerschrank",
+    "Kunstwerk",
 ]
 # Ich sollte die vielleicht doch mit einbeziehen, weil man ja durch die Richtungseingabe schon in der Regel eindeutig sieht, wo das stehen soll.
 
@@ -391,20 +394,22 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
     for landmark in Landmark.objects.filter(
         coordinate__distance_lt=(point_mercator, D(m=TRESHOLD))
     ):
+        # Calculate the distance between the landmark and the decision point
         landmark_mercator = landmark.coordinate.transform(settings.METRICAL, clone=True)
         distance: float = point_mercator.distance(landmark_mercator)
 
-        # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
-        if found_landmark:
-            # Low priority landmarks are only considered if they are closer
-            if landmark.type in LOW_PRIORITY_TAGS:
+        # Low priority landmarks are only considered if they are closer
+        if landmark.type in LOW_PRIORITY_TAGS:
+            if distance > TRESHOLD_LOW_PRIORITY:
+                continue
+        # Also check tags
+        for tag in landmark.tags:
+            if tag in LOW_PRIORITY_TAGS:
                 if distance > TRESHOLD_LOW_PRIORITY:
                     continue
-                # Also check tags
-                for tag in landmark.tags:
-                    if tag in LOW_PRIORITY_TAGS:
-                        continue
 
+        # Check if there is already a landmark found and/or check if the new landmark is closer than the already found landmark
+        if found_landmark:
             old_distance = float(found_landmark["distance"])
             if distance >= old_distance:
                 continue

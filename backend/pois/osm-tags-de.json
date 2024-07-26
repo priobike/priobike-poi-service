@@ -680,11 +680,11 @@
         "description": "Tag \"recycling_type=centre\". See https://wiki.openstreetmap.org/wiki/Tag:recycling_type=centre"
     },
     "tag:amenity=recycling recycling_type=container": {
-        "message": "Container",
+        "message": "Müll-Container",
         "description": "Tag \"recycling_type=container\". See https://wiki.openstreetmap.org/wiki/Tag:recycling_type=container"
     },
     "tag:amenity=recycling": {
-        "message": "Recycling",
+        "message": "Müll-Container",
         "description": "Tag \"amenity=recycling\". See https://wiki.openstreetmap.org/wiki/Tag:amenity=recycling"
     },
     "tag:amenity=refugee_site": {
@@ -7573,5 +7573,8 @@
     },
     "tag:amenity= music_school; art_school": {
         "message": "Kunstschule"
+    },
+    "tag:historic=millstone": {
+        "message": "Mühlstein"
     }
 }
