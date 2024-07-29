@@ -398,6 +398,12 @@ def match_landmark_to_decisionpoint(decision_point: Point) -> dict:
         landmark_mercator = landmark.coordinate.transform(settings.METRICAL, clone=True)
         distance: float = point_mercator.distance(landmark_mercator)
 
+        # Sometimes the filter function above doesn't work correctly for some reason
+        # and accepts distances above the threshold
+        # Therefore, we need to make sure the threshold is enforced
+        if distance > TRESHOLD:
+            continue
+
         # Low priority landmarks are only considered if they are closer
         if landmark.type in LOW_PRIORITY_TAGS:
             if distance > TRESHOLD_LOW_PRIORITY:
